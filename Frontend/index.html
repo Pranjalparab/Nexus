@@ -1,0 +1,3202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus - Premium Productivity Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <style>
+        /* Premium Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            /* Light Theme Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-muted: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --border-muted: #f1f5f9;
+            
+            /* Premium Color Palette */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --premium-gold: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            
+            /* Glass Morphism Effects */
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --glass-blur: blur(20px);
+            
+            /* Premium Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-premium: 0 20px 40px -14px rgba(102, 126, 234, 0.25);
+            --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.4);
+            
+            /* Typography Scale */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1e293b;
+            --bg-muted: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: #475569;
+            --border-muted: #334155;
+            
+            --glass-bg: rgba(0, 0, 0, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-primary);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.5;
+        }
+
+        /* Animated Background */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--bg-primary);
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 { width: 400px; height: 400px; background: var(--primary-gradient); top: -200px; left: -200px; animation-delay: 0s; }
+        .orb-2 { width: 500px; height: 500px; background: var(--secondary-gradient); top: 60%; right: -250px; animation-delay: -10s; }
+        .orb-3 { width: 300px; height: 300px; background: var(--success-gradient); bottom: -150px; left: 50%; transform: translateX(-50%); animation-delay: -5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        .floating-particles { position: absolute; width: 100%; height: 100%; }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(102, 126, 234, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 30%; animation-delay: -3s; }
+        .particle:nth-child(3) { left: 50%; animation-delay: -6s; }
+        .particle:nth-child(4) { left: 70%; animation-delay: -9s; }
+        .particle:nth-child(5) { left: 90%; animation-delay: -12s; }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Navigation */
+        .premium-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover { transform: scale(1.02); }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .logo-container:hover .logo-icon::before {
+            left: 100%;
+        }
+
+        .logo-text h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            position: relative;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-underline {
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            border-radius: 9999px;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover .nav-underline {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 0.5rem;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+        }
+
+        .theme-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .theme-toggle {
+            position: relative;
+            width: 48px;
+            height: 24px;
+        }
+
+        #theme-checkbox {
+            display: none;
+        }
+
+        .theme-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .theme-slider:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: var(--shadow-md);
+        }
+
+        #theme-checkbox:checked + .theme-slider {
+            background: var(--primary-gradient);
+        }
+
+        #theme-checkbox:checked + .theme-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Premium Buttons */
+        .btn-glass {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-glass:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-premium {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-premium);
+        }
+
+        .btn-premium:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-premium:hover .btn-glow {
+            left: 100%;
+        }
+
+        .btn-hero-primary, .btn-hero-secondary {
+            display: inline-flex;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            border: none;
+            border-radius: 1.5rem;
+            color: white;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: var(--shadow-xl);
+            text-decoration: none;
+        }
+
+        .btn-hero-primary {
+            background: var(--primary-gradient);
+        }
+
+        .btn-hero-secondary {
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+
+        .btn-hero-primary:hover, .btn-hero-secondary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+        }
+
+        .btn-hero-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .btn-hero-primary:hover .btn-shine {
+            left: 100%;
+        }
+
+        /* Hero Section */
+        .hero-premium {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 0 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            padding: 0.75rem 1rem;
+            border-radius: 25px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-title {
+            font-size: 3.75rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .title-gradient {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-highlight {
+            position: relative;
+            color: var(--text-primary);
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            max-width: 600px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.875rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: var(--border-color);
+            margin: 0.5rem 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInRight 1s ease-out 0.4s both;
+        }
+
+        .dashboard-preview {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-2xl);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--primary-gradient);
+            opacity: 0.6;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .control.red { background: #ef4444; }
+        .control.yellow { background: #f59e0b; }
+        .control.green { background: #10b981; }
+
+        .preview-title {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .timer-preview {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .timer-ring {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 1rem;
+        }
+
+        .timer-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                #667eea 0deg 270deg,
+                var(--border-color) 270deg 360deg
+            );
+            animation: rotate 3s linear infinite;
+        }
+
+        .timer-progress::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+        }
+
+        .timer-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .timer-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        .stats-preview {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .stat-card i {
+            font-size: 1.25rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .stat-name {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        /* Sections */
+        .premium-section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Features Showcase */
+        .features-showcase {
+            padding: 6rem 0;
+            background: rgba(102, 126, 234, 0.02);
+            position: relative;
+        }
+
+        .features-showcase:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .feature-card-premium {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .feature-card-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--primary-gradient);
+            opacity: 0.4;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature-card-premium:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-card-premium:hover::before {
+            opacity: 0.8;
+        }
+
+        .feature-icon-container {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-icon {
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            position: relative;
+            z-index: 2;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .icon-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            border-radius: 1rem;
+            filter: blur(20px);
+            opacity: 0.6;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .feature-card-premium h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card-premium p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .feature-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border-radius: 25px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag.premium {
+            background: var(--premium-gold);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-hover-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent 0%,
+                rgba(102, 126, 234, 0.1) 50%,
+                transparent 100%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+            pointer-events: none;
+        }
+
+        .feature-card-premium:hover .card-hover-effect {
+            transform: translateX(100%);
+        }
+
+        /* Service Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .service-features i {
+            color: #10b981;
+            font-size: 0.8rem;
+            width: 16px;
+        }
+
+        .service-price {
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1.5rem;
+        }
+
+        .price-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .price-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Pricing Plans */
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #667eea;
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pricing-card h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .price {
+            margin-bottom: 2rem;
+        }
+
+        .currency {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .period {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .features li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 0;
+            color: var(--text-secondary);
+        }
+
+        .features i {
+            color: #10b981;
+        }
+
+        .btn-plan {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-plan.premium {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+        }
+
+        .btn-plan:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-plan.premium:hover {
+            box-shadow: var(--shadow-premium);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+        }
+
+        .team-avatar {
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar-placeholder {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .team-card h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .team-role {
+            color: #667eea;
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .team-social a {
+            width: 40px;
+            height: 40px;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--glass-border);
+        }
+
+        .team-social a:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            border-color: transparent;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .social-links {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .social-links h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .social-icon:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-5px);
+            border-color: transparent;
+        }
+
+        /* Forms */
+        .premium-contact-form {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            z-index: 2;
+        }
+
+        .input-container input,
+        .input-container textarea,
+        .input-container select {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: var(--font-family);
+        }
+
+        .input-container input::placeholder,
+        .input-container textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .input-container input:focus,
+        .input-container textarea:focus,
+        .input-container select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: var(--bg-primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Modals */
+        .premium-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .premium-modal.active {
+            display: block;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .modal-content-premium {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-close:hover {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+        }
+
+        .premium-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .form-footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        /* Payment QR Modal */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .payment-modal.active {
+            display: block;
+        }
+
+        .payment-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .payment-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            color: var(--text-primary);
+            text-align: center;
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .payment-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .payment-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .payment-close:hover {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+        }
+
+        .plan-info {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .plan-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .plan-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method {
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .payment-method:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .payment-method.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .payment-method i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+
+        .payment-method-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .qr-container {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .qr-container.active {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        .qr-code {
+            margin: 1rem auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .qr-instructions {
+            color: #333;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            line-height: 1.5;
+        }
+
+        .qr-instructions strong {
+            color: #667eea;
+        }
+
+        .payment-info {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .verify-payment {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .verify-payment.active {
+            display: inline-block;
+        }
+
+        .verify-payment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 2rem;
+            z-index: 999;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-menu-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Company Stats */
+        .company-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .stat-card-large {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-primary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-card-large:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-large .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-card-large .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Company Content */
+        .company-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .company-story, .company-mission, .company-values {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .company-story:hover, .company-mission:hover, .company-values:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-2xl), var(--shadow-glow);
+        }
+
+        .story-icon, .mission-icon, .values-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .story-card h3, .mission-card h3, .values-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .story-card p, .mission-card p, .values-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes countUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Animation classes */
+        .animate-fadeInUp { animation: fadeInUp 0.8s ease forwards; }
+        .animate-fadeInLeft { animation: fadeInLeft 0.8s ease forwards; }
+        .animate-fadeInRight { animation: fadeInRight 0.8s ease forwards; }
+        .animate-pulse { animation: pulse 2s infinite; }
+        .animate-bounce { animation: bounce 2s infinite; }
+        .animate-rotate { animation: rotate 10s linear infinite; }
+
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+            40%, 43% { transform: translateY(-10px); }
+            70% { transform: translateY(-5px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+                text-align: center;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .company-stats {
+                grid-template-columns: repeat(2, 1fr);
+                display: grid;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .hero-actions {
+                flex-direction: column;
+            }
+            
+            .company-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .btn-hero-primary, .btn-hero-secondary {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-premium {
+                padding: 6rem 0 4rem;
+            }
+            
+            .premium-section {
+                padding: 4rem 0;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 700; }
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hover-lift { transition: transform 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-10px); }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+
+    
+    <!-- Premium Navigation -->
+    <nav class="premium-navbar">
+        <div class="nav-container">
+            <div class="logo-container" onclick="scrollToSection('hero')">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Nexus</h2>
+                    <span class="logo-subtitle">Premium</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="#company" class="nav-link" onclick="scrollToSection('company')">
+                    <span>Company</span>
+                    <div class="nav-underline"></div>
+                </a>
+                <a href="#service" class="nav-link" onclick="scrollToSection('service')">
+                    <span>Service</span>
+                    <div class="nav-underline"></div>
+                </a>
+                <a href="#about" class="nav-link" onclick="scrollToSection('about')">
+                    <span>About Us</span>
+                    <div class="nav-underline"></div>
+                </a>
+                <a href="#contact" class="nav-link" onclick="scrollToSection('contact')">
+                    <span>Contact</span>
+                    <div class="nav-underline"></div>
+                </a>
+            </div>
+
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-actions">
+                <div class="theme-switcher">
+                    <div class="theme-icon sun-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="theme-toggle">
+                        <input type="checkbox" id="theme-checkbox" onchange="toggleTheme()">
+                        <label for="theme-checkbox" class="theme-slider"></label>
+                    </div>
+                    <div class="theme-icon moon-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                </div>
+                
+                <button class="btn-glass btn-login" onclick="window.location.href='login-register.html'">
+                    
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </button>
+                <button class="btn-premium btn-register" onclick="window.location.href='login-register.html'">
+                    <i class="fas fa-rocket"></i>
+                    <span>Register</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-links">
+                <a href="#company" class="nav-link" onclick="scrollToSection('company'); toggleMobileMenu();">Company</a>
+                <a href="#service" class="nav-link" onclick="scrollToSection('service'); toggleMobileMenu();">Service</a>
+                <a href="#about" class="nav-link" onclick="scrollToSection('about'); toggleMobileMenu();">About Us</a>
+                <a href="#contact" class="nav-link" onclick="scrollToSection('contact'); toggleMobileMenu();">Contact</a>
+            </div>
+            <div class="mobile-menu-actions">
+                <button class="btn-glass btn-login" onclick="openModal('loginModal'); toggleMobileMenu();">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </button>
+                <button class="btn-premium btn-register" onclick="openModal('registerModal'); toggleMobileMenu();">
+                    <i class="fas fa-rocket"></i>
+                    <span>Register</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-premium">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge animate-fadeInUp">
+                    <i class="fas fa-star"></i>
+                    <span>AI-Powered Productivity</span>
+                </div>
+                
+                <h1 class="hero-title animate-fadeInUp">
+                    <span class="title-gradient">Transform Your Focus</span>
+                    <br>Into
+                    <span class="title-highlight">Extraordinary Results</span>
+                </h1>
+                
+                <p class="hero-description animate-fadeInUp">
+                    Experience the future of productivity with our intelligent cross-device synchronization, 
+                    gamified learning system, and AI-powered doubt resolution that adapts to your unique workflow.
+                </p>
+                
+                <div class="hero-stats animate-fadeInUp">
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="98">0</div>
+                        <div class="stat-label">Focus Improvement %</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="50000">0</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">User Rating</div>
+                    </div>
+                </div>
+                
+                <div class="hero-actions animate-fadeInUp">
+                    <a href="/pages/focus-mode.html" class="btn-hero-primary" onclick="navigateToPage('focus-mode')">
+                        <div class="btn-content">
+                            <i class="fas fa-play"></i>
+                            <span>Start Focus Session</span>
+                        </div>
+                        <div class="btn-shine"></div>
+                    </a>
+                    
+                    <button class="btn-hero-secondary" onclick="scrollToSection('service')">
+                        <i class="fas fa-star"></i>
+                        <span>Explore Services</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hero-visual animate-fadeInRight">
+                <div class="dashboard-preview">
+                    <div class="preview-header">
+                        <div class="preview-controls">
+                            <div class="control red"></div>
+                            <div class="control yellow"></div>
+                            <div class="control green"></div>
+                        </div>
+                        <div class="preview-title">FocusZone Dashboard</div>
+                    </div>
+                    
+                    <div class="preview-content">
+                        <div class="timer-preview">
+                            <div class="timer-ring">
+                                <div class="timer-progress animate-rotate"></div>
+                                <div class="timer-center">
+                                    <span class="timer-text">25:00</span>
+                                    <span class="timer-label">Focus Time</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-preview">
+                            <div class="stat-card hover-lift">
+                                <i class="fas fa-fire animate-pulse"></i>
+                                <div class="stat-info">
+                                    <span class="stat-value">12</span>
+                                    <span class="stat-name">Day Streak</span>
+                                </div>
+                            </div>
+                            <div class="stat-card hover-lift">
+                                <i class="fas fa-trophy animate-pulse"></i>
+                                <div class="stat-info">
+                                    <span class="stat-value">847</span>
+                                    <span class="stat-name">XP Points</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Section -->
+    <section id="company" class="company-section premium-section">
+        <div class="container">
+            <div class="section-header animate-fadeInUp">
+                <h2 class="section-title">
+                    <span class="gradient-text">Our Company</span>
+                </h2>
+                <p class="section-subtitle">Pioneering the future of productivity and human potential</p>
+            </div>
+
+            <div class="company-content">
+                <div class="company-story animate-fadeInLeft">
+                    <div class="story-card">
+                        <div class="story-icon">
+                            <i class="fas fa-lightbulb animate-pulse"></i>
+                        </div>
+                        <h3>Our Vision</h3>
+                        <p>To create a world where every individual can achieve their maximum potential through intelligent productivity tools and seamless technology integration.</p>
+                    </div>
+                </div>
+
+                <div class="company-mission animate-fadeInUp">
+                    <div class="mission-card">
+                        <div class="mission-icon">
+                            <i class="fas fa-rocket animate-bounce"></i>
+                        </div>
+                        <h3>Our Mission</h3>
+                        <p>We empower millions of users worldwide with AI-driven productivity solutions that adapt to their unique workflows and learning styles.</p>
+                    </div>
+                </div>
+
+                <div class="company-values animate-fadeInRight">
+                    <div class="values-card">
+                        <div class="values-icon">
+                            <i class="fas fa-heart animate-pulse"></i>
+                        </div>
+                        <h3>Our Values</h3>
+                        <p>Innovation, user-centricity, privacy, and continuous improvement drive everything we do. We believe in technology that serves humanity.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="company-stats animate-fadeInUp">
+                <div class="stat-card-large hover-lift">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" data-target="500000">0</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+
+                <div class="stat-card-large hover-lift">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="stat-number" data-target="85">0</div>
+                    <div class="stat-label">Countries</div>
+                </div>
+
+                <div class="stat-card-large hover-lift">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-number" data-target="10000000">0</div>
+                    <div class="stat-label">Focus Hours</div>
+                </div>
+
+                <div class="stat-card-large hover-lift">
+                    <div class="stat-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-label">Awards Won</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Section -->
+    <section id="service" class="service-section premium-section">
+        <div class="container">
+            <div class="section-header animate-fadeInUp">
+                <h2 class="section-title">
+                    <span class="gradient-text">Tap Any Service to Unlock Full Details and Features</span>
+                </h2>
+                <p class="section-subtitle">Comprehensive productivity solutions tailored for your success</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('/pages/focus-mode.html')">
+                    <div class="service-icon">
+                        <i class="fas fa-bullseye animate-rotate"></i>
+                    </div>
+                    <h3 onclick="location.href='/pages/focus-mode.html'" style="cursor: pointer;">
+    Focus Mode Pro
+</h3>
+                    <p>Advanced Pomodoro technique with AI insights, beautiful animations, and cross-device sync</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> 25-minute optimized sessions</li>
+                        <li><i class="fas fa-check"></i> Real-time progress tracking</li>
+                        <li><i class="fas fa-check"></i> Smart break reminders</li>
+                        <li><i class="fas fa-check"></i> Cross-platform synchronization</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span>
+                        <span class="price-value">$9.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('/pages/ai-chatbot.html')">
+                    <div class="service-icon">
+                        <i class="fas fa-robot animate-pulse"></i>
+                    </div>
+                    <h3 onclick="location.href='/pages/ai-chatbot.html'" style="cursor: pointer;">
+    AI Assistant Pro
+</h3>
+                    <p>Powered by advanced AI models including GPT-4, Claude, and Gemini for instant doubt resolution</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Multi-model AI access</li>
+                        <li><i class="fas fa-check"></i> Real-time streaming responses</li>
+                        <li><i class="fas fa-check"></i> Context-aware conversations</li>
+                        <li><i class="fas fa-check"></i> Code generation & debugging</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span>
+                        <span class="price-value">$19.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('analytics')">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line animate-pulse"></i>
+                    </div>
+                                       <h3 onclick="location.href='/pages/analytics.html'" style="cursor: pointer;">
+    Analytics Dashboard
+</h3>
+                    <p>Comprehensive productivity insights with advanced charts and performance tracking</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Detailed productivity metrics</li>
+                        <li><i class="fas fa-check"></i> Trend analysis & forecasting</li>
+                        <li><i class="fas fa-check"></i> Custom reporting tools</li>
+                        <li><i class="fas fa-check"></i> Team collaboration features</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span> -->
+                        <!-- <span class="price-value">$14.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('rewards')">
+                    <div class="service-icon">
+                        <i class="fas fa-gem animate-bounce"></i>
+                    </div>
+                    <h3 onclick="location.href='/coupon_system/frontend/index.html'" style="cursor: pointer;">
+    Rewards System
+</h3>
+                    <p>Advanced reward system with achievements, XP points, and motivational challenges</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> VIP Concert Experience</li>
+                        <li><i class="fas fa-check"></i> Sports Car Discount</li>
+                        <li><i class="fas fa-check"></i>Scholar Achievement</li>
+                        <li><i class="fas fa-check"></i> Private Jet Weekend</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span>
+                        <span class="price-value">$7.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('daily-goals')">
+                    <div class="service-icon">
+                        <i class="fas fa-target animate-pulse"></i>
+                    </div>
+                                                           <h3 onclick="location.href='/pages/smart-goal.html'" style="cursor: pointer;">
+    Smart Goals
+</h3>
+                    <p>AI-powered goal setting with intelligent tracking and personalized recommendations</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> AI goal suggestions</li>
+                        <li><i class="fas fa-check"></i> Progress visualization</li>
+                        <li><i class="fas fa-check"></i> Habit formation tracking</li>
+                        <li><i class="fas fa-check"></i> Success prediction models</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span>
+                        <span class="price-value">$12.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('todo-voice')">
+                    <div class="service-icon">
+                        <i class="fas fa-microphone animate-pulse"></i>
+                    </div>
+                                       <h3 onclick="location.href='/pages/voice-assistant.html'" style="cursor: pointer;">
+    Voice Assistant
+</h3>
+                    <p>Smart voice-enabled task management with natural language processing</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Voice task creation</li>
+                        <li><i class="fas fa-check"></i> Smart reminders</li>
+                        <li><i class="fas fa-check"></i> Natural language queries</li>
+                        <li><i class="fas fa-check"></i> Multi-language support</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span>
+                        <span class="price-value">$8.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('exam-calendar')">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-alt animate-pulse"></i>
+                    </div>
+                        <h3 onclick="location.href='/pages/smart-calendar.html'" style="cursor: pointer;">
+    Smart Calendar
+</h3>
+                    <p>Intelligent exam and deadline tracking with automated study scheduling</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Automatic study plans</li>
+                        <li><i class="fas fa-check"></i> Deadline notifications</li>
+                        <li><i class="fas fa-check"></i> Priority management</li>
+                        <li><i class="fas fa-check"></i> Integration with goals</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span>
+                        <span class="price-value">$6.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('profile')">
+                    <div class="service-icon">
+                        <i class="fas fa-user-circle animate-pulse"></i>
+                    </div>
+                    <h3 onclick="location.href='/pages/smart-profile.html'" style="cursor: pointer;">
+    Smart Profile
+</h3>
+                    <p>Personalized dashboard with comprehensive progress tracking and insights</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> Personal analytics</li>
+                        <li><i class="fas fa-check"></i> Achievement gallery</li>
+                        <li><i class="fas fa-check"></i> Custom preferences</li>
+                        <li><i class="fas fa-check"></i> Social integration</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Starting at</span>
+                        <span class="price-value">$5.99/month</span> -->
+                    </div>
+                </div>
+
+                <div class="service-card animate-fadeInUp hover-lift" onclick="navigateToPage('features')">
+                    <div class="service-icon">
+                        <i class="fas fa-magic animate-bounce"></i>
+                    </div>
+                    <h3>Explore Our Advanced Features</h3>
+                    <p>Explore all premium features including automation, integrations, and advanced tools At Free</p>
+                    <ul class="service-features">
+                        <li><i class="fas fa-check"></i> AI Assistant</li>
+                        <li><i class="fas fa-check"></i> Voice Assistant</li>
+                        <li><i class="fas fa-check"></i> Profile Analysis</li>
+                        <li><i class="fas fa-check"></i> Smart Calendar</li>
+                    </ul>
+                    <div class="service-price">
+                        <!-- <span class="price-label">Included in</span>
+                        <span class="price-value">Pro Plans</span> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-plans animate-fadeInUp">
+                <h3 class="section-title">We Provide Advanced Service</h3>
+                <div class="pricing-cards">
+                    <!-- <div class="pricing-card basic hover-lift">
+                        <h4>Basic</h4>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">0</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> Basic Focus Timer</li>
+                            <li><i class="fas fa-check"></i> Simple Analytics</li>
+                            <li><i class="fas fa-check"></i> Basic Rewards</li>
+                        </ul>
+                        <button class="btn-plan" onclick="openPaymentModal('Basic', '0', 'Free forever with basic features')">Get Started</button>
+                    </div> -->
+
+                    <div class="pricing-card basic hover-lift">
+                        <h4>At</h4>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">0</span>
+                            <span class="period">Cost</span>
+                        </div>
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> Advanced Focus Timer</li>
+                            <li><i class="fas fa-check"></i> AI Based Profile Analytics</li>
+                            <li><i class="fas fa-check"></i> Voice Based AI Assitant</li>
+                            <li><i class="fas fa-check"></i> Chat Bot</li>
+                            <li><i class="fas fa-check"></i> Smart Calendar</li>
+                            <li><i class="fas fa-check"></i> Smart Goals</li>
+                        </ul>
+                        <a href="/" class="btn-plan">Get Started</a>
+
+
+
+                    <!-- <div class="pricing-card enterprise hover-lift">
+                        <h4>Enterprise</h4>
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">99</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <ul class="features">
+                            <li><i class="fas fa-check"></i> All Pro Features</li>
+                            <li><i class="fas fa-check"></i> Team Management</li>
+                            <li><i class="fas fa-check"></i> Custom Integrations</li>
+                            <li><i class="fas fa-check"></i> White-label Solution</li>
+                            <li><i class="fas fa-check"></i> 24/7 Dedicated Support</li>
+                        </ul>
+                        <button class="btn-plan" onclick="openPaymentModal('Enterprise', '99', 'Advanced features for large organizations')">Contact Sales</button>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section premium-section">
+        <div class="container">
+            <div class="section-header animate-fadeInUp">
+                <h2 class="section-title">
+                    <span class="gradient-text">About FocusZone</span>
+                </h2>
+                <p class="section-subtitle">Meet the passionate team behind your productivity transformation</p>
+            </div>
+
+            <div class="about-content">
+                <div class="about-story animate-fadeInLeft">
+                    <h3>Our Story</h3>
+                    <p>FocusZone was born from a simple observation: in our hyper-connected world, the ability to focus has become a superpower. Our founders, frustrated by their own productivity struggles, set out to create something different.</p>
+                    <p>What started as a simple Pomodoro timer has evolved into a comprehensive productivity ecosystem powered by cutting-edge AI technology. We've helped over 500,000 users across 85 countries reclaim their focus and achieve their goals.</p>
+                </div>
+
+                <div class="about-visual animate-fadeInRight">
+                    <div class="team-image">
+                        <div class="dashboard-preview">
+                            <i class="fas fa-users" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+                            <p style="color: var(--text-secondary);">Our Amazing Team</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-section animate-fadeInUp">
+                <h3 class="section-title">Meet Our Leadership</h3>
+                <div class="team-grid">
+                    <div class="team-card hover-lift">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h4>Developer SRK</h4>
+                        <p class="team-role">Frontend Developer, UI/UX Designer</p>
+                        <p class="team-bio">Student @ThakurPolytechnic, Intern @EliteForums & Hackathon Experience</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-card hover-lift">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                    <h4>Harsh Agarwal</h4>
+                        <p class="team-role">Backend Developer</p>
+                        <p class="team-bio">Student @ThakurPolytechnic, Intern @EliteForums & Hackathon Experience</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team-card hover-lift">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h4>Aaruf Khan</h4>
+                        <p class="team-role">Designer</p>
+                        <p class="team-bio">Student @ThakurPolytechnic & Intern @EliteForums</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-dribbble"></i></a>
+                            <a href="#"><i class="fab fa-behance"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team-card hover-lift">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h4>Sofiya Salmani</h4>
+                        <p class="team-role">Backend Developer</p>
+                        <p class="team-bio">Student @ThakurPolytechnic & Intern @EliteForums</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team-card hover-lift">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h4>Saloni Shaikh</h4>
+                        <p class="team-role">Chat Model Developer</p>
+                        <p class="team-bio">Student @ThakurPolytechnic & Intern @EliteForums</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="team-card hover-lift">
+                        <div class="team-avatar">
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h4>Pranjal Parab</h4>
+                        <p class="team-role">App Blocker Developer</p>
+                        <p class="team-bio">Student @ThakurPolytechnic & Intern @EliteForums</p>
+                        <div class="team-social">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section premium-section">
+        <div class="container">
+            <div class="section-header animate-fadeInUp">
+                <h2 class="section-title">
+                    <span class="gradient-text">Get In Touch</span>
+                </h2>
+                <p class="section-subtitle">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info animate-fadeInLeft">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope animate-bounce"></i>
+                        </div>
+                        <h3>Email Us</h3>
+                        <p>hello@focuszone.com</p>
+                        <p>support@focuszone.com</p>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone animate-pulse"></i>
+                        </div>
+                        <h3>Call Us</h3>
+                        <p>+91 8652487033</p>
+                        <p>Available 24/7</p>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt animate-bounce"></i>
+                        </div>
+                        <h3>Visit Us</h3>
+                        <p>Elite Forums<br>
+                        Virar 400092<br>
+                        Maharashtra</p>
+                    </div>
+
+                    <div class="social-links">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-discord"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form animate-fadeInRight">
+                    <form class="premium-contact-form" onsubmit="handleContactSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <div class="input-container">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <div class="input-container">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <div class="input-container">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <div class="input-container">
+                                <i class="fas fa-tag"></i>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Choose a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="billing">Billing Question</option>
+                                    <option value="feature">Feature Request</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="press">Press Inquiry</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <div class="input-container">
+                                <i class="fas fa-comment"></i>
+                                <textarea id="message" name="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-premium btn-full">
+                            <span>Send Message</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Modals -->
+    <div id="loginModal" class="premium-modal">
+        <div class="modal-backdrop" onclick="closeModal('loginModal')"></div>
+        <div class="modal-content-premium">
+            <div class="modal-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Welcome Back</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form class="premium-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-container">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-container">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-premium btn-full">
+                    <span>Sign In</span>
+                    <div class="btn-glow"></div>
+                </button>
+                
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Create one</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="registerModal" class="premium-modal">
+        <div class="modal-backdrop" onclick="closeModal('registerModal')"></div>
+        <div class="modal-content-premium">
+            <div class="modal-header">
+                <h2><i class="fas fa-rocket"></i> Join FocusZone</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form class="premium-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <div class="input-container">
+                        <i class="fas fa-user"></i>
+                        <input type="text" placeholder="Enter your name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-container">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-container">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Create a password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('registerPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-premium btn-full">
+                    <span>Create Account</span>
+                    <div class="btn-glow"></div>
+                </button>
+                
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Sign in</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment QR Modal -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-backdrop" onclick="closePaymentModal()"></div>
+        <div class="payment-content">
+            <div class="payment-header">
+                <h2 class="payment-title">
+                    <i class="fas fa-credit-card"></i>
+                    Complete Payment
+                </h2>
+                <button class="payment-close" onclick="closePaymentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="plan-info">
+                <div class="plan-name" id="selectedPlanName">Pro Plan</div>
+                <div class="plan-price" id="selectedPlanPrice">$29/month</div>
+                <div class="plan-description" id="selectedPlanDescription">Perfect for professionals and teams</div>
+            </div>
+
+            <div class="payment-methods">
+                <div class="payment-method" onclick="selectPaymentMethod('upi')">
+                    <i class="fab fa-google-pay"></i>
+                    <div class="payment-method-name">UPI Payment</div>
+                </div>
+                <div class="payment-method" onclick="selectPaymentMethod('card')">
+                    <i class="fas fa-credit-card"></i>
+                    <div class="payment-method-name">Credit/Debit Card</div>
+                </div>
+            </div>
+
+            <div class="qr-container" id="qrContainer">
+                <canvas id="qrCode" class="qr-code"></canvas>
+                <div class="qr-instructions">
+                    <strong>Scan QR Code with any UPI app</strong><br>
+                    • Open Google Pay, PhonePe, Paytm or any UPI app<br>
+                    • Scan the QR code above<br>
+                    • Complete the payment<br>
+                    • Click "Verify Payment" below after payment
+                </div>
+                <div class="payment-info">
+                    <strong>Payment Details:</strong><br>
+                    Merchant: FocusZone Premium<br>
+                    Amount: <span id="paymentAmount">₹2,299</span><br>
+                    Reference: <span id="paymentRef">FZ-PRO-2024</span>
+                </div>
+            </div>
+
+            <button class="verify-payment" id="verifyPaymentBtn" onclick="verifyPayment()">
+                <i class="fas fa-check-circle"></i>
+                Verify Payment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const checkbox = document.getElementById('theme-checkbox');
+            const body = document.body;
+            
+            if (checkbox.checked) {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const checkbox = document.getElementById('theme-checkbox');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                checkbox.checked = true;
+            }
+        }
+
+        // Navigation Functions
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            const offset = 80;
+            const elementPosition = element.offsetTop;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        function navigateToPage(page) {
+            // For demo purposes, show alert. In real implementation, navigate to actual pages
+            const pageMap = {
+                'focus-mode': 'pages/focus-mode.html',
+                'ai-chatbot': 'pages/ai-chatbot.html',
+                'analytics': 'pages/analytics.html',
+                'rewards': 'pages/rewards.html',
+                'daily-goals': 'pages/daily-goals.html',
+                'todo-voice': 'pages/todo-voice.html',
+                'exam-calendar': 'pages/exam-calendar.html',
+                'profile': 'pages/profile.html',
+                'features': 'pages/features.html'
+            };
+            
+            if (pageMap[page]) {
+                // window.location.href = pageMap[page];
+                alert(`Navigating to ${page}. Page will be available soon!`);
+            }
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function switchModal(closeModalId, openModalId) {
+            closeModal(closeModalId);
+            setTimeout(() => openModal(openModalId), 200);
+        }
+
+        // Password Toggle
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.parentNode.querySelector('.password-toggle i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Payment Modal Functions
+        function openPaymentModal(planName, price, description) {
+            document.getElementById('selectedPlanName').textContent = planName + ' Plan';
+            document.getElementById('selectedPlanPrice').textContent = (price === '0' ? 'Free' : '$' + price + '/month');
+            document.getElementById('selectedPlanDescription').textContent = description;
+            
+            // Convert USD to INR for demo (1 USD = 80 INR approximately)
+            const inrAmount = price === '0' ? '0' : (parseFloat(price) * 80).toLocaleString('en-IN');
+            document.getElementById('paymentAmount').textContent = '₹' + inrAmount;
+            
+            const modal = document.getElementById('paymentModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePaymentModal() {
+            const modal = document.getElementById('paymentModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove selected class from all methods
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+            
+            // Add selected class to clicked method
+            event.currentTarget.classList.add('selected');
+            
+            if (method === 'upi') {
+                // Generate QR code
+                generateQRCode();
+                document.getElementById('qrContainer').classList.add('active');
+                document.getElementById('verifyPaymentBtn').classList.add('active');
+            } else {
+                document.getElementById('qrContainer').classList.remove('active');
+                document.getElementById('verifyPaymentBtn').classList.remove('active');
+                alert('Card payment integration coming soon!');
+            }
+        }
+
+        function generateQRCode() {
+            const canvas = document.getElementById('qrCode');
+            const qr = new QRious({
+                element: canvas,
+                value: 'upi://pay?pa=focuszone@paytm&pn=FocusZone&am=2299&cu=INR&tn=FocusZone%20Premium%20Subscription',
+                size: 200,
+                backgroundAlpha: 1,
+                foregroundAlpha: 0.8,
+                level: 'M'
+            });
+        }
+
+        function verifyPayment() {
+            // Simulate payment verification
+            const btn = document.getElementById('verifyPaymentBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Payment verified successfully! Welcome to FocusZone Premium!');
+                closePaymentModal();
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Payment';
+                btn.disabled = false;
+            }, 3000);
+        }
+
+        // Form Handlers
+        function handleLogin(event) {
+            event.preventDefault();
+            alert('Login functionality will be implemented soon!');
+            closeModal('loginModal');
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            alert('Registration functionality will be implemented soon!');
+            closeModal('registerModal');
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            event.target.reset();
+        }
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number[data-target]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        const increment = target / 100;
+                        let current = 0;
+                        
+                        const updateCounter = () => {
+                            if (current < target) {
+                                current += increment;
+                                if (target >= 1000000) {
+                                    counter.textContent = (current / 1000000).toFixed(1) + 'M';
+                                } else if (target >= 1000) {
+                                    counter.textContent = (current / 1000).toFixed(0) + 'K+';
+                                } else {
+                                    counter.textContent = Math.ceil(current) + (target === 98 ? '%' : '');
+                                }
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                if (target >= 1000000) {
+                                    counter.textContent = (target / 1000000).toFixed(0) + 'M+';
+                                } else if (target >= 1000) {
+                                    counter.textContent = (target / 1000).toFixed(0) + 'K+';
+                                } else {
+                                    counter.textContent = target + (target === 98 ? '%' : '');
+                                }
+                            }
+                        };
+                        
+                        updateCounter();
+                        observer.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        // Intersection Observer for Animations
+        function initScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.animate-fadeInUp, .animate-fadeInLeft, .animate-fadeInRight');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) translateX(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                if (el.classList.contains('animate-fadeInUp')) {
+                    el.style.transform = 'translateY(30px)';
+                } else if (el.classList.contains('animate-fadeInLeft')) {
+                    el.style.transform = 'translateX(-30px)';
+                } else if (el.classList.contains('animate-fadeInRight')) {
+                    el.style.transform = 'translateX(30px)';
+                }
+                observer.observe(el);
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            animateCounters();
+            initScrollAnimations();
+            
+            // Close mobile menu when clicking on links
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.getElementById('mobileMenu').classList.remove('active');
+                });
+            });
+        });
+
+        // Close modals when pressing Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const activeModals = document.querySelectorAll('.premium-modal.active, .payment-modal.active');
+                activeModals.forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Flashcards • FocusZone</title>
+  <link rel="stylesheet" href="../css/premium-styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <style>
+    .flip-wrap{perspective:1000px;width:260px;height:180px;margin:auto}
+    .flip-inner{width:100%;height:100%;transition:transform .8s;transform-style:preserve-3d}
+    .flip-wrap:hover .flip-inner{transform:rotateY(180deg)}
+    .flip-face{position:absolute;width:100%;height:100%;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:600;color:#fff;backface-visibility:hidden}
+    .front{background:#667eea}
+    .back{background:#764ba2;transform:rotateY(180deg)}
+  </style>
+  <script defer src="../js/main.js"></script>
+</head>
+<body>
+<nav class="premium-navbar"><div class="nav-container">
+  <a class="logo-container" href="../index.html">
+     <div class="logo-icon"><i class="fas fa-layer-group"></i></div><h2>Flashcards</h2>
+  </a>
+</div></nav>
+
+<section class="container" style="padding:6rem 0;text-align:center">
+  <div class="flip-wrap">
+    <div class="flip-inner">
+      <div class="flip-face front">H<sub>2</sub>O boiling point?</div>
+      <div class="flip-face back">100 °C</div>
+    </div>
+  </div>
+  <div style="margin-top:2rem">
+    <button class="btn-glass hover-scale" onclick="prev()">Previous</button>
+    <button class="btn-premium hover-scale" onclick="next()">Next<div class="btn-glow"></div></button>
+  </div>
+</section>
+<script>function prev(){NotificationManager.show('Previous card', 'info')}
+function next(){NotificationManager.show('Next card', 'info')}</script>
+</body></html>

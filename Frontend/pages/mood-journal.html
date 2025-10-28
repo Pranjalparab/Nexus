@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mood & Journal • FocusZone</title>
+  <link rel="stylesheet" href="../css/premium-styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <script defer src="../js/main.js"></script>
+</head>
+<body>
+<nav class="premium-navbar"><div class="nav-container">
+  <a class="logo-container" href="../index.html">
+     <div class="logo-icon"><i class="fas fa-heart"></i></div><h2>Mood Journal</h2>
+  </a>
+</div></nav>
+
+<section class="container" style="padding:6rem 0">
+  <h1 class="section-title">How do you feel today?</h1>
+
+  <div style="font-size:2.5rem;text-align:center;margin-top:2rem" id="faces">
+    😄 😊 🙂 😐 😔 😡
+  </div>
+
+  <textarea id="entry" style="width:100%;height:180px;margin-top:2rem;border-radius:20px;padding:1.2rem"
+            placeholder="Write your thoughts…"></textarea>
+
+  <button class="btn-premium hover-scale" style="margin-top:1rem" onclick="saveMood()">
+     <i class="fas fa-save"></i><span>Save Entry</span><div class="btn-glow"></div>
+  </button>
+</section>
+
+<script>
+function saveMood(){
+  NotificationManager.show('Journal entry saved (demo)', 'success');
+  document.getElementById('entry').value='';
+}
+document.getElementById('faces').addEventListener('click',e=>{
+ if(e.target.textContent.trim()) NotificationManager.show('Feeling '+e.target.textContent,'info');
+});
+</script>
+</body></html>

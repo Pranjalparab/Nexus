@@ -1,0 +1,313 @@
+{
+  "sessions": [
+    {
+      "id": "session_20250806_140651",
+      "task_id": null,
+      "start_time": "2025-08-06T14:06:51.786124",
+      "end_time": "2025-08-06T14:06:54.301066",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250806_140912",
+      "task_id": null,
+      "start_time": "2025-08-06T14:09:12.528548",
+      "end_time": "2025-08-06T14:10:12.577140",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250811_090044",
+      "task_id": null,
+      "start_time": "2025-08-11T09:00:44.474501",
+      "end_time": "2025-08-11T09:01:44.524137",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250811_091252",
+      "task_id": null,
+      "start_time": "2025-08-11T09:12:52.253531",
+      "end_time": "2025-08-11T09:13:52.305653",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250811_092524",
+      "task_id": null,
+      "start_time": "2025-08-11T09:25:24.466686",
+      "end_time": "2025-08-11T09:26:24.521496",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250811_094756",
+      "task_id": null,
+      "start_time": "2025-08-11T09:47:56.758614",
+      "end_time": "2025-08-11T09:52:56.989770",
+      "duration": 5,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250811_095316",
+      "task_id": null,
+      "start_time": "2025-08-11T09:53:16.865169",
+      "end_time": "2025-08-11T09:53:17.613583",
+      "duration": 0,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250811_095318",
+      "task_id": null,
+      "start_time": "2025-08-11T09:53:18.209827",
+      "end_time": "2025-08-11T09:58:18.453298",
+      "duration": 5,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250812_092535",
+      "task_id": null,
+      "start_time": "2025-08-12T09:25:35.339721",
+      "end_time": "2025-08-12T09:25:37.278274",
+      "duration": 0,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250812_092608",
+      "task_id": null,
+      "start_time": "2025-08-12T09:26:08.432712",
+      "end_time": "2025-08-12T09:26:54.441272",
+      "duration": 0,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250812_092701",
+      "task_id": null,
+      "start_time": "2025-08-12T09:27:01.458766",
+      "end_time": "2025-08-12T09:27:16.476425",
+      "duration": 0,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250812_092739",
+      "task_id": null,
+      "start_time": "2025-08-12T09:27:39.569691",
+      "end_time": "2025-08-12T09:27:40.086337",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250812_094115",
+      "task_id": null,
+      "start_time": "2025-08-12T09:41:15.441298",
+      "end_time": "2025-08-12T09:42:15.477180",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250812_094224",
+      "task_id": null,
+      "start_time": "2025-08-12T09:42:24.985791",
+      "end_time": "2025-08-12T09:42:30.131625",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250813_223730",
+      "task_id": null,
+      "start_time": "2025-08-13T22:37:30.315625",
+      "end_time": "2025-08-13T22:37:32.180126",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250813_223736",
+      "task_id": null,
+      "start_time": "2025-08-13T22:37:36.188989",
+      "end_time": "2025-08-13T22:37:41.529003",
+      "duration": 0,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250813_223819",
+      "task_id": null,
+      "start_time": "2025-08-13T22:38:19.563914",
+      "end_time": "2025-08-13T22:38:20.979873",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250814_130230",
+      "task_id": null,
+      "start_time": "2025-08-14T13:02:30.626326",
+      "end_time": "2025-08-14T13:02:37.409938",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250814_130304",
+      "task_id": null,
+      "start_time": "2025-08-14T13:03:04.313292",
+      "end_time": "2025-08-14T13:03:05.537590",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250814_130309",
+      "task_id": null,
+      "start_time": "2025-08-14T13:03:09.095907",
+      "end_time": "2025-08-14T13:03:13.875378",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250814_130321",
+      "task_id": null,
+      "start_time": "2025-08-14T13:03:21.025518",
+      "end_time": "2025-08-14T13:03:21.873549",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250814_130325",
+      "task_id": null,
+      "start_time": "2025-08-14T13:03:25.374043",
+      "end_time": "2025-08-14T13:03:30.456700",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250815_122243",
+      "task_id": null,
+      "start_time": "2025-08-15T12:22:43.007596",
+      "end_time": "2025-08-15T12:23:43.388853",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250815_122850",
+      "task_id": null,
+      "start_time": "2025-08-15T12:28:50.900115",
+      "end_time": "2025-08-15T12:28:53.690011",
+      "duration": 0,
+      "session_type": "focus",
+      "quality_rating": 4,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250815_125617",
+      "task_id": null,
+      "start_time": "2025-08-15T12:56:17.280829",
+      "end_time": "2025-08-15T12:57:17.665359",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250815_130309",
+      "task_id": null,
+      "start_time": "2025-08-15T13:03:09.417047",
+      "end_time": "2025-08-15T13:04:09.832881",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250815_164626",
+      "task_id": null,
+      "start_time": "2025-08-15T16:46:26.642845",
+      "end_time": "2025-08-15T16:47:27.007615",
+      "duration": 1,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    },
+    {
+      "id": "session_20250815_170527",
+      "task_id": null,
+      "start_time": "2025-08-15T17:05:27.836692",
+      "end_time": "2025-08-15T17:10:28.842842",
+      "duration": 5,
+      "session_type": "break",
+      "quality_rating": 3,
+      "notes": "",
+      "snapshots": []
+    }
+  ],
+  "settings": {}
+}

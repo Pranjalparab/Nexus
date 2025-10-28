@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Smart Calendar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .calendar-main {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .current-month {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .day-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 5px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            background: white;
+            min-height: 100px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .calendar-day:hover {
+            background: #f8f9ff;
+            border-color: #667eea;
+        }
+
+        .calendar-day.other-month {
+            background: #f5f5f5;
+            color: #ccc;
+        }
+
+        .calendar-day.today {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .calendar-day.has-events {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+        }
+
+        .calendar-day.overloaded {
+            background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+        }
+
+        .day-number {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .event-item {
+            background: rgba(102, 126, 234, 0.1);
+            border-left: 3px solid #667eea;
+            padding: 4px 6px;
+            margin: 2px 0;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .event-item.urgent {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { background: rgba(220, 53, 69, 0.1); }
+            50% { background: rgba(220, 53, 69, 0.3); }
+            100% { background: rgba(220, 53, 69, 0.1); }
+        }
+
+        .exam-item {
+            border-left-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .deadline-item {
+            border-left-color: #ffc107;
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .study-item {
+            border-left-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, #ffc107, #fd7e14);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+        }
+
+        .btn-info {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+        }
+
+        .events-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .event-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .event-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-card.exam {
+            border-left-color: #dc3545;
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+        }
+
+        .event-card.deadline {
+            border-left-color: #ffc107;
+            background: linear-gradient(135deg, #fffbf0 0%, #feebc8 100%);
+        }
+
+        .event-card.study {
+            border-left-color: #28a745;
+            background: linear-gradient(135deg, #f0fff4 0%, #c3e6cb 100%);
+        }
+
+        .event-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .event-time {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .event-description {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .alarm-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 8px;
+            height: 8px;
+            background: #dc3545;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .study-plan {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .study-plan h4 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+
+        .study-session {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #28a745;
+            font-size: 0.9rem;
+        }
+
+        .notifications {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .notification {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #ffc107;
+            font-size: 0.9rem;
+        }
+
+        .priority-high {
+            border-left-color: #dc3545 !important;
+        }
+
+        .priority-medium {
+            border-left-color: #ffc107 !important;
+        }
+
+        .priority-low {
+            border-left-color: #28a745 !important;
+        }
+
+        .ai-insights {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .ai-insights h4 {
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+
+        .insight-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #2196f3;
+            font-size: 0.9rem;
+        }
+
+        .weather-widget {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .alarm-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            text-align: center;
+            animation: alarmPulse 1s infinite;
+            display: none;
+        }
+
+        @keyframes alarmPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .productivity-meter {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        .meter-bar {
+            background: rgba(255, 255, 255, 0.3);
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .meter-fill {
+            background: white;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .alarm-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 0, 0, 0.8);
+            z-index: 3000;
+            display: none;
+            animation: alarmFlash 0.5s infinite alternate;
+        }
+
+        @keyframes alarmFlash {
+            0% { background: rgba(255, 0, 0, 0.8); }
+            100% { background: rgba(255, 100, 100, 0.6); }
+        }
+
+        @media (max-width: 1200px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-day {
+                min-height: 80px;
+                padding: 5px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="alarm-overlay" id="alarmOverlay"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI-Powered Smart Calendar</h1>
+            <p>Advanced exam tracking with intelligent alarms, AI insights, and predictive scheduling</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🔔 Smart Alarms</h3>
+                <p>Real-time deadline alerts with sound notifications</p>
+            </div>
+            <div class="feature-card">
+                <h3>🤖 AI Study Plans</h3>
+                <p>Machine learning optimized study schedules</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Workload Analysis</h3>
+                <p>Intelligent workload distribution & stress detection</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎯 Conflict Resolution</h3>
+                <p>Automatic conflict detection and smart suggestions</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Productivity Tracking</h3>
+                <p>Real-time productivity metrics and insights</p>
+            </div>
+            <div class="feature-card">
+                <h3>🌤️ Weather Integration</h3>
+                <p>Weather-aware scheduling recommendations</p>
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <div class="sidebar">
+                <h3>Quick Add</h3>
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="eventTitle">Title</label>
+                        <input type="text" id="eventTitle" placeholder="Event title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventType">Type</label>
+                        <select id="eventType" required>
+                            <option value="event">Regular Event</option>
+                            <option value="exam">Exam</option>
+                            <option value="deadline">Deadline</option>
+                            <option value="study">Study Session</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventDate">Date</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventTime">Time</label>
+                        <input type="time" id="eventTime">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventPriority">Priority</label>
+                        <select id="eventPriority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="alarmTime">Alarm (minutes before)</label>
+                        <select id="alarmTime">
+                            <option value="0">No alarm</option>
+                            <option value="5">5 minutes</option>
+                            <option value="15">15 minutes</option>
+                            <option value="30">30 minutes</option>
+                            <option value="60">1 hour</option>
+                            <option value="1440">1 day</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventDescription">Description</label>
+                        <textarea id="eventDescription" rows="3" placeholder="Event details..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Add Event</button>
+                </form>
+
+                <button class="btn btn-secondary" onclick="generateAIStudyPlan()">🤖 AI Study Plan</button>
+                <button class="btn btn-warning" onclick="showNotifications()">🔔 Notifications</button>
+                <button class="btn btn-info" onclick="analyzeWorkload()">📊 Analyze Workload</button>
+                <button class="btn btn-danger" onclick="testAlarm()">🔊 Test Alarm</button>
+
+                <div class="stats-grid" style="margin-top: 20px;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalEvents">0</div>
+                        <div class="stat-label">Total Events</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="upcomingExams">0</div>
+                        <div class="stat-label">Upcoming Exams</div>
+                    </div>
+                </div>
+
+                <div class="productivity-meter">
+                    <h4>📈 Productivity Score</h4>
+                    <div id="productivityScore">85%</div>
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="productivityFill" style="width: 85%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calendar-main">
+                <div class="calendar-header">
+                    <button class="nav-btn" onclick="previousMonth()">❮</button>
+                    <div class="current-month" id="currentMonth"></div>
+                    <button class="nav-btn" onclick="nextMonth()">❯</button>
+                </div>
+                
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+
+            <div class="sidebar">
+                <h3>Today's Schedule</h3>
+                <div class="events-list" id="todayEvents">
+                    <p style="color: #666; text-align: center; padding: 20px;">No events for today</p>
+                </div>
+
+                <div class="ai-insights">
+                    <h4>🤖 AI Insights</h4>
+                    <div id="aiInsights">
+                        <div class="insight-item">Analyzing your schedule patterns...</div>
+                    </div>
+                </div>
+
+                <div class="study-plan">
+                    <h4>📚 Smart Study Plan</h4>
+                    <div id="studyPlan">
+                        <p style="color: #666; font-size: 0.9rem;">Generate AI study plan for personalized recommendations</p>
+                    </div>
+                </div>
+
+                <div class="weather-widget">
+                    <h4>🌤️ Weather</h4>
+                    <div id="weatherInfo">
+                        <div>Loading weather...</div>
+                    </div>
+                </div>
+
+                <div class="notifications">
+                    <h4>🔔 Active Alarms</h4>
+                    <div id="notificationsList">
+                        <p style="color: #666; font-size: 0.9rem;">No active alarms</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle">Event Details</h3>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Alarm Modal -->
+    <div id="alarmModal" class="alarm-modal">
+        <h2>🚨 ALARM!</h2>
+        <h3 id="alarmEventTitle">Event Alert</h3>
+        <p id="alarmEventTime">Event starting now</p>
+        <button class="btn" onclick="stopAlarm()" style="margin-top: 20px; background: #dc3545;">Stop Alarm</button>
+        <button class="btn" onclick="snoozeAlarm()" style="margin-top: 10px; background: #ffc107;">Snooze 5min</button>
+    </div>
+
+    <!-- Audio elements for alarms -->
+    <audio id="alarmSound" preload="auto" loop>
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBzuT1O3MbSYENG/G8diKOQgZWKDm86hWEAlKouPcq1oGHbzwX7Lp7+3oRqgMU4PO8diJOA8qbDNm5+PwvYj/dO/mO6Zl4+" type="audio/wav" />
+        <source src="data:audio/mpeg;base64,//uQRAAAAWMSLwUIMAAsZ+X0QWLPMiUmaf4qylsqcREBAOFDNhQ=" type="audio/mpeg" />
+    </audio>
+
+    <script>
+        class SmartCalendar {
+            constructor() {
+                this.currentDate = new Date();
+                this.events = this.loadEvents();
+                this.alarms = [];
+                this.activeAlarms = new Set();
+                this.weatherApiKey = 'c80003a09cf047bc848004a464f6a56f';
+                this.aiApiKey = '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';
+                this.alarmSound = document.getElementById('alarmSound');
+                this.alarmModal = document.getElementById('alarmModal');
+                this.alarmOverlay = document.getElementById('alarmOverlay');
+                
+                this.init();
+            }
+
+            init() {
+                this.renderCalendar();
+                this.updateTodayEvents();
+                this.updateStats();
+                this.setupEventForm();
+                this.startAlarmMonitoring();
+                this.loadWeather();
+                this.generateAIInsights();
+                this.updateNotifications();
+            }
+
+            loadEvents() {
+                const saved = localStorage.getItem('calendarEvents');
+                return saved ? JSON.parse(saved) : [];
+            }
+
+            saveEvents() {
+                localStorage.setItem('calendarEvents', JSON.stringify(this.events));
+            }
+
+            setupEventForm() {
+                const form = document.getElementById('eventForm');
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addEvent();
+                });
+            }
+
+            addEvent() {
+                const title = document.getElementById('eventTitle').value;
+                const type = document.getElementById('eventType').value;
+                const date = document.getElementById('eventDate').value;
+                const time = document.getElementById('eventTime').value;
+                const priority = document.getElementById('eventPriority').value;
+                const alarm = parseInt(document.getElementById('alarmTime').value);
+                const description = document.getElementById('eventDescription').value;
+
+                const event = {
+                    id: Date.now(),
+                    title,
+                    type,
+                    date,
+                    time,
+                    priority,
+                    alarm,
+                    description,
+                    completed: false
+                };
+
+                this.events.push(event);
+                this.saveEvents();
+                this.renderCalendar();
+                this.updateTodayEvents();
+                this.updateStats();
+                this.updateNotifications();
+                
+                // Clear form
+                document.getElementById('eventForm').reset();
+                
+                // Schedule alarm if needed
+                if (alarm > 0) {
+                    this.scheduleAlarm(event);
+                }
+
+                this.showSuccessMessage('Event added successfully!');
+            }
+
+            scheduleAlarm(event) {
+                const eventDateTime = new Date(`${event.date}T${event.time || '00:00'}`);
+                const alarmTime = new Date(eventDateTime.getTime() - (event.alarm * 60000));
+                const now = new Date();
+
+                if (alarmTime > now) {
+                    const timeUntilAlarm = alarmTime.getTime() - now.getTime();
+                    
+                    setTimeout(() => {
+                        this.triggerAlarm(event);
+                    }, timeUntilAlarm);
+
+                    this.alarms.push({
+                        eventId: event.id,
+                        alarmTime: alarmTime,
+                        event: event
+                    });
+                }
+            }
+
+            triggerAlarm(event) {
+                if (this.activeAlarms.has(event.id)) return;
+                
+                this.activeAlarms.add(event.id);
+                
+                // Show visual alarm
+                this.alarmModal.style.display = 'block';
+                this.alarmOverlay.style.display = 'block';
+                
+                // Update alarm modal content
+                document.getElementById('alarmEventTitle').textContent = event.title;
+                document.getElementById('alarmEventTime').textContent = 
+                    `${event.type.toUpperCase()} - ${this.formatAlarmTime(event)}`;
+                
+                // Play alarm sound
+                this.alarmSound.currentTime = 0;
+                this.alarmSound.play().catch(e => console.log('Audio play failed:', e));
+                
+                // Vibrate if supported
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200, 100, 200]);
+                }
+                
+                // Show browser notification
+                this.showBrowserNotification(event);
+            }
+
+            showBrowserNotification(event) {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification(`🚨 ${event.title}`, {
+                        body: `${event.type.toUpperCase()} in ${event.alarm} minutes`,
+                        icon: '🔔',
+                        tag: event.id
+                    });
+                } else if ('Notification' in window && Notification.permission !== 'denied') {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            this.showBrowserNotification(event);
+                        }
+                    });
+                }
+            }
+
+            stopAlarm() {
+                // Stop the alarm sound
+                if (this.alarmSound) {
+                    this.alarmSound.pause();
+                    this.alarmSound.currentTime = 0;
+                }
+                
+                // Hide alarm modal and overlay
+                if (this.alarmModal) {
+                    this.alarmModal.style.display = 'none';
+                }
+                if (this.alarmOverlay) {
+                    this.alarmOverlay.style.display = 'none';
+                }
+                
+                // Stop vibration
+                if (navigator.vibrate) {
+                    navigator.vibrate(0);
+                }
+                
+                // Clear active alarms
+                this.activeAlarms.clear();
+                
+                console.log('Alarm stopped successfully');
+            }
+
+            formatAlarmTime(event) {
+                const eventDateTime = new Date(`${event.date}T${event.time || '00:00'}`);
+                const now = new Date();
+                const diffMinutes = Math.ceil((eventDateTime - now) / (1000 * 60));
+                
+                if (diffMinutes <= 0) return 'Starting now!';
+                if (diffMinutes < 60) return `in ${diffMinutes} minutes`;
+                if (diffMinutes < 1440) return `in ${Math.ceil(diffMinutes / 60)} hours`;
+                return `in ${Math.ceil(diffMinutes / 1440)} days`;
+            }
+
+            startAlarmMonitoring() {
+                // Check for alarms every minute
+                setInterval(() => {
+                    this.checkAlarms();
+                }, 60000);
+                
+                // Initial check
+                this.checkAlarms();
+            }
+
+            checkAlarms() {
+                const now = new Date();
+                
+                this.events.forEach(event => {
+                    if (event.alarm > 0 && !event.completed) {
+                        const eventDateTime = new Date(`${event.date}T${event.time || '00:00'}`);
+                        const alarmTime = new Date(eventDateTime.getTime() - (event.alarm * 60000));
+                        
+                        // Check if alarm should trigger (within 1 minute window)
+                        const timeDiff = now.getTime() - alarmTime.getTime();
+                        if (timeDiff >= 0 && timeDiff < 60000 && !this.activeAlarms.has(event.id)) {
+                            this.triggerAlarm(event);
+                        }
+                    }
+                });
+            }
+
+            async loadWeather() {
+                try {
+                    // Get user's location
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => this.fetchWeatherByCoords(position.coords.latitude, position.coords.longitude),
+                            () => this.fetchWeatherByCity('Mumbai') // Fallback to user's location
+                        );
+                    } else {
+                        this.fetchWeatherByCity('Mumbai');
+                    }
+                } catch (error) {
+                    console.error('Weather loading failed:', error);
+                    this.displayWeatherError();
+                }
+            }
+
+            async fetchWeatherByCoords(lat, lon) {
+                try {
+                    const response = await fetch(
+                        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.weatherApiKey}`
+                    );
+                    const data = await response.json();
+                    this.displayWeather(data);
+                } catch (error) {
+                    console.error('Weather fetch failed:', error);
+                    this.displayWeatherError();
+                }
+            }
+
+            async fetchWeatherByCity(city) {
+                try {
+                    const response = await fetch(
+                        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.weatherApiKey}`
+                    );
+                    const data = await response.json();
+                    this.displayWeather(data);
+                } catch (error) {
+                    console.error('Weather fetch failed:', error);
+                    this.displayWeatherError();
+                }
+            }
+
+            displayWeather(data) {
+                const weatherEl = document.getElementById('weatherInfo');
+                const temp = Math.round(data.main.temp);
+                const description = data.weather[0].description;
+                const icon = this.getWeatherIcon(data.weather[0].main);
+                
+                weatherEl.innerHTML = `
+                    <div>${icon} ${temp}°C</div>
+                    <div style="font-size: 0.9rem; margin-top: 5px;">${description}</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px; color: #666;">
+                        ${this.getWeatherRecommendation(data.weather[0].main, temp)}
+                    </div>
+                `;
+            }
+
+            displayWeatherError() {
+                document.getElementById('weatherInfo').innerHTML = `
+                    <div>🌤️ Weather unavailable</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px;">Check your connection</div>
+                `;
+            }
+
+            getWeatherIcon(condition) {
+                const icons = {
+                    'Clear': '☀️',
+                    'Clouds': '☁️',
+                    'Rain': '🌧️',
+                    'Drizzle': '🌦️',
+                    'Thunderstorm': '⛈️',
+                    'Snow': '❄️',
+                    'Mist': '🌫️',
+                    'Fog': '🌫️'
+                };
+                return icons[condition] || '🌤️';
+            }
+
+            getWeatherRecommendation(condition, temp) {
+                if (condition === 'Rain' || condition === 'Thunderstorm') {
+                    return 'Perfect for indoor study sessions!';
+                } else if (condition === 'Clear' && temp > 20 && temp < 30) {
+                    return 'Great weather for outdoor study!';
+                } else if (temp > 30) {
+                    return 'Stay cool and hydrated while studying!';
+                } else if (temp < 10) {
+                    return 'Cozy indoor study weather!';
+                } else {
+                    return 'Good weather for focused learning!';
+                }
+            }
+
+            async generateAIInsights() {
+                try {
+                    const insights = await this.getAIRecommendations();
+                    this.displayAIInsights(insights);
+                } catch (error) {
+                    console.error('AI insights failed:', error);
+                    this.displayDefaultInsights();
+                }
+            }
+
+            async getAIRecommendations() {
+                // Analyze current schedule for AI insights
+                const now = new Date();
+                const upcomingEvents = this.events.filter(event => {
+                    const eventDate = new Date(event.date);
+                    return eventDate >= now;
+                }).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                const examCount = upcomingEvents.filter(e => e.type === 'exam').length;
+                const deadlineCount = upcomingEvents.filter(e => e.type === 'deadline').length;
+                
+                // Generate insights based on schedule analysis
+                const insights = [];
+                
+                if (examCount > 3) {
+                    insights.push("Heavy exam period detected. Consider creating a study schedule.");
+                }
+                
+                if (deadlineCount > 2) {
+                    insights.push("Multiple deadlines approaching. Prioritize by importance.");
+                }
+                
+                const todayEvents = this.getTodayEvents();
+                if (todayEvents.length > 4) {
+                    insights.push("Busy day ahead! Take breaks between tasks.");
+                } else if (todayEvents.length === 0) {
+                    insights.push("Free day! Perfect time for advance preparation.");
+                }
+                
+                // Add time-based insights
+                const hour = now.getHours();
+                if (hour < 12) {
+                    insights.push("Morning productivity peak - tackle difficult subjects now!");
+                } else if (hour < 17) {
+                    insights.push("Afternoon focus time - great for review sessions.");
+                } else {
+                    insights.push("Evening wind-down - light reading or planning tomorrow.");
+                }
+                
+                return insights;
+            }
+
+            displayAIInsights(insights) {
+                const container = document.getElementById('aiInsights');
+                container.innerHTML = insights.map(insight => 
+                    `<div class="insight-item">${insight}</div>`
+                ).join('');
+            }
+
+            displayDefaultInsights() {
+                const container = document.getElementById('aiInsights');
+                container.innerHTML = `
+                    <div class="insight-item">Schedule regular study breaks for better retention</div>
+                    <div class="insight-item">Review material within 24 hours for optimal memory</div>
+                    <div class="insight-item">Plan difficult subjects during your peak hours</div>
+                `;
+            }
+
+            renderCalendar() {
+                const grid = document.getElementById('calendarGrid');
+                const monthEl = document.getElementById('currentMonth');
+                
+                const year = this.currentDate.getFullYear();
+                const month = this.currentDate.getMonth();
+                
+                monthEl.textContent = `${this.currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
+                
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const startDate = new Date(firstDay);
+                startDate.setDate(startDate.getDate() - firstDay.getDay());
+                
+                grid.innerHTML = '';
+                
+                // Add day headers
+                const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                dayHeaders.forEach(day => {
+                    const header = document.createElement('div');
+                    header.className = 'day-header';
+                    header.textContent = day;
+                    grid.appendChild(header);
+                });
+                
+                // Add calendar days
+                for (let i = 0; i < 42; i++) {
+                    const date = new Date(startDate);
+                    date.setDate(startDate.getDate() + i);
+                    
+                    const dayEl = document.createElement('div');
+                    dayEl.className = 'calendar-day';
+                    
+                    if (date.getMonth() !== month) {
+                        dayEl.classList.add('other-month');
+                    }
+                    
+                    if (this.isToday(date)) {
+                        dayEl.classList.add('today');
+                    }
+                    
+                    const dayEvents = this.getEventsForDate(date);
+                    if (dayEvents.length > 0) {
+                        dayEl.classList.add('has-events');
+                    }
+                    
+                    if (dayEvents.length > 3) {
+                        dayEl.classList.add('overloaded');
+                    }
+                    
+                    dayEl.innerHTML = `
+                        <div class="day-number">${date.getDate()}</div>
+                        ${dayEvents.slice(0, 3).map(event => 
+                            `<div class="event-item ${event.type}-item ${this.isUrgent(event) ? 'urgent' : ''}"
+                                 title="${event.title}">
+                                ${event.title}
+                                ${event.alarm > 0 ? '<div class="alarm-indicator"></div>' : ''}
+                            </div>`
+                        ).join('')}
+                        ${dayEvents.length > 3 ? `<div class="event-item">+${dayEvents.length - 3} more</div>` : ''}
+                    `;
+                    
+                    dayEl.addEventListener('click', () => this.showDayEvents(date));
+                    grid.appendChild(dayEl);
+                }
+            }
+
+            getEventsForDate(date) {
+                const dateStr = date.toISOString().split('T')[0];
+                return this.events.filter(event => event.date === dateStr);
+            }
+
+            getTodayEvents() {
+                const today = new Date().toISOString().split('T')[0];
+                return this.events.filter(event => event.date === today);
+            }
+
+            isToday(date) {
+                const today = new Date();
+                return date.toDateString() === today.toDateString();
+            }
+
+            isUrgent(event) {
+                const eventDate = new Date(event.date);
+                const today = new Date();
+                const daysUntil = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                
+                return (daysUntil <= 1 && event.type === 'exam') || 
+                       (daysUntil <= 2 && event.type === 'deadline') ||
+                       (event.priority === 'high' && daysUntil <= 3);
+            }
+
+            updateTodayEvents() {
+                const container = document.getElementById('todayEvents');
+                const todayEvents = this.getTodayEvents();
+                
+                if (todayEvents.length === 0) {
+                    container.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">No events for today</p>';
+                    return;
+                }
+                
+                container.innerHTML = todayEvents.map(event => `
+                    <div class="event-card ${event.type}">
+                        <div class="event-title">${event.title}</div>
+                        <div class="event-time">${event.time || 'All day'} - ${event.type.toUpperCase()}</div>
+                        <div class="event-description">${event.description || 'No description'}</div>
+                        ${event.alarm > 0 ? '<div class="alarm-indicator"></div>' : ''}
+                    </div>
+                `).join('');
+            }
+
+            updateStats() {
+                document.getElementById('totalEvents').textContent = this.events.length;
+                
+                const upcomingExams = this.events.filter(event => {
+                    const eventDate = new Date(event.date);
+                    const today = new Date();
+                    return event.type === 'exam' && eventDate >= today;
+                }).length;
+                
+                document.getElementById('upcomingExams').textContent = upcomingExams;
+                
+                // Update productivity score based on completed events
+                const completedToday = this.getTodayEvents().filter(e => e.completed).length;
+                const totalToday = this.getTodayEvents().length;
+                const score = totalToday > 0 ? Math.round((completedToday / totalToday) * 100) : 85;
+                
+                document.getElementById('productivityScore').textContent = score + '%';
+                document.getElementById('productivityFill').style.width = score + '%';
+            }
+
+            updateNotifications() {
+                const today = new Date();
+                const notifications = [];
+                
+                // Check for upcoming deadlines and exams
+                this.events.forEach(event => {
+                    const eventDate = new Date(event.date);
+                    const daysUntil = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysUntil >= 0 && daysUntil <= 7) {
+                        let urgency = 'low';
+                        if (daysUntil <= 1) urgency = 'high';
+                        else if (daysUntil <= 3) urgency = 'medium';
+                        
+                        notifications.push({
+                            text: `${event.title} is ${daysUntil === 0 ? 'today' : `in ${daysUntil} days`}`,
+                            priority: urgency,
+                            type: event.type,
+                            alarm: event.alarm > 0
+                        });
+                    }
+                });
+                
+                // Check for schedule conflicts
+                const conflicts = this.detectConflicts();
+                conflicts.forEach(conflict => {
+                    notifications.push({
+                        text: `Schedule conflict: ${conflict.event1.title} and ${conflict.event2.title}`,
+                        priority: 'high',
+                        type: 'conflict'
+                    });
+                });
+                
+                const container = document.getElementById('notificationsList');
+                if (notifications.length === 0) {
+                    container.innerHTML = '<p style="color: #666; font-size: 0.9rem;">No active alarms</p>';
+                } else {
+                    container.innerHTML = notifications.map(notif => `
+                        <div class="notification priority-${notif.priority}">
+                            ${notif.text}
+                            ${notif.alarm ? ' 🔔' : ''}
+                        </div>
+                    `).join('');
+                }
+            }
+
+            detectConflicts() {
+                const conflicts = [];
+                for (let i = 0; i < this.events.length; i++) {
+                    for (let j = i + 1; j < this.events.length; j++) {
+                        const event1 = this.events[i];
+                        const event2 = this.events[j];
+                        
+                        if (event1.date === event2.date && event1.time && event2.time) {
+                            const time1 = new Date(`2000-01-01T${event1.time}`);
+                            const time2 = new Date(`2000-01-01T${event2.time}`);
+                            const diff = Math.abs(time1 - time2) / (1000 * 60); // minutes
+                            
+                            if (diff < 60) { // Less than 1 hour apart
+                                conflicts.push({ event1, event2 });
+                            }
+                        }
+                    }
+                }
+                return conflicts;
+            }
+
+            showSuccessMessage(message) {
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, #28a745, #20c997);
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease;
+                `;
+                toast.textContent = message;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+
+            previousMonth() {
+                this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+                this.renderCalendar();
+            }
+
+            nextMonth() {
+                this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+                this.renderCalendar();
+            }
+        }
+
+        // Global functions
+        let calendar;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            calendar = new SmartCalendar();
+            
+            // Request notification permission
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        });
+
+        function previousMonth() {
+            calendar.previousMonth();
+        }
+
+        function nextMonth() {
+            calendar.nextMonth();
+        }
+
+        function testAlarm() {
+            const testEvent = {
+                id: 'test',
+                title: 'Test Alarm',
+                type: 'exam',
+                time: '12:00',
+                alarm: 5
+            };
+            calendar.triggerAlarm(testEvent);
+        }
+
+        function snoozeAlarm() {
+            if (calendar && calendar.stopAlarm) {
+                calendar.stopAlarm();
+                
+                // Show snooze message
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, #ffc107, #fd7e14);
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease;
+                `;
+                toast.textContent = 'Alarm snoozed for 5 minutes';
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+                
+                // Set snooze timer (5 minutes)
+                setTimeout(() => {
+                    const currentEvent = {
+                        id: 'snooze',
+                        title: 'Snoozed Reminder',
+                        type: 'reminder',
+                        time: new Date().toLocaleTimeString(),
+                        alarm: 0
+                    };
+                    calendar.triggerAlarm(currentEvent);
+                }, 300000); // 5 minutes
+            }
+        }
+
+        function stopAlarm() {
+            if (calendar && calendar.stopAlarm) {
+                calendar.stopAlarm();
+            } else {
+                // Fallback stop mechanism
+                const alarmSound = document.getElementById('alarmSound');
+                const alarmModal = document.getElementById('alarmModal');
+                const alarmOverlay = document.getElementById('alarmOverlay');
+                
+                if (alarmSound) {
+                    alarmSound.pause();
+                    alarmSound.currentTime = 0;
+                }
+                if (alarmModal) {
+                    alarmModal.style.display = 'none';
+                }
+                if (alarmOverlay) {
+                    alarmOverlay.style.display = 'none';
+                }
+                
+                // Stop vibration
+                if (navigator.vibrate) {
+                    navigator.vibrate(0);
+                }
+                
+                console.log('Alarm stopped via fallback method');
+            }
+        }
+
+        function generateAIStudyPlan() {
+            const container = document.getElementById('studyPlan');
+            const upcomingExams = calendar.events.filter(event => {
+                const eventDate = new Date(event.date);
+                const today = new Date();
+                return event.type === 'exam' && eventDate >= today;
+            }).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            if (upcomingExams.length === 0) {
+                container.innerHTML = '<p style="color: #666; font-size: 0.9rem;">No upcoming exams to plan for</p>';
+                return;
+            }
+
+            const studyPlan = upcomingExams.slice(0, 3).map(exam => {
+                const examDate = new Date(exam.date);
+                const today = new Date();
+                const daysUntil = Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
+                const hoursPerDay = Math.max(1, Math.min(4, Math.ceil(8 / daysUntil)));
+                
+                return `
+                    <div class="study-session">
+                        📚 ${exam.title}<br>
+                        Study ${hoursPerDay}h/day for ${daysUntil} days<br>
+                        <small>Focus: Review notes, practice problems</small>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = studyPlan;
+        }
+
+        function showNotifications() {
+            calendar.updateNotifications();
+            const notifications = document.getElementById('notificationsList');
+            notifications.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function analyzeWorkload() {
+            const today = new Date();
+            const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+            
+            const weekEvents = calendar.events.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate >= today && eventDate <= nextWeek;
+            });
+
+            const analysis = {
+                total: weekEvents.length,
+                exams: weekEvents.filter(e => e.type === 'exam').length,
+                deadlines: weekEvents.filter(e => e.type === 'deadline').length,
+                high_priority: weekEvents.filter(e => e.priority === 'high').length
+            };
+
+            let workloadLevel = 'Light';
+            let recommendation = 'Great time to get ahead on upcoming tasks!';
+            
+            if (analysis.total > 10) {
+                workloadLevel = 'Heavy';
+                recommendation = 'Consider redistributing some tasks or extending deadlines if possible.';
+            } else if (analysis.total > 6) {
+                workloadLevel = 'Moderate';
+                recommendation = 'Manageable workload. Stick to your schedule and take regular breaks.';
+            }
+
+            alert(`📊 Workload Analysis\n\nNext 7 days:\n• ${analysis.total} total events\n• ${analysis.exams} exams\n• ${analysis.deadlines} deadlines\n• ${analysis.high_priority} high priority\n\nWorkload: ${workloadLevel}\n\n💡 ${recommendation}`);
+        }
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

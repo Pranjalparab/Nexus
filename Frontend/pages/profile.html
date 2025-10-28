@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - FocusZone</title>
+    <link rel="stylesheet" href="../css/premium-styles.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="premium-navbar">
+        <div class="nav-container">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>Profile</h2>
+                    <span class="logo-subtitle">Your Account</span>
+                </div>
+            </div>
+            <button class="btn-glass" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-layout">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-banner">
+                        <div class="banner-overlay"></div>
+                        <button class="edit-banner-btn">
+                            <i class="fas fa-camera"></i>
+                            <span>Change Banner</span>
+                        </button>
+                    </div>
+                    
+                    <div class="profile-info">
+                        <div class="avatar-section">
+                            <div class="avatar-container">
+                                <img src="https://ui-avatars.com/api/?name=John+Doe&background=667eea&color=fff&size=120" alt="Profile" class="profile-avatar">
+                                <button class="edit-avatar-btn">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                                <div class="level-badge">
+                                    <i class="fas fa-crown"></i>
+                                    <span>Level 12</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-details">
+                            <h1 class="profile-name">John Doe</h1>
+                            <p class="profile-title">Productivity Enthusiast</p>
+                            <div class="profile-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Joined March 2024</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-fire"></i>
+                                    <span>12-day streak</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-trophy"></i>
+                                    <span>15 achievements</span>
+                                </div>
+                            </div>
+                            
+                            <div class="xp-section">
+                                <div class="xp-info">
+                                    <span class="xp-label">Experience Points</span>
+                                    <span class="xp-value">1,250 / 2,000 XP</span>
+                                </div>
+                                <div class="xp-bar-large">
+                                    <div class="xp-fill-large" style="width: 62.5%">
+                                        <div class="xp-shine-large"></div>
+                                    </div>
+                                </div>
+                                <div class="level-info">
+                                    <span class="current-level">Level 12</span>
+                                    <span class="next-level">750 XP to Level 13</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button class="btn-premium" onclick="editProfile()">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit Profile</span>
+                            </button>
+                            <button class="btn-glass" onclick="shareProfile()">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Content Tabs -->
+                <div class="profile-tabs">
+                    <button class="tab-btn active" data-tab="overview">Overview</button>
+                    <button class="tab-btn" data-tab="achievements">Achievements</button>
+                    <button class="tab-btn" data-tab="statistics">Statistics</button>
+                    <button class="tab-btn" data-tab="preferences">Preferences</button>
+                    <button class="tab-btn" data-tab="account">Account</button>
+                </div>
+
+                <!-- Overview Tab -->
+                <div class="tab-content active" id="overview-tab">
+                    <div class="overview-grid">
+                        <!-- Quick Stats -->
+                        <div class="stats-overview premium-card">
+                            <h3>
+                                <i class="fas fa-chart-line"></i>
+                                Quick Stats
+                            </h3>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-number">127h</span>
+                                        <span class="stat-label">Total Focus Time</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-number">89</span>
+                                        <span class="stat-label">Goals Completed</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-number">247</span>
+                                        <span class="stat-label">AI Questions</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <span class="stat-number">1,847</span>
+                                        <span class="stat-label">Coins Earned</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="activity-feed premium-card">
+                            <h3>
+                                <i class="fas fa-history"></i>
+                                Recent Activity
+                            </h3>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon completed">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <span class="activity-text">Completed 25-minute focus session</span>
+                                        <span class="activity-time">2 hours ago</span>
+                                    </div>
+                                    <div class="activity-reward">+50 XP</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon achievement">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <span class="activity-text">Unlocked "Consistency Master" achievement</span>
+                                        <span class="activity-time">1 day ago</span>
+                                    </div>
+                                    <div class="activity-reward">+500 XP</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon goal">
+                                        <i class="fas fa-target"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <span class="activity-text">Completed daily goal: Study for 2 hours</span>
+                                        <span class="activity-time">1 day ago</span>
+                                    </div>
+                                    <div class="activity-reward">+75 XP</div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon purchase">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <span class="activity-text">Purchased Dark Theme</span>
+                                        <span class="activity-time">3 days ago</span>
+                                    </div>
+                                    <div class="activity-cost">-500 Coins</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Current Streaks -->
+                        <div class="streaks-overview premium-card">
+                            <h3>
+                                <i class="fas fa-fire"></i>
+                                Current Streaks
+                            </h3>
+                            <div class="streaks-list">
+                                <div class="streak-item">
+                                    <div class="streak-icon">
+                                        <i class="fas fa-bullseye"></i>
+                                    </div>
+                                    <div class="streak-content">
+                                        <span class="streak-name">Daily Focus</span>
+                                        <div class="streak-progress">
+                                            <span class="streak-count">12 days</span>
+                                            <div class="streak-bar">
+                                                <div class="streak-fill" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="streak-item">
+                                    <div class="streak-icon">
+                                        <i class="fas fa-target"></i>
+                                    </div>
+                                    <div class="streak-content">
+                                        <span class="streak-name">Goal Completion</span>
+                                        <div class="streak-progress">
+                                            <span class="streak-count">8 days</span>
+                                            <div class="streak-bar">
+                                                <div class="streak-fill" style="width: 60%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="streak-item">
+                                    <div class="streak-icon">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <div class="streak-content">
+                                        <span class="streak-name">AI Learning</span>
+                                        <div class="streak-progress">
+                                            <span class="streak-count">5 days</span>
+                                            <div class="streak-bar">
+                                                <div class="streak-fill" style="width: 40%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements Tab -->
+                <div class="tab-content" id="achievements-tab">
+                    <div class="achievements-showcase">
+                        <div class="showcase-header">
+                            <h3>Achievement Showcase</h3>
+                            <div class="achievement-stats">
+                                <span class="total-achievements">15 of 50 unlocked</span>
+                                <div class="completion-bar">
+                                    <div class="completion-fill" style="width: 30%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="achievements-categories">
+                            <button class="category-btn active" data-category="all">All</button>
+                            <button class="category-btn" data-category="focus">Focus</button>
+                            <button class="category-btn" data-category="goals">Goals</button>
+                            <button class="category-btn" data-category="learning">Learning</button>
+                            <button class="category-btn" data-category="social">Social</button>
+                        </div>
+
+                        <div class="achievements-showcase-grid">
+                            <!-- Unlocked Achievement -->
+                            <div class="achievement-showcase-card unlocked">
+                                <div class="achievement-glow"></div>
+                                <div class="achievement-icon-large">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <h4>Consistency Master</h4>
+                                <p>Complete focus sessions for 7 consecutive days</p>
+                                <div class="achievement-date">Unlocked March 15, 2024</div>
+                                <div class="achievement-rarity legendary">Legendary</div>
+                            </div>
+
+                            <!-- In Progress Achievement -->
+                            <div class="achievement-showcase-card in-progress">
+                                <div class="achievement-icon-large">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <h4>Time Master</h4>
+                                <p>Accumulate 100 hours of total focus time</p>
+                                <div class="achievement-progress-bar">
+                                    <div class="progress-fill" style="width: 75%"></div>
+                                    <span class="progress-text">75/100 hours</span>
+                                </div>
+                                <div class="achievement-rarity epic">Epic</div>
+                            </div>
+
+                            <!-- Locked Achievement -->
+                            <div class="achievement-showcase-card locked">
+                                <div class="achievement-icon-large">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h4>Knowledge Seeker</h4>
+                                <p>Ask 500 questions to the AI assistant</p>
+                                <div class="achievement-progress-bar">
+                                    <div class="progress-fill" style="width: 49%"></div>
+                                    <span class="progress-text">247/500 questions</span>
+                                </div>
+                                <div class="achievement-rarity rare">Rare</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics Tab -->
+                <div class="tab-content" id="statistics-tab">
+                    <div class="statistics-dashboard">
+                        <div class="stats-summary">
+                            <div class="summary-card">
+                                <h3>This Week</h3>
+                                <div class="summary-value">12h 45m</div>
+                                <div class="summary-change positive">+15% from last week</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>This Month</h3>
+                                <div class="summary-value">47h 20m</div>
+                                <div class="summary-change positive">+23% from last month</div>
+                            </div>
+                            <div class="summary-card">
+                                <h3>Average Session</h3>
+                                <div class="summary-value">32 min</div>
+                                <div class="summary-change neutral">Same as last month</div>
+                            </div>
+                        </div>
+
+                        <div class="charts-section">
+                            <div class="chart-container premium-card">
+                                <h4>Focus Time Trend</h4>
+                                <div class="chart-placeholder">
+                                    <div class="chart-bars">
+                                        <div class="chart-bar" style="height: 60%"></div>
+                                        <div class="chart-bar" style="height: 80%"></div>
+                                        <div class="chart-bar" style="height: 45%"></div>
+                                        <div class="chart-bar" style="height: 90%"></div>
+                                        <div class="chart-bar" style="height: 70%"></div>
+                                        <div class="chart-bar" style="height: 95%"></div>
+                                        <div class="chart-bar" style="height: 85%"></div>
+                                    </div>
+                                    <div class="chart-labels">
+                                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preferences Tab -->
+                <div class="tab-content" id="preferences-tab">
+                    <div class="preferences-sections">
+                        <div class="preference-section premium-card">
+                            <h3>
+                                <i class="fas fa-palette"></i>
+                                Appearance
+                            </h3>
+                            <div class="preference-group">
+                                <label class="preference-label">Theme</label>
+                                <div class="theme-options">
+                                    <div class="theme-option selected" data-theme="light">
+                                        <div class="theme-preview light"></div>
+                                        <span>Light</span>
+                                    </div>
+                                    <div class="theme-option" data-theme="dark">
+                                        <div class="theme-preview dark"></div>
+                                        <span>Dark</span>
+                                    </div>
+                                    <div class="theme-option" data-theme="auto">
+                                        <div class="theme-preview auto"></div>
+                                        <span>Auto</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="preference-section premium-card">
+                            <h3>
+                                <i class="fas fa-bell"></i>
+                                Notifications
+                            </h3>
+                            <div class="preference-toggle">
+                                <label>Focus session reminders</label>
+                                <input type="checkbox" class="toggle-switch" checked>
+                            </div>
+                            <div class="preference-toggle">
+                                <label>Goal completion notifications</label>
+                                <input type="checkbox" class="toggle-switch" checked>
+                            </div>
+                            <div class="preference-toggle">
+                                <label>Achievement unlocks</label>
+                                <input type="checkbox" class="toggle-switch" checked>
+                            </div>
+                        </div>
+
+                        <div class="preference-section premium-card">
+                            <h3>
+                                <i class="fas fa-cog"></i>
+                                Focus Settings
+                            </h3>
+                            <div class="preference-group">
+                                <label class="preference-label">Default session length</label>
+                                <select class="preference-select">
+                                    <option value="15">15 minutes</option>
+                                    <option value="25" selected>25 minutes</option>
+                                    <option value="45">45 minutes</option>
+                                    <option value="60">60 minutes</option>
+                                </select>
+                            </div>
+                            <div class="preference-group">
+                                <label class="preference-label">Auto-start breaks</label>
+                                <input type="checkbox" class="toggle-switch">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Tab -->
+                <div class="tab-content" id="account-tab">
+                    <div class="account-sections">
+                        <div class="account-section premium-card">
+                            <h3>
+                                <i class="fas fa-user"></i>
+                                Personal Information
+                            </h3>
+                            <form>

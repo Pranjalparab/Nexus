@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Daily Goals • FocusZone</title>
+
+  <!-- shared premium look -->
+  <link rel="stylesheet" href="../css/premium-styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <script defer src="../js/main.js"></script>
+</head>
+<body>
+<nav class="premium-navbar"><div class="nav-container">
+  <a class="logo-container" href="../index.html">
+     <div class="logo-icon"><i class="fas fa-bullseye"></i></div><h2>Daily Goals</h2>
+  </a>
+</div></nav>
+
+<section class="container" style="padding:6rem 0">
+  <h1 class="section-title">Today’s Focus Targets</h1>
+
+  <!-- overall progress -->
+  <div class="progress-text-premium" style="margin-top:2.5rem">
+     <span class="progress-label">Completion</span>
+     <span class="progress-value" id="dg-percent">0%</span>
+  </div>
+  <div class="progress-premium"><div class="progress-bar-premium" id="dg-bar" style="width:0%"></div></div>
+
+  <!-- add new goal -->
+  <form class="premium-form" id="goal-form" style="margin-top:2rem">
+      <div class="input-container">
+        <i class="fas fa-plus"></i>
+        <input name="goal" placeholder="Add new goal…" required autocomplete="off">
+        <div class="input-highlight"></div>
+      </div>
+      <button class="btn-premium btn-full" style="margin-top:1rem">
+        <i class="fas fa-check"></i><span>Add Goal</span><div class="btn-glow"></div>
+      </button>
+  </form>
+
+  <!-- dynamic list -->
+  <ul class="dashboard-features" id="goal-list" style="margin-top:2rem"></ul>
+</section>
+
+<script>
+// ultra-light JS just for demo behaviour
+document.getElementById('goal-form').addEventListener('submit', e=>{
+  e.preventDefault();
+  const txt = e.target.goal.value.trim();
+  if(!txt) return;
+  const li = document.createElement('li');
+  li.innerHTML=`<input type="checkbox"> ${txt}`;
+  li.querySelector('input').addEventListener('change', updateProg);
+  document.getElementById('goal-list').appendChild(li);
+  e.target.reset();
+  updateProg();
+});
+function updateProg(){
+  const items=[...document.querySelectorAll('#goal-list input')];
+  if(!items.length) return;
+  const done = items.filter(c=>c.checked).length;
+  const pct  = Math.round((done/items.length)*100);
+  document.getElementById('dg-percent').textContent = pct+'%';
+  document.getElementById('dg-bar').style.width = pct+'%';
+}
+</script>
+</body></html>

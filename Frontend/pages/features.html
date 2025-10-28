@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - FocusZone Premium</title>
+    <link rel="stylesheet" href="../css/premium-styles.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="premium-navbar">
+        <div class="nav-container">
+            <a class="logo-container" href="../index.html" style="text-decoration: none;">
+                <div class="logo-icon"><i class="fas fa-star"></i></div>
+                <div class="logo-text">
+                    <h2>Features</h2>
+                </div>
+            </a>
+            <button class="btn-glass" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Premium Features</h1>
+                <p>Discover our comprehensive suite of productivity tools designed for modern professionals</p>
+            </div>
+
+            <div class="features-grid stagger-container">
+                <!-- Focus Mode -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/focus-mode.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Focus Mode</h3>
+                    <p>Advanced Pomodoro technique with AI-driven insights, cross-device synchronization, and beautiful growth animations</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">AI-Powered</span>
+                        <span class="tag">25 min sessions</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- AI Doubt Solver -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/ai-chatbot.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>AI Doubt Solver</h3>
+                    <p>Instant answers powered by advanced AI. Get explanations, solve problems, and learn efficiently</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">GPT-4 Powered</span>
+                        <span class="tag">24/7 Available</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Rewards System -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/rewards.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Rewards</h3>
+                    <p>Earn XP, unlock achievements, and stay motivated with our advanced reward system</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">Gamification</span>
+                        <span class="tag">Achievements</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Daily Goals -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/daily-goals.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-target"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Daily Goals</h3>
+                    <p>AI-suggested daily goals with intelligent progress tracking and insights</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">AI Insights</span>
+                        <span class="tag">Progress Tracking</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Voice Reminders -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/todo-voice.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Voice Reminders</h3>
+                    <p>Smart voice-enabled reminders for tasks, birthdays, and important events</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">Voice AI</span>
+                        <span class="tag">Smart Alerts</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Analytics -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/analytics.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Analytics</h3>
+                    <p>Comprehensive insights into your productivity patterns and performance</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">Deep Analytics</span>
+                        <span class="tag">Insights</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Profile -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/profile.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Profile</h3>
+                    <p>Customize your experience with themes, preferences, and detailed statistics</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">Customization</span>
+                        <span class="tag">Statistics</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Flashcards -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/flashcards.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Flashcards</h3>
+                    <p>Study efficiently with animated flashcards and spaced repetition algorithms</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">Smart Learning</span>
+                        <span class="tag">Animations</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Exam Calendar -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/exam-calendar.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Exam Calendar</h3>
+                    <p>Organize exams and deadlines with color-coded scheduling and smart notifications</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">Smart Schedule</span>
+                        <span class="tag">Notifications</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+
+                <!-- Mood Journal -->
+                <div class="feature-card-premium stagger-item hover-lift" onclick="navigateTo('../pages/mood-journal.html')">
+                    <div class="feature-icon-container">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="icon-glow animate-pulse"></div>
+                    </div>
+                    <h3>Mood & Journal</h3>
+                    <p>Track emotions and maintain personal wellness with AI-powered mood analysis</p>
+                    <div class="feature-tags">
+                        <span class="tag premium">Wellness AI</span>
+                        <span class="tag">Mental Health</span>
+                    </div>
+                    <div class="card-hover-effect"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+    <script>
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+
+        function goBack() {
+            window.location.href = '../index.html';
+        }
+
+        // Initialize theme
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

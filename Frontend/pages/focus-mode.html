@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Mode</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .focus-circle {
+            background: conic-gradient(from 0deg, #3b82f6 0deg, #e5e7eb 0deg);
+            transition: background 0.1s ease-in-out;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .5;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .button-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .button-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Animation Styles */
+        .tree-animation {
+            transition: all 0.3s ease;
+        }
+        
+        .car-animation {
+            transition: all 0.3s ease;
+        }
+        
+        .rocket-animation {
+            transition: all 0.3s ease;
+        }
+        
+        .building-animation {
+            transition: all 0.3s ease;
+        }
+        
+        .plant-animation {
+            transition: all 0.3s ease;
+        }
+
+        .grow-animation {
+            animation: grow 0.5s ease-out;
+        }
+
+        @keyframes grow {
+            from {
+                transform: scale(0.8);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .completion-celebration {
+            animation: celebrate 1s ease-out;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Hide login modal by default - will be shown via JS when needed */
+        .login-modal {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    
+    <!-- Simple Login Modal (shown only when needed) -->
+    <div id="loginModal" class="login-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-3xl shadow-xl p-8 max-w-sm w-full mx-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Welcome Back</h2>
+            
+            <div class="mb-4">
+                <input type="email" id="email" placeholder="Email" value="demo@focuszone.com" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            <div class="mb-6">
+                <input type="password" id="password" placeholder="Password" value="demo123" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            <button onclick="login()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg button-hover">
+                Continue
+            </button>
+            
+            <div id="errorMessage" class="hidden mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm"></div>
+        </div>
+    </div>
+
+    <div class="max-w-md w-full">
+        <!-- Focus Timer Card -->
+        <div id="timerCard" class="bg-white rounded-3xl shadow-xl p-8 text-center">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Focus Mode</h1>
+                <p class="text-gray-600">Stay focused and watch your progress grow</p>
+            </div>
+            
+            <!-- Animation Selection -->
+            <div id="animationSelection" class="mb-6">
+                <p class="text-sm text-gray-600 mb-4">Choose your focus companion:</p>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="selectAnimation('tree')" class="animation-btn p-3 bg-gray-100 hover:bg-green-100 rounded-lg transition-colors" data-type="tree">
+                        <div class="text-2xl mb-1">🌱</div>
+                        <div class="text-xs">Tree</div>
+                    </button>
+                    <button onclick="selectAnimation('car')" class="animation-btn p-3 bg-gray-100 hover:bg-blue-100 rounded-lg transition-colors" data-type="car">
+                        <div class="text-2xl mb-1">🚗</div>
+                        <div class="text-xs">Car</div>
+                    </button>
+                    <button onclick="selectAnimation('rocket')" class="animation-btn p-3 bg-gray-100 hover:bg-purple-100 rounded-lg transition-colors" data-type="rocket">
+                        <div class="text-2xl mb-1">🚀</div>
+                        <div class="text-xs">Rocket</div>
+                    </button>
+                    <button onclick="selectAnimation('building')" class="animation-btn p-3 bg-gray-100 hover:bg-yellow-100 rounded-lg transition-colors" data-type="building">
+                        <div class="text-2xl mb-1">🏗️</div>
+                        <div class="text-xs">Building</div>
+                    </button>
+                    <button onclick="selectAnimation('plant')" class="animation-btn p-3 bg-gray-100 hover:bg-pink-100 rounded-lg transition-colors" data-type="plant">
+                        <div class="text-2xl mb-1">🌸</div>
+                        <div class="text-xs">Flower</div>
+                    </button>
+                    <button onclick="selectAnimation('castle')" class="animation-btn p-3 bg-gray-100 hover:bg-indigo-100 rounded-lg transition-colors" data-type="castle">
+                        <div class="text-2xl mb-1">🏰</div>
+                        <div class="text-xs">Castle</div>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Timer Circle with Animation -->
+            <div class="relative mb-8">
+                <div id="focusCircle" class="focus-circle w-48 h-48 rounded-full mx-auto flex items-center justify-center">
+                    <div class="bg-white w-40 h-40 rounded-full flex items-center justify-center relative">
+                        <!-- Progress Animation Display -->
+                        <div id="progressAnimation" class="absolute inset-0 flex items-center justify-center">
+                            <div id="animationDisplay" class="text-6xl transition-all duration-500">🌱</div>
+                        </div>
+                        
+                        <!-- Timer Display -->
+                        <div class="text-center relative z-10 bg-white bg-opacity-90 rounded-full px-4 py-2">
+                            <div id="timeDisplay" class="text-2xl font-bold text-gray-800 mb-1">25:00</div>
+                            <div id="statusText" class="text-xs text-gray-500">Ready to focus</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Time Selection -->
+            <div id="timeSelection" class="mb-8">
+                <p class="text-sm text-gray-600 mb-4">Choose your focus duration:</p>
+                <div class="flex justify-center space-x-3">
+                    <button onclick="setFocusTime(15)" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">15 min</button>
+                    <button onclick="setFocusTime(25)" class="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium">25 min</button>
+                    <button onclick="setFocusTime(45)" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">45 min</button>
+                    <button onclick="setFocusTime(60)" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">60 min</button>
+                </div>
+            </div>
+            
+            <!-- Control Buttons -->
+            <div id="controlButtons" class="space-y-4">
+                <button id="startBtn" onclick="startFocus()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-xl button-hover">
+                    Start Focus Session
+                </button>
+            </div>
+            
+            <!-- Session Controls (Hidden initially) -->
+            <div id="sessionControls" class="hidden space-y-4">
+                <div class="flex space-x-3">
+                    <button id="pauseBtn" onclick="pauseFocus()" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-4 rounded-xl button-hover">
+                        Pause
+                    </button>
+                    <button id="stopBtn" onclick="stopFocus()" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-xl button-hover">
+                        Stop
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Completion Card (Hidden initially) -->
+        <div id="completionCard" class="hidden bg-white rounded-3xl shadow-xl p-8 text-center fade-in">
+            <div class="mb-6">
+                <div id="completedAnimation" class="text-8xl mb-4 completion-celebration">🌳</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Session Complete!</h2>
+                <p class="text-gray-600">Your <span id="completedType">tree</span> has fully grown!</p>
+            </div>
+            
+            <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                <div class="text-sm text-gray-600 mb-1">Focus Duration</div>
+                <div id="completedDuration" class="text-2xl font-bold text-gray-800">25 minutes</div>
+            </div>
+            
+            <div class="space-y-3">
+                <button id="getRewardsBtn" onclick="goToRewards()" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-4 px-6 rounded-xl button-hover">
+                    Get Rewards 🎁
+                </button>
+                <button onclick="startNewSession()" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl button-hover">
+                    Start New Session
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+        const WS_URL = window.location.hostname === 'localhost' ? 'ws://localhost:3000' : `wss://${window.location.host}`;
+        
+        // Global variables - keeping original structure
+        let focusTime = 25; // Default 25 minutes
+        let timeRemaining = focusTime * 60; // Convert to seconds
+        let totalSessionTime = focusTime * 60; // Store original session time
+        let timerInterval = null;
+        let isRunning = false;
+        let isPaused = false;
+        let sessionStartTime = null;
+        let totalFocusTime = 0;
+        let selectedAnimation = 'tree';
+
+        // Server connection variables
+        let currentUser = null;
+        let authToken = localStorage.getItem('focuszone_token');
+        let ws = null;
+        let currentSessionId = null;
+        let isConnected = false;
+
+        const animationStages = {
+            tree: ['🌱', '🌿', '🌳', '🌳'],
+            car: ['🛞', '🚗', '🏎️', '🏁'],
+            rocket: ['🔧', '🚀', '🛸', '🌟'],
+            building: ['🧱', '🏗️', '🏢', '🏙️'],
+            plant: ['🌱', '🌸', '🌺', '🌻'],
+            castle: ['🧱', '🏗️', '🏰', '👑']
+        };
+
+        const completedEmojis = {
+            tree: '🌳',
+            car: '🏎️',
+            rocket: '🛸',
+            building: '🏙️',
+            plant: '🌻',
+            castle: '🏰'
+        };
+
+        // Server connection functions (minimal UI impact)
+        function initializeServer() {
+            if (!authToken) {
+                document.getElementById('loginModal').style.display = 'flex';
+                return;
+            }
+            connectWebSocket();
+        }
+
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket(WS_URL);
+                
+                ws.onopen = () => {
+                    isConnected = true;
+                    if (currentUser) {
+                        ws.send(JSON.stringify({
+                            type: 'REGISTER_WEB_CLIENT',
+                            userId: currentUser.id
+                        }));
+                    }
+                };
+
+                ws.onmessage = (event) => {
+                    const message = JSON.parse(event.data);
+                    handleServerMessage(message);
+                };
+
+                ws.onclose = () => {
+                    isConnected = false;
+                    setTimeout(() => {
+                        if (authToken) connectWebSocket();
+                    }, 3000);
+                };
+            } catch (error) {
+                // Fallback to offline mode
+                isConnected = false;
+            }
+        }
+
+        function handleServerMessage(message) {
+            // Handle server messages without affecting UI flow
+            switch (message.type) {
+                case 'WEB_CLIENT_REGISTERED':
+                    console.log('Connected to server');
+                    break;
+                case 'SESSION_COMPLETED':
+                    if (message.analytics && currentUser) {
+                        currentUser.analytics = message.analytics;
+                    }
+                    break;
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    authToken = data.token;
+                    currentUser = data.user;
+                    localStorage.setItem('focuszone_token', authToken);
+                    document.getElementById('loginModal').style.display = 'none';
+                    connectWebSocket();
+                } else {
+                    showError(data.error || 'Login failed');
+                }
+            } catch (error) {
+                // Fallback to demo mode
+                document.getElementById('loginModal').style.display = 'none';
+                console.log('Running in demo mode');
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.remove('hidden');
+            setTimeout(() => errorDiv.classList.add('hidden'), 3000);
+        }
+
+        // Original timer functions - keeping exact same UI behavior
+        function selectAnimation(type) {
+            selectedAnimation = type;
+            
+            // Update button styles
+            document.querySelectorAll('.animation-btn').forEach(btn => {
+                btn.className = 'animation-btn p-3 bg-gray-100 hover:bg-gray-100 rounded-lg transition-colors';
+            });
+            
+            // Highlight selected
+            const selectedBtn = document.querySelector(`[data-type="${type}"]`);
+            selectedBtn.className = 'animation-btn p-3 bg-blue-500 text-white rounded-lg transition-colors';
+            
+            // Update display
+            document.getElementById('animationDisplay').textContent = animationStages[type][0];
+        }
+
+        function updateAnimationProgress() {
+            // Calculate progress based on time elapsed
+            const progress = (totalSessionTime - timeRemaining) / totalSessionTime;
+            
+            const stages = animationStages[selectedAnimation];
+            
+            // Calculate which stage we should be in (0 to stages.length - 1)
+            let stageIndex = Math.floor(progress * stages.length);
+            
+            // Ensure we don't exceed array bounds
+            if (stageIndex >= stages.length) stageIndex = stages.length - 1;
+            if (stageIndex < 0) stageIndex = 0;
+            
+            const animationDisplay = document.getElementById('animationDisplay');
+            const newEmoji = stages[stageIndex];
+            
+            // Only update if the emoji has changed
+            if (animationDisplay.textContent !== newEmoji) {
+                animationDisplay.textContent = newEmoji;
+                animationDisplay.classList.add('grow-animation');
+                setTimeout(() => {
+                    animationDisplay.classList.remove('grow-animation');
+                }, 500);
+            }
+        }
+
+        function setFocusTime(minutes) {
+            if (isRunning) return;
+            
+            focusTime = minutes;
+            timeRemaining = minutes * 60;
+            totalSessionTime = minutes * 60; // Update total session time
+            updateDisplay();
+            
+            // Update button styles
+            document.querySelectorAll('#timeSelection button').forEach(btn => {
+                btn.className = 'px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors';
+            });
+            event.target.className = 'px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium';
+        }
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            document.getElementById('timeDisplay').textContent = timeString;
+            
+            // Update progress circle
+            const elapsedTime = totalSessionTime - timeRemaining;
+            const progress = (elapsedTime / totalSessionTime) * 360;
+            const circle = document.getElementById('focusCircle');
+            circle.style.background = `conic-gradient(from 0deg, #3b82f6 ${progress}deg, #e5e7eb ${progress}deg)`;
+            
+            // Update animation progress only when timer is running
+            if (isRunning) {
+                updateAnimationProgress();
+            }
+        }
+
+        async function startFocus() {
+            if (isPaused) {
+                // Resume from pause
+                isPaused = false;
+                document.getElementById('statusText').textContent = 'Focusing...';
+                document.getElementById('pauseBtn').textContent = 'Pause';
+            } else {
+                // Start new session
+                isRunning = true;
+                totalSessionTime = focusTime * 60; // Set total session time
+                sessionStartTime = Date.now();
+                document.getElementById('statusText').textContent = 'Focusing...';
+                document.getElementById('timeSelection').style.display = 'none';
+                document.getElementById('animationSelection').style.display = 'none';
+                document.getElementById('controlButtons').style.display = 'none';
+                document.getElementById('sessionControls').style.display = 'block';
+
+                // Start session on server (if connected)
+                if (isConnected && currentUser) {
+                    try {
+                        const response = await fetch(`${API_BASE}/api/sessions/start`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${authToken}`
+                            },
+                            body: JSON.stringify({
+                                duration: focusTime,
+                                sessionType: 'focus',
+                                blockedApps: []
+                            })
+                        });
+
+                        const data = await response.json();
+                        if (data.success) {
+                            currentSessionId = data.sessionId;
+                        }
+                    } catch (error) {
+                        // Continue in offline mode
+                    }
+                }
+            }
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateDisplay();
+                
+                if (timeRemaining <= 0) {
+                    completeFocus();
+                }
+            }, 1000);
+        }
+
+        function pauseFocus() {
+            if (isPaused) {
+                startFocus();
+                return;
+            }
+            
+            isPaused = true;
+            clearInterval(timerInterval);
+            document.getElementById('statusText').textContent = 'Paused';
+            document.getElementById('pauseBtn').textContent = 'Resume';
+        }
+
+        function stopFocus() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isPaused = false;
+            
+            // Calculate actual focus time
+            if (sessionStartTime) {
+                const sessionDuration = Math.floor((Date.now() - sessionStartTime) / 1000);
+                const focusedTime = Math.min(sessionDuration, focusTime * 60 - timeRemaining);
+                totalFocusTime = Math.floor(focusedTime / 60);
+            }
+            
+            // Reset to initial state
+            timeRemaining = focusTime * 60;
+            totalSessionTime = focusTime * 60;
+            updateDisplay();
+            
+            document.getElementById('statusText').textContent = 'Ready to focus';
+            document.getElementById('timeSelection').style.display = 'block';
+            document.getElementById('animationSelection').style.display = 'block';
+            document.getElementById('controlButtons').style.display = 'block';
+            document.getElementById('sessionControls').style.display = 'none';
+            document.getElementById('pauseBtn').textContent = 'Pause';
+            
+            // Reset animation to first stage
+            document.getElementById('animationDisplay').textContent = animationStages[selectedAnimation][0];
+            currentSessionId = null;
+        }
+
+        async function completeFocus() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            totalFocusTime = focusTime;
+            
+            // Complete session on server (if connected)
+            if (isConnected && currentSessionId && currentUser) {
+                try {
+                    await fetch(`${API_BASE}/api/sessions/${currentSessionId}/complete`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`
+                        }
+                    });
+                } catch (error) {
+                    // Continue with local completion
+                }
+            }
+            
+            // Store session data for rewards
+            const sessionData = {
+                duration: focusTime,
+                completedAt: new Date().toISOString(),
+                points: calculatePoints(focusTime),
+                animationType: selectedAnimation,
+                completedEmoji: completedEmojis[selectedAnimation]
+            };
+            localStorage.setItem('lastFocusSession', JSON.stringify(sessionData));
+            
+            // Show completion card
+            document.getElementById('timerCard').style.display = 'none';
+            document.getElementById('completionCard').style.display = 'block';
+            document.getElementById('completedDuration').textContent = `${focusTime} minutes`;
+            document.getElementById('completedAnimation').textContent = completedEmojis[selectedAnimation];
+            document.getElementById('completedType').textContent = selectedAnimation;
+            
+            currentSessionId = null;
+        }
+
+        function calculatePoints(minutes) {
+            // Base points + bonus for longer sessions
+            let points = minutes * 10;
+            if (minutes >= 60) points += 200; // Bonus for hour-long sessions
+            else if (minutes >= 45) points += 100; // Bonus for long sessions
+            else if (minutes >= 25) points += 50; // Bonus for standard sessions
+            return points;
+        }
+
+        function goToRewards() {
+            // Ensure session data is saved before redirecting
+            const sessionData = {
+                duration: focusTime,
+                completedAt: new Date().toISOString(),
+                points: calculatePoints(focusTime),
+                animationType: selectedAnimation,
+                completedEmoji: completedEmojis[selectedAnimation]
+            };
+            localStorage.setItem('lastFocusSession', JSON.stringify(sessionData));
+            window.location.href = 'rewards.html';
+        }
+
+        function startNewSession() {
+            // Reset everything
+            timeRemaining = focusTime * 60;
+            totalSessionTime = focusTime * 60;
+            updateDisplay();
+            
+            document.getElementById('completionCard').style.display = 'none';
+            document.getElementById('timerCard').style.display = 'block';
+            document.getElementById('statusText').textContent = 'Ready to focus';
+            document.getElementById('timeSelection').style.display = 'block';
+            document.getElementById('animationSelection').style.display = 'block';
+            document.getElementById('controlButtons').style.display = 'block';
+            document.getElementById('sessionControls').style.display = 'none';
+            
+            // Reset animation to first stage
+            document.getElementById('animationDisplay').textContent = animationStages[selectedAnimation][0];
+        }
+
+        // Initialize display and server connection
+        updateDisplay();
+        selectAnimation('tree'); // Set default selection
+        
+        // Initialize server connection (will show login if needed)
+        setTimeout(initializeServer, 100);
+    </script>
+</body>
+</html>

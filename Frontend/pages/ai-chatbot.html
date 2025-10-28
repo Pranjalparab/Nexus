@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .robot-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .features {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .weather-section {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .weather-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .weather-input input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .weather-btn {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .weather-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .weather-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .weather-display {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .weather-display.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-height: 400px;
+        }
+
+        .chat-header {
+            background: #1e293b;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h3 {
+            font-weight: 600;
+        }
+
+        .model-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .model-selector label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .model-selector select {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e293b;
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.assistant .message-content {
+            background: white;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .message.assistant .message-avatar {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input input:focus {
+            border-color: #6366f1;
+        }
+
+        .send-btn {
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error {
+            color: #ef4444;
+            background: #fef2f2;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #fecaca;
+            text-align: center;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            max-width: 75%;
+        }
+
+        .typing-indicator.show {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #94a3b8;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: #10b981;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: none;
+            animation: slideInRight 0.3s ease;
+            z-index: 1000;
+        }
+
+        .status-indicator.error {
+            background: #ef4444;
+        }
+
+        .status-indicator.show {
+            display: block;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                height: 95vh;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .features {
+                gap: 8px;
+            }
+            
+            .feature {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+            
+            .main-content {
+                padding: 15px;
+                gap: 15px;
+            }
+            
+            .weather-input {
+                flex-direction: column;
+            }
+
+            .chat-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .model-selector {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <div class="robot-icon">🤖</div>
+                AI Assistant Pro
+            </h1>
+            <p>Powered by advanced AI models for instant assistance</p>
+            <div class="features">
+                <div class="feature">✓ Smart AI Chat</div>
+                <div class="feature">✓ Real-time Weather</div>
+                <div class="feature">✓ Multiple Models</div>
+                <div class="feature">✓ Professional Grade</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="weather-section">
+                <h3>🌤️ Weather Assistant</h3>
+                <div class="weather-input">
+                    <input type="text" id="cityInput" placeholder="Enter city name...">
+                    <button class="weather-btn" id="weatherBtn" onclick="getWeather()">Get Weather</button>
+                </div>
+                <div id="weatherDisplay" class="weather-display"></div>
+            </div>
+
+            <div class="chat-section">
+                <div class="chat-header">
+                    <h3>💬 AI Chat Assistant</h3>
+                    <div class="model-selector">
+                        <label for="model">Model:</label>
+                        <select id="model">
+                            <option value="openai/gpt-4o" selected>GPT-4o</option>
+                            <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message assistant">
+                        <div class="message-avatar">AI</div>
+                        <div class="message-content">
+                            Hello! I'm your AI Assistant Pro with multiple model options. I can help you with questions, provide information, solve problems, explain concepts, and much more. Select your preferred AI model above and ask me anything!
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="status-indicator" id="statusIndicator"></div>
+
+    <script>
+        // CORRECTED API CONFIGURATION
+        const WEATHER_API_KEY = 'c80003a09cf047bc848004a464f6a56f';
+        const AI_API_KEY = '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';
+        
+        let conversationHistory = [];
+        
+        // Status indicator functions
+        function showStatus(message, isError = false) {
+            const indicator = document.getElementById('statusIndicator');
+            indicator.textContent = message;
+            indicator.className = `status-indicator show ${isError ? 'error' : ''}`;
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 3000);
+        }
+        
+        // CORRECTED Weather functionality
+        async function getWeather() {
+            const cityInput = document.getElementById('cityInput');
+            const weatherDisplay = document.getElementById('weatherDisplay');
+            const weatherBtn = document.getElementById('weatherBtn');
+            const city = cityInput.value.trim();
+            
+            if (!city) {
+                showError(weatherDisplay, 'Please enter a city name');
+                return;
+            }
+            
+            weatherBtn.disabled = true;
+            weatherBtn.textContent = 'Loading...';
+            
+            try {
+                weatherDisplay.innerHTML = '<div style="text-align: center; opacity: 0.8;">🌍 Getting weather data...</div>';
+                weatherDisplay.classList.add('show');
+                
+                // CORRECTED API URL EXACTLY AS PROVIDED
+                const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${WEATHER_API_KEY}`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (response.ok && data.main) {
+                    displayWeather(data);
+                    showStatus('✅ Weather data loaded successfully!');
+                } else {
+                    const errorMsg = data.message || 'City not found. Please check the spelling and try again.';
+                    showError(weatherDisplay, errorMsg);
+                }
+            } catch (error) {
+                console.error('Weather error:', error);
+                showError(weatherDisplay, 'Failed to fetch weather data. Please try again.');
+                showStatus('❌ Weather fetch failed', true);
+            } finally {
+                weatherBtn.disabled = false;
+                weatherBtn.textContent = 'Get Weather';
+            }
+        }
+        
+        function displayWeather(weather) {
+            const weatherDisplay = document.getElementById('weatherDisplay');
+            const iconCode = weather.weather[0].icon;
+            const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+            
+            weatherDisplay.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                    <img src="${iconUrl}" alt="Weather icon" style="width: 60px; height: 60px;" onerror="this.style.display='none'">
+                    <div>
+                        <h4 style="font-size: 1.2rem; margin-bottom: 5px;">${weather.name}, ${weather.sys.country}</h4>
+                        <div style="font-size: 2.5rem; font-weight: bold;">${Math.round(weather.main.temp)}°C</div>
+                    </div>
+                </div>
+                <p style="text-transform: capitalize; margin-bottom: 15px; font-size: 1.1rem;">${weather.weather[0].description}</p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 15px; text-align: center;">
+                    <div>
+                        <div style="opacity: 0.8; font-size: 0.9rem;">Feels like</div>
+                        <div style="font-weight: bold; font-size: 1.1rem;">${Math.round(weather.main.feels_like)}°C</div>
+                    </div>
+                    <div>
+                        <div style="opacity: 0.8; font-size: 0.9rem;">Humidity</div>
+                        <div style="font-weight: bold; font-size: 1.1rem;">${weather.main.humidity}%</div>
+                    </div>
+                    <div>
+                        <div style="opacity: 0.8; font-size: 0.9rem;">Wind</div>
+                        <div style="font-weight: bold; font-size: 1.1rem;">${Math.round(weather.wind?.speed || 0)} m/s</div>
+                    </div>
+                    <div>
+                        <div style="opacity: 0.8; font-size: 0.9rem;">Pressure</div>
+                        <div style="font-weight: bold; font-size: 1.1rem;">${weather.main.pressure} hPa</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showError(element, message) {
+            element.innerHTML = `<div class="error">${message}</div>`;
+            element.classList.add('show');
+        }
+        
+        // COMPLETELY REBUILT Chat functionality with CORRECT API
+        async function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const modelSelect = document.getElementById('model');
+            
+            const message = messageInput.value.trim();
+            if (!message) return;
+            
+            // Get selected model
+            const selectedModel = modelSelect.value;
+            
+            // Add user message
+            addMessage(message, 'user');
+            messageInput.value = '';
+            
+            // Show loading states
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+            
+            // Add typing indicator
+            showTypingIndicator();
+            
+            try {
+                // CORRECTED API REQUEST WITH PROPER HEADERS AND CONFIGURATION
+                const requestBody = {
+                    model: selectedModel,
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are a helpful, friendly, and knowledgeable AI assistant. Provide clear, concise, and accurate responses. Be professional yet conversational. Always aim to be helpful and informative.'
+                        },
+                        {
+                            role: 'user',
+                            content: message
+                        }
+                    ],
+                    max_tokens: 1000,
+                    temperature: 0.7,
+                    stream: false
+                };
+                
+                console.log('Sending request to:', selectedModel);
+                
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${AI_API_KEY}`,
+                        'Content-Type': 'application/json',
+                        'HTTP-Referer': window.location.origin,
+                        'X-Title': 'AI Assistant Pro'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                hideTypingIndicator();
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('API Response:', data);
+                    
+                    if (data.choices && data.choices.length > 0 && data.choices[0].message) {
+                        const aiResponse = data.choices[0].message.content.trim();
+                        addMessage(aiResponse, 'assistant');
+                        showStatus('✅ Response received from ' + selectedModel.split('/')[1] + '!');
+                        
+                        // Add to conversation history for context
+                        conversationHistory.push(
+                            { role: 'user', content: message },
+                            { role: 'assistant', content: aiResponse }
+                        );
+                        
+                        // Keep history manageable (last 10 exchanges)
+                        if (conversationHistory.length > 20) {
+                            conversationHistory = conversationHistory.slice(-20);
+                        }
+                        
+                    } else {
+                        console.error('Invalid response structure:', data);
+                        addMessage('I received an unexpected response format. Please try asking again.', 'assistant');
+                        showStatus('⚠️ Unexpected response format', true);
+                    }
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('AI API Error:', response.status, response.statusText, errorData);
+                    
+                    let errorMessage = 'I apologize, but I\'m having trouble processing your request right now.';
+                    
+                    if (response.status === 401) {
+                        errorMessage = 'There\'s an authentication issue with the AI service. Please try again.';
+                    } else if (response.status === 429) {
+                        errorMessage = 'The AI service is rate-limited. Please wait a moment and try again.';
+                    } else if (response.status >= 500) {
+                        errorMessage = 'The AI service is temporarily unavailable. Please try again in a moment.';
+                    } else if (errorData.error) {
+                        errorMessage = `API Error: ${errorData.error.message || errorData.error}`;
+                    }
+                    
+                    addMessage(errorMessage, 'assistant');
+                    showStatus(`❌ API Error: ${response.status}`, true);
+                }
+            } catch (error) {
+                hideTypingIndicator();
+                console.error('Network error:', error);
+                
+                addMessage('I\'m having trouble connecting to the AI service. Please check your internet connection and try again.', 'assistant');
+                showStatus('❌ Connection failed', true);
+            } finally {
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+            }
+        }
+        
+        function addMessage(content, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const avatar = sender === 'user' ? 'You' : 'AI';
+            const formattedContent = formatMessage(content);
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">${formattedContent}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function formatMessage(content) {
+            return content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>')
+                .replace(/```([\s\S]*?)```/g, '<pre style="background: #f1f5f9; padding: 10px; border-radius: 8px; overflow-x: auto; font-family: monospace; margin: 10px 0;"><code>$1</code></pre>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>')
+                .replace(/^(.*)$/, '<p>$1</p>')
+                .replace(/<p><\/p>/g, '');
+        }
+        
+        function showTypingIndicator() {
+            const chatMessages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant';
+            typingDiv.id = 'typingIndicator';
+            
+            typingDiv.innerHTML = `
+                <div class="message-avatar">AI</div>
+                <div class="typing-indicator show">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                    <span style="margin-left: 10px; color: #64748b; font-size: 0.9rem;">thinking...</span>
+                </div>
+            `;
+            
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 AI Assistant Pro initialized successfully');
+            console.log('Weather API Key configured:', WEATHER_API_KEY ? '✅' : '❌');
+            console.log('AI API Key configured:', AI_API_KEY ? '✅' : '❌');
+            
+            // Focus on message input
+            document.getElementById('messageInput').focus();
+            
+            // Add weather input enter key handler
+            document.getElementById('cityInput').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    getWeather();
+                }
+            });
+            
+            // Model selector change handler
+            document.getElementById('model').addEventListener('change', function() {
+                const selectedModel = this.value;
+                showStatus(`🤖 Switched to ${selectedModel.split('/')[1]}`);
+            });
+            
+            showStatus('🟢 System online and ready!');
+        });
+        
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            showStatus('⚠️ System error detected', true);
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Promise rejection:', e.reason);
+            showStatus('⚠️ Connection issue detected', true);
+        });
+
+        // Test function to verify API connectivity
+        async function testAPIConnection() {
+            console.log('Testing API connection...');
+            try {
+                const response = await fetch('https://openrouter.ai/api/v1/models', {
+                    headers: {
+                        'Authorization': `Bearer ${AI_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    console.log('✅ API connection successful');
+                    return true;
+                } else {
+                    console.error('❌ API connection failed:', response.status);
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ API connection error:', error);
+                return false;
+            }
+        }
+        
+        // Run API test on load
+        setTimeout(testAPIConnection, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .voice-controls {
+            margin-bottom: 30px;
+        }
+
+        .mic-button {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .mic-button.listening {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .mic-button.processing {
+            background: linear-gradient(45deg, #ffa726, #ff9800);
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            min-height: 30px;
+        }
+
+        .transcript {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            color: white;
+            font-size: 1rem;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .response {
+            background: rgba(76, 205, 196, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 1rem;
+            line-height: 1.5;
+            text-align: left;
+            display: none;
+        }
+
+        .language-selector {
+            margin: 20px 0;
+        }
+
+        .language-selector select {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 1rem;
+        }
+
+        .language-selector option {
+            background: #667eea;
+            color: white;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature h3 {
+            margin-bottom: 5px;
+            color: #4ecdc4;
+        }
+
+        .commands {
+            text-align: left;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .commands h3 {
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+
+        .commands ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .commands li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .error {
+            background: rgba(255, 107, 107, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            color: white;
+            display: none;
+        }
+
+        .conversation-history {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .conversation-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .user-message {
+            background: rgba(255, 255, 255, 0.1);
+            margin-left: 20px;
+        }
+
+        .ai-message {
+            background: rgba(76, 205, 196, 0.1);
+            margin-right: 20px;
+        }
+
+        .message-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .weather-display {
+            background: rgba(76, 205, 196, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            color: white;
+            display: none;
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .weather-main {
+            text-align: left;
+        }
+
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .weather-desc {
+            font-size: 1.1rem;
+            text-transform: capitalize;
+            margin-bottom: 10px;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .permission-request {
+            background: rgba(255, 193, 7, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            color: white;
+            display: none;
+        }
+
+        .permission-button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .permission-button:hover {
+            background: #44a08d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Voice Assistant</h1>
+            <p>Powered by advanced AI with weather integration - speak naturally and get intelligent responses</p>
+        </div>
+
+        <div class="permission-request" id="permissionRequest">
+            <p>🎤 This app needs microphone access to work properly.</p>
+            <button class="permission-button" id="requestPermission">Enable Microphone</button>
+        </div>
+
+        <div class="voice-controls">
+            <button class="mic-button" id="micButton">🎤</button>
+            <div class="status" id="status">Click the microphone to start</div>
+        </div>
+
+        <div class="language-selector">
+            <label for="language" style="color: white; margin-right: 10px;">Language:</label>
+            <select id="language">
+                <option value="en-US">English (US)</option>
+                <option value="en-GB">English (UK)</option>
+                <option value="es-ES">Spanish</option>
+                <option value="fr-FR">French</option>
+                <option value="de-DE">German</option>
+                <option value="it-IT">Italian</option>
+                <option value="pt-BR">Portuguese (Brazil)</option>
+                <option value="ja-JP">Japanese</option>
+                <option value="ko-KR">Korean</option>
+                <option value="zh-CN">Chinese (Mandarin)</option>
+            </select>
+        </div>
+
+        <div class="transcript" id="transcript">
+            Your speech will appear here...
+        </div>
+
+        <div class="weather-display" id="weatherDisplay">
+            <div class="weather-info" id="weatherInfo">
+                <!-- Weather information will be populated here -->
+            </div>
+        </div>
+
+        <div class="response" id="response">
+            AI response will appear here...
+        </div>
+
+        <div class="error" id="error">
+            Error messages will appear here...
+        </div>
+
+        <div class="conversation-history" id="conversationHistory">
+            <!-- Conversation history will be populated here -->
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>🧠 AI-Powered</h3>
+                <p>Advanced AI understanding and responses</p>
+            </div>
+            <div class="feature">
+                <h3>🌤️ Weather Info</h3>
+                <p>Real-time weather updates for any city</p>
+            </div>
+            <div class="feature">
+                <h3>💬 Natural Conversation</h3>
+                <p>Speak naturally about anything</p>
+            </div>
+            <div class="feature">
+                <h3>🌍 Multi-language</h3>
+                <p>Support for multiple languages</p>
+            </div>
+        </div>
+
+        <div class="commands">
+            <h3>Try asking about:</h3>
+            <ul>
+                <li>"What's the weather like in New York?"</li>
+                <li>"Tell me the weather in London"</li>
+                <li>"How's the weather today in Tokyo?"</li>
+                <li>"Help me plan my day"</li>
+                <li>"Explain quantum physics simply"</li>
+                <li>"Write a short poem about nature"</li>
+                <li>"What are some healthy recipes?"</li>
+                <li>"Help me solve a math problem"</li>
+                <li>"Tell me a joke"</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        class AIVoiceAssistant {
+            constructor() {
+                this.recognition = null;
+                this.isListening = false;
+                this.isProcessing = false;
+                this.conversationHistory = [];
+                this.aiApiKey = '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';
+                this.weatherApiKey = 'c80003a09cf047bc848004a464f6a56f';
+                this.aiApiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+                this.weatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+                
+                this.micButton = document.getElementById('micButton');
+                this.status = document.getElementById('status');
+                this.transcript = document.getElementById('transcript');
+                this.response = document.getElementById('response');
+                this.error = document.getElementById('error');
+                this.languageSelect = document.getElementById('language');
+                this.conversationHistoryEl = document.getElementById('conversationHistory');
+                this.weatherDisplay = document.getElementById('weatherDisplay');
+                this.weatherInfo = document.getElementById('weatherInfo');
+                this.permissionRequest = document.getElementById('permissionRequest');
+                this.requestPermissionBtn = document.getElementById('requestPermission');
+                
+                this.checkMicrophonePermission();
+                this.initSpeechRecognition();
+                this.bindEvents();
+            }
+            
+            async checkMicrophonePermission() {
+                try {
+                    const permission = await navigator.permissions.query({ name: 'microphone' });
+                    if (permission.state === 'denied') {
+                        this.permissionRequest.style.display = 'block';
+                    } else if (permission.state === 'prompt') {
+                        this.permissionRequest.style.display = 'block';
+                    }
+                } catch (error) {
+                    console.log('Permission API not supported, will request on first use');
+                }
+            }
+            
+            async requestMicrophonePermission() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(track => track.stop());
+                    this.permissionRequest.style.display = 'none';
+                    this.initSpeechRecognition();
+                } catch (error) {
+                    this.showError('Microphone permission denied. Please enable it in your browser settings.');
+                }
+            }
+            
+            initSpeechRecognition() {
+                if ('webkitSpeechRecognition' in window) {
+                    this.recognition = new webkitSpeechRecognition();
+                } else if ('SpeechRecognition' in window) {
+                    this.recognition = new SpeechRecognition();
+                } else {
+                    this.showError('Speech recognition not supported in this browser. Please use Chrome, Edge, or Safari.');
+                    return;
+                }
+                
+                // Enhanced recognition settings for better accuracy
+                this.recognition.continuous = false;
+                this.recognition.interimResults = true;
+                this.recognition.maxAlternatives = 3;
+                this.recognition.lang = this.languageSelect.value;
+                
+                // Add noise cancellation if available
+                if (this.recognition.serviceURI) {
+                    this.recognition.serviceURI = 'wss://www.google.com/speech-api/v2/recognize';
+                }
+                
+                this.recognition.onstart = () => {
+                    this.isListening = true;
+                    this.micButton.classList.add('listening');
+                    this.status.textContent = 'Listening... Speak clearly';
+                    this.transcript.textContent = 'Listening for your voice...';
+                    this.hideError();
+                };
+                
+                this.recognition.onresult = (event) => {
+                    let finalTranscript = '';
+                    let interimTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript;
+                        } else {
+                            interimTranscript += transcript;
+                        }
+                    }
+                    
+                    const displayText = finalTranscript || interimTranscript;
+                    this.transcript.textContent = displayText || 'Listening...';
+                    
+                    if (finalTranscript && finalTranscript.trim().length > 0) {
+                        this.processUserInput(finalTranscript.trim());
+                    }
+                };
+                
+                this.recognition.onerror = (event) => {
+                    console.error('Speech recognition error:', event.error);
+                    let errorMessage = 'Speech recognition error: ';
+                    
+                    switch (event.error) {
+                        case 'no-speech':
+                            errorMessage += 'No speech detected. Please try again.';
+                            break;
+                        case 'audio-capture':
+                            errorMessage += 'Microphone not accessible. Check permissions.';
+                            break;
+                        case 'not-allowed':
+                            errorMessage += 'Microphone permission denied.';
+                            this.permissionRequest.style.display = 'block';
+                            break;
+                        case 'network':
+                            errorMessage += 'Network error. Check your connection.';
+                            break;
+                        case 'service-not-allowed':
+                            errorMessage += 'Speech service not allowed.';
+                            break;
+                        default:
+                            errorMessage += event.error;
+                    }
+                    
+                    this.showError(errorMessage);
+                    this.stopListening();
+                };
+                
+                this.recognition.onend = () => {
+                    if (!this.isProcessing && this.isListening) {
+                        // Auto-restart if we were listening but didn't get final results
+                        setTimeout(() => {
+                            if (!this.isProcessing) {
+                                this.stopListening();
+                            }
+                        }, 100);
+                    }
+                };
+                
+                // Handle speech recognition timeout
+                this.recognition.onspeechstart = () => {
+                    this.status.textContent = 'Speech detected, processing...';
+                };
+                
+                this.recognition.onspeechend = () => {
+                    this.status.textContent = 'Processing speech...';
+                };
+            }
+            
+            bindEvents() {
+                this.micButton.addEventListener('click', () => {
+                    if (this.isListening || this.isProcessing) {
+                        this.stopListening();
+                    } else {
+                        this.startListening();
+                    }
+                });
+                
+                this.languageSelect.addEventListener('change', () => {
+                    if (this.recognition) {
+                        this.recognition.lang = this.languageSelect.value;
+                    }
+                });
+                
+                this.requestPermissionBtn.addEventListener('click', () => {
+                    this.requestMicrophonePermission();
+                });
+                
+                // Add keyboard shortcut for spacebar to toggle recording
+                document.addEventListener('keydown', (event) => {
+                    if (event.code === 'Space' && !event.repeat) {
+                        event.preventDefault();
+                        if (this.isListening || this.isProcessing) {
+                            this.stopListening();
+                        } else {
+                            this.startListening();
+                        }
+                    }
+                });
+            }
+            
+            startListening() {
+                if (this.recognition && !this.isProcessing) {
+                    try {
+                        this.recognition.start();
+                    } catch (error) {
+                        if (error.name === 'InvalidStateError') {
+                            // Recognition is already running, stop and restart
+                            this.recognition.stop();
+                            setTimeout(() => {
+                                this.recognition.start();
+                            }, 100);
+                        } else {
+                            this.showError('Failed to start speech recognition: ' + error.message);
+                        }
+                    }
+                }
+            }
+            
+            stopListening() {
+                this.isListening = false;
+                this.isProcessing = false;
+                this.micButton.classList.remove('listening', 'processing');
+                this.status.textContent = 'Click the microphone to start (or press spacebar)';
+                if (this.recognition) {
+                    this.recognition.stop();
+                }
+            }
+            
+            async processUserInput(userInput) {
+                this.isProcessing = true;
+                this.micButton.classList.remove('listening');
+                this.micButton.classList.add('processing');
+                this.status.textContent = 'Processing your request...';
+                
+                try {
+                    // Check if this is a weather request
+                    if (this.isWeatherRequest(userInput)) {
+                        const city = this.extractCityFromWeatherRequest(userInput);
+                        if (city) {
+                            await this.getWeatherInfo(city, userInput);
+                        } else {
+                            await this.processWithAI(userInput);
+                        }
+                    } else {
+                        await this.processWithAI(userInput);
+                    }
+                } catch (error) {
+                    console.error('Processing error:', error);
+                    this.showError(`Processing failed: ${error.message}`);
+                } finally {
+                    this.isProcessing = false;
+                    this.micButton.classList.remove('processing');
+                    this.status.textContent = 'Click the microphone to start (or press spacebar)';
+                }
+            }
+            
+            isWeatherRequest(text) {
+                const weatherKeywords = ['weather', 'temperature', 'forecast', 'climate', 'hot', 'cold', 'rain', 'sunny', 'cloudy'];
+                const locationKeywords = ['in', 'at', 'for'];
+                
+                const lowerText = text.toLowerCase();
+                const hasWeatherKeyword = weatherKeywords.some(keyword => lowerText.includes(keyword));
+                const hasLocationKeyword = locationKeywords.some(keyword => lowerText.includes(keyword));
+                
+                return hasWeatherKeyword && (hasLocationKeyword || lowerText.includes('today') || lowerText.includes('now'));
+            }
+            
+            extractCityFromWeatherRequest(text) {
+                const lowerText = text.toLowerCase();
+                
+                // Common patterns for weather requests
+                const patterns = [
+                    /weather (?:in|at|for) ([^?]+)/i,
+                    /(?:in|at|for) ([^?]+) weather/i,
+                    /temperature (?:in|at|for) ([^?]+)/i,
+                    /(?:how's|what's) (?:the )?weather (?:in|at|for) ([^?]+)/i,
+                    /weather (?:today )?(?:in|at|for) ([^?]+)/i
+                ];
+                
+                for (const pattern of patterns) {
+                    const match = text.match(pattern);
+                    if (match && match[1]) {
+                        return match[1].trim().replace(/[?.,!]/g, '');
+                    }
+                }
+                
+                return null;
+            }
+            
+            async getWeatherInfo(city, originalQuery) {
+                try {
+                    const response = await fetch(`${this.weatherApiUrl}?q=${encodeURIComponent(city)}&units=metric&appid=${this.weatherApiKey}`);
+                    
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error(`City "${city}" not found. Please check the spelling.`);
+                        } else {
+                            throw new Error(`Weather service error: ${response.status}`);
+                        }
+                    }
+                    
+                    const weatherData = await response.json();
+                    this.displayWeather(weatherData);
+                    
+                    // Create a natural response about the weather
+                    const weatherResponse = this.formatWeatherResponse(weatherData);
+                    
+                    // Add to conversation history
+                    this.conversationHistory.push({
+                        role: 'user',
+                        content: originalQuery
+                    });
+                    
+                    this.conversationHistory.push({
+                        role: 'assistant',
+                        content: weatherResponse
+                    });
+                    
+                    this.showResponse(weatherResponse);
+                    this.speak(weatherResponse);
+                    this.updateConversationDisplay();
+                    
+                } catch (error) {
+                    console.error('Weather API Error:', error);
+                    // Fall back to AI processing if weather fails
+                    await this.processWithAI(originalQuery + ' (Note: Weather service unavailable)');
+                }
+            }
+            
+            displayWeather(weatherData) {
+                const weatherHtml = `
+                    <div class="weather-main">
+                        <div class="weather-temp">${Math.round(weatherData.main.temp)}°C</div>
+                        <div class="weather-desc">${weatherData.weather[0].description}</div>
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">📍 ${weatherData.name}, ${weatherData.sys.country}</div>
+                    </div>
+                    <div class="weather-details">
+                        <div>💧 Humidity: ${weatherData.main.humidity}%</div>
+                        <div>🌪️ Wind: ${weatherData.wind.speed} m/s</div>
+                        <div>🌡️ Feels like: ${Math.round(weatherData.main.feels_like)}°C</div>
+                        <div>👁️ Visibility: ${weatherData.visibility / 1000} km</div>
+                    </div>
+                `;
+                
+                this.weatherInfo.innerHTML = weatherHtml;
+                this.weatherDisplay.style.display = 'block';
+                
+                setTimeout(() => {
+                    this.weatherDisplay.style.display = 'none';
+                }, 15000);
+            }
+            
+            formatWeatherResponse(weatherData) {
+                const temp = Math.round(weatherData.main.temp);
+                const feelsLike = Math.round(weatherData.main.feels_like);
+                const description = weatherData.weather[0].description;
+                const city = weatherData.name;
+                const country = weatherData.sys.country;
+                
+                return `The weather in ${city}, ${country} is currently ${temp} degrees Celsius with ${description}. It feels like ${feelsLike} degrees. The humidity is ${weatherData.main.humidity}% and wind speed is ${weatherData.wind.speed} meters per second.`;
+            }
+            
+            async processWithAI(userInput) {
+                try {
+                    // Add user message to conversation history
+                    this.conversationHistory.push({
+                        role: 'user',
+                        content: userInput
+                    });
+                    
+                    // Prepare the API request
+                    const requestBody = {
+                        model: 'openai/gpt-3.5-turbo',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'You are a helpful AI voice assistant. Provide clear, concise, and friendly responses. Keep responses conversational and not too long since they will be spoken aloud. If asked about weather and you cannot access weather data, suggest the user ask for weather in a specific city format like "weather in [city name]".'
+                            },
+                            ...this.conversationHistory.slice(-10) // Keep last 10 messages for context
+                        ],
+                        max_tokens: 200,
+                        temperature: 0.7
+                    };
+                    
+                    const response = await fetch(this.aiApiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${this.aiApiKey}`,
+                            'Content-Type': 'application/json',
+                            'HTTP-Referer': window.location.origin,
+                            'X-Title': 'AI Voice Assistant'
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`AI API request failed: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    const aiResponse = data.choices[0].message.content.trim();
+                    
+                    // Add AI response to conversation history
+                    this.conversationHistory.push({
+                        role: 'assistant',
+                        content: aiResponse
+                    });
+                    
+                    this.showResponse(aiResponse);
+                    this.speak(aiResponse);
+                    this.updateConversationDisplay();
+                    
+                } catch (error) {
+                    console.error('AI API Error:', error);
+                    this.showError(`AI processing failed: ${error.message}`);
+                }
+            }
+            
+            showResponse(text) {
+                this.response.textContent = text;
+                this.response.style.display = 'block';
+                
+                setTimeout(() => {
+                    this.response.style.display = 'none';
+                }, 12000);
+            }
+            
+            showError(message) {
+                this.error.textContent = message;
+                this.error.style.display = 'block';
+                
+                setTimeout(() => {
+                    this.error.style.display = 'none';
+                }, 8000);
+            }
+            
+            hideError() {
+                this.error.style.display = 'none';
+            }
+            
+            updateConversationDisplay() {
+                const maxDisplayItems = 6;
+                const recentHistory = this.conversationHistory.slice(-maxDisplayItems);
+                
+                this.conversationHistoryEl.innerHTML = '';
+                
+                recentHistory.forEach(message => {
+                    const messageEl = document.createElement('div');
+                    messageEl.className = `conversation-item ${message.role === 'user' ? 'user-message' : 'ai-message'}`;
+                    
+                    const labelEl = document.createElement('div');
+                    labelEl.className = 'message-label';
+                    labelEl.textContent = message.role === 'user' ? 'You:' : 'AI:';
+                    
+                    const contentEl = document.createElement('div');
+                    contentEl.textContent = message.content;
+                    
+                    messageEl.appendChild(labelEl);
+                    messageEl.appendChild(contentEl);
+                    this.conversationHistoryEl.appendChild(messageEl);
+                });
+                
+                // Scroll to bottom
+                this.conversationHistoryEl.scrollTop = this.conversationHistoryEl.scrollHeight;
+            }
+            
+            speak(text) {
+                if ('speechSynthesis' in window) {
+                    // Cancel any ongoing speech
+                    speechSynthesis.cancel();
+                    
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1;
+                    utterance.volume = 0.8;
+                    
+                    // Set voice based on selected language
+                    const voices = speechSynthesis.getVoices();
+                    const langCode = this.languageSelect.value.split('-')[0];
+                    const voice = voices.find(v => v.lang.startsWith(langCode));
+                    if (voice) {
+                        utterance.voice = voice;
+                    }
+                    
+                    speechSynthesis.speak(utterance);
+                }
+            }
+        }
+        
+        // Initialize the AI voice assistant when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for voices to be loaded
+            if ('speechSynthesis' in window) {
+                const initAssistant = () => {
+                    if (!window.aiAssistant) {
+                        window.aiAssistant = new AIVoiceAssistant();
+                    }
+                };
+                
+                if (speechSynthesis.getVoices().length > 0) {
+                    initAssistant();
+                } else {
+                    speechSynthesis.onvoiceschanged = initAssistant;
+                    // Fallback timeout
+                    setTimeout(initAssistant, 2000);
+                }
+            } else {
+                window.aiAssistant = new AIVoiceAssistant();
+            }
+        });
+    </script>
+</body>
+</html>

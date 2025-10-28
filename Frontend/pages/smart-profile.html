@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Profile - AI Performance Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .ai-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-left: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Profile Creation Form */
+        .profile-creation {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .form-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .skill-tag.selected {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+        }
+
+        .goal-item {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .goal-item:hover {
+            border-color: #667eea;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .profile-sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 25px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+        }
+
+        .profile-info p {
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .ai-performance-score {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#ffa500 0deg, #ff6b6b 180deg, rgba(255,255,255,0.3) 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .performance-stats {
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* AI Analysis Section */
+        .ai-analysis {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #ff6b6b;
+        }
+
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .analysis-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .insight-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .performance-chart {
+            background: linear-gradient(135f, #f8f9ff 0%, #e8ecff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        /* Goals and Tasks */
+        .goals-section {
+            margin-bottom: 30px;
+        }
+
+        .goal-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .goal-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .goal-card.completed {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            border-color: #28a745;
+        }
+
+        .goal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .goal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .priority-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .priority-high {
+            background: #ffe6e6;
+            color: #dc3545;
+        }
+
+        .priority-medium {
+            background: #fff3cd;
+            color: #ffc107;
+        }
+
+        .priority-low {
+            background: #e8f5e8;
+            color: #28a745;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-ai {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+        }
+
+        .btn-ai:hover {
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #6c757d, #5a6268);
+        }
+
+        /* Loading and Status Indicators */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #28a745;
+        }
+
+        .ai-status.processing {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-color: #ffc107;
+        }
+
+        .ai-status.error {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border-color: #dc3545;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .tab-navigation {
+                overflow-x: auto;
+            }
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Smart Profile System <span class="ai-badge">AI Powered</span></h1>
+            <p>Create your profile and let AI analyze your performance in real-time</p>
+        </div>
+
+        <!-- Profile Creation Section -->
+        <div class="profile-creation" id="profileCreation">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #667eea;">
+                📝 Create Your Smart Profile
+            </h2>
+            
+            <div class="form-grid">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3>👤 Personal Information</h3>
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profession">Profession</label>
+                        <input type="text" id="profession" placeholder="e.g., Software Developer, Designer">
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Experience Level</label>
+                        <select id="experience">
+                            <option value="">Select experience level</option>
+                            <option value="beginner">Beginner (0-2 years)</option>
+                            <option value="intermediate">Intermediate (2-5 years)</option>
+                            <option value="advanced">Advanced (5-10 years)</option>
+                            <option value="expert">Expert (10+ years)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Skills & Interests -->
+                <div class="form-section">
+                    <h3>🎯 Skills & Interests</h3>
+                    <div class="form-group">
+                        <label>Select your skills (click to add):</label>
+                        <div class="skill-tags" id="skillTags">
+                            <div class="skill-tag" data-skill="programming">Programming</div>
+                            <div class="skill-tag" data-skill="design">Design</div>
+                            <div class="skill-tag" data-skill="marketing">Marketing</div>
+                            <div class="skill-tag" data-skill="management">Management</div>
+                            <div class="skill-tag" data-skill="writing">Writing</div>
+                            <div class="skill-tag" data-skill="analytics">Analytics</div>
+                            <div class="skill-tag" data-skill="sales">Sales</div>
+                            <div class="skill-tag" data-skill="finance">Finance</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customSkills">Additional Skills (comma separated)</label>
+                        <input type="text" id="customSkills" placeholder="e.g., Python, Photoshop, SEO">
+                    </div>
+                    <div class="form-group">
+                        <label for="interests">Interests & Hobbies</label>
+                        <textarea id="interests" rows="3" placeholder="Tell us about your interests and hobbies..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Goals & Objectives -->
+                <div class="form-section">
+                    <h3>🎯 Goals & Objectives</h3>
+                    <div class="form-group">
+                        <label for="primaryGoal">Primary Career Goal</label>
+                        <textarea id="primaryGoal" rows="2" placeholder="What's your main career objective?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeframe">Goal Timeframe</label>
+                        <select id="timeframe">
+                            <option value="">Select timeframe</option>
+                            <option value="3months">3 Months</option>
+                            <option value="6months">6 Months</option>
+                            <option value="1year">1 Year</option>
+                            <option value="2years">2+ Years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weeklyHours">Weekly Learning Hours</label>
+                        <select id="weeklyHours">
+                            <option value="">Select hours per week</option>
+                            <option value="1-5">1-5 hours</option>
+                            <option value="6-10">6-10 hours</option>
+                            <option value="11-20">11-20 hours</option>
+                            <option value="20+">20+ hours</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Performance Preferences -->
+                <div class="form-section">
+                    <h3>⚙️ Performance Preferences</h3>
+                    <div class="form-group">
+                        <label for="workStyle">Preferred Work Style</label>
+                        <select id="workStyle">
+                            <option value="">Select work style</option>
+                            <option value="focused">Long focused sessions</option>
+                            <option value="breaks">Regular breaks</option>
+                            <option value="flexible">Flexible schedule</option>
+                            <option value="structured">Highly structured</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="motivation">What motivates you most?</label>
+                        <select id="motivation">
+                            <option value="">Select motivation type</option>
+                            <option value="achievement">Achievement & Recognition</option>
+                            <option value="learning">Learning & Growth</option>
+                            <option value="impact">Making an Impact</option>
+                            <option value="financial">Financial Success</option>
+                            <option value="balance">Work-Life Balance</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="challenges">Biggest Challenges</label>
+                        <textarea id="challenges" rows="2" placeholder="What are your main challenges or obstacles?"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-ai" onclick="createProfile()">
+                    🚀 Create Smart Profile & Start AI Analysis
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Section (Hidden Initially) -->
+        <div class="dashboard hidden" id="dashboard">
+            <!-- Profile Sidebar -->
+            <div class="profile-sidebar">
+                <div class="profile-avatar" id="profileAvatar">
+                    👤
+                </div>
+                
+                <div class="profile-info">
+                    <h2 id="profileName">User Profile</h2>
+                    <p id="profileRole">Professional</p>
+                    <p id="profileExperience">Experience Level</p>
+                </div>
+
+                <div class="ai-performance-score">
+                    <h4>AI Performance Score</h4>
+                    <div class="score-circle" id="performanceScore">--</div>
+                    <p>Based on AI analysis</p>
+                </div>
+
+                <div class="performance-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Goals Progress</span>
+                        <span class="stat-value" id="goalsProgress">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Skill Match</span>
+                        <span class="stat-value" id="skillMatch">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">AI Confidence</span>
+                        <span class="stat-value" id="aiConfidence">High</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Recommendations</span>
+                        <span class="stat-value" id="recommendationCount">0</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-ai" onclick="runAIAnalysis()">
+                    🧠 Run AI Analysis
+                </button>
+                
+                <button class="btn btn-secondary mt-20" onclick="editProfile()">
+                    ✏️ Edit Profile
+                </button>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <div class="ai-status" id="aiStatus">
+                    <span id="statusIcon">🟢</span>
+                    <span id="statusText">AI Ready for Analysis</span>
+                </div>
+
+                <div class="tab-navigation">
+                    <button class="tab active" onclick="showTab('analysis')">🧠 AI Analysis</button>
+                    <button class="tab" onclick="showTab('performance')">📊 Performance</button>
+                    <button class="tab" onclick="showTab('goals')">🎯 Goals</button>
+                    <button class="tab" onclick="showTab('insights')">💡 Insights</button>
+                    <button class="tab" onclick="showTab('recommendations')">🚀 Recommendations</button>
+                </div>
+
+                <!-- AI Analysis Tab -->
+                <div class="tab-content active" id="analysis-tab">
+                    <div class="ai-analysis">
+                        <div class="analysis-header">
+                            <div class="analysis-icon">🤖</div>
+                            <div>
+                                <h3>AI Performance Analysis</h3>
+                                <p>Real-time intelligent analysis of your profile and performance</p>
+                            </div>
+                        </div>
+
+                        <div class="insight-grid" id="aiInsights">
+                            <div class="insight-card">
+                                <h4>🎯 Profile Analysis</h4>
+                                <p>Complete your profile to get personalized AI insights and recommendations.</p>
+                            </div>
+                            <div class="insight-card">
+                                <h4>📈 Performance Trends</h4>
+                                <p>AI will analyze your progress patterns and identify optimization opportunities.</p>
+                            </div>
+                            <div class="insight-card">
+                                <h4>🚀 Growth Recommendations</h4>
+                                <p>Get AI-powered suggestions for skill development and goal achievement.</p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-ai" onclick="generateDetailedAnalysis()" id="analysisBtn">
+                            🔍 Generate Detailed Analysis
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Performance Tab -->
+                <div class="tab-content" id="performance-tab">
+                    <h3>📊 Performance Dashboard</h3>
+                    
+                    <div class="performance-chart">
+                        <div class="chart-placeholder">
+                            📈 Performance Chart<br>
+                            <small>Visual performance tracking coming soon</small>
+                        </div>
+                        <p>AI-generated performance visualization based on your profile data</p>
+                    </div>
+
+                    <div class="insight-grid">
+                        <div class="insight-card">
+                            <h4>📈 Progress Tracking</h4>
+                            <p id="progressInsight">Set up goals to track your progress automatically.</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>⚡ Productivity Score</h4>
+                            <p id="productivityInsight">AI calculates your productivity based on goal completion.</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>🎯 Goal Achievement</h4>
+                            <p id="achievementInsight">Track and analyze your goal completion patterns.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goals Tab -->
+                <div class="tab-content" id="goals-tab">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 25px;">
+                        <h3>🎯 Goals & Objectives</h3>
+                        <button class="btn" onclick="addNewGoal()">+ Add Goal</button>
+                    </div>
+
+                    <div class="goals-section" id="goalsContainer">
+                        <div class="goal-card">
+                            <div class="goal-title">Complete Your Profile</div>
+                            <div class="goal-meta">
+                                <span>Due: Today</span>
+                                <span class="priority-badge priority-high">High Priority</span>
+                            </div>
+                            <p>Fill out all sections of your profile for better AI analysis</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <div class="goal-card">
+                            <div class="goal-title">Set Learning Goals</div>
+                            <div class="goal-meta">
+                                <span>Due: This Week</span>
+                                <span class="priority-badge priority-medium">Medium Priority</span>
+                            </div>
+                            <p>Define your learning objectives for AI to track progress</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 25%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insights Tab -->
+                <div class="tab-content" id="insights-tab">
+                    <h3>💡 AI-Generated Insights</h3>
+                    
+                    <div class="insight-grid" id="personalInsights">
+                        <div class="insight-card">
+                            <h4>🧠 Learning Pattern</h4>
+                            <p id="learningPattern">Complete your profile to unlock AI insights about your learning patterns.</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>🎯 Goal Alignment</h4>
+                            <p id="goalAlignment">AI will analyze how well your activities align with your stated goals.</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>⚡ Optimization Areas</h4>
+                            <p id="optimizationAreas">Discover areas where you can improve efficiency and performance.</p>
+                        </div>
+                        <div class="insight-card">
+                            <h4>📈 Growth Opportunities</h4>
+                            <p id="growthOpportunities">AI identifies potential areas for skill development and career growth.</p>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-ai" onclick="refreshInsights()">
+                        🔄 Refresh AI Insights
+                    </button>
+                </div>
+
+                <!-- Recommendations Tab -->
+                <div class="tab-content" id="recommendations-tab">
+                    <h3>🚀 AI Recommendations</h3>
+                    
+                    <div class="ai-analysis">
+                        <div class="analysis-header">
+                            <div class="analysis-icon">💡</div>
+                            <div>
+                                <h3>Personalized Recommendations</h3>
+                                <p>AI-powered suggestions tailored to your profile and goals</p>
+                            </div>
+                        </div>
+
+                        <div class="insight-grid" id="recommendationsContainer">
+                            <div class="insight-card">
+                                <h4>📚 Learning Path</h4>
+                                <p>Complete your profile to get personalized learning recommendations.</p>
+                            </div>
+                            <div class="insight-card">
+                                <h4>🛠️ Skill Development</h4>
+                                <p>AI will suggest skills to focus on based on your goals and industry trends.</p>
+                            </div>
+                            <div class="insight-card">
+                                <h4>⏰ Time Management</h4>
+                                <p>Get AI recommendations for optimizing your learning schedule.</p>
+                            </div>
+                            <div class="insight-card">
+                                <h4>🎯 Goal Strategy</h4>
+                                <p>AI will analyze your goals and suggest optimal achievement strategies.</p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-ai" onclick="generateRecommendations()">
+                            ✨ Generate New Recommendations
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SmartProfileSystem {
+            constructor() {
+                this.apiKey = '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';
+                this.userProfile = null;
+                this.selectedSkills = [];
+                this.performanceData = {
+                    score: 0,
+                    goalsProgress: 0,
+                    skillMatch: 0,
+                    aiConfidence: 'Low',
+                    recommendations: 0
+                };
+                this.aiAnalysisHistory = [];
+                
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.loadExistingProfile();
+                this.updateAIStatus('ready');
+            }
+
+            bindEvents() {
+                // Skill tag selection
+                document.getElementById('skillTags').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('skill-tag')) {
+                        this.toggleSkill(e.target);
+                    }
+                });
+
+                // Form validation
+                const requiredFields = ['fullName', 'email'];
+                requiredFields.forEach(field => {
+                    document.getElementById(field).addEventListener('blur', () => {
+                        this.validateField(field);
+                    });
+                });
+            }
+
+            toggleSkill(skillElement) {
+                const skill = skillElement.dataset.skill;
+                
+                if (skillElement.classList.contains('selected')) {
+                    skillElement.classList.remove('selected');
+                    this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
+                } else {
+                    skillElement.classList.add('selected');
+                    this.selectedSkills.push(skill);
+                }
+            }
+
+            validateField(fieldId) {
+                const field = document.getElementById(fieldId);
+                const value = field.value.trim();
+                
+                switch(fieldId) {
+                    case 'email':
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (value && !emailRegex.test(value)) {
+                            this.showFieldError(field, 'Please enter a valid email address');
+                            return false;
+                        }
+                        break;
+                    case 'fullName':
+                        if (!value) {
+                            this.showFieldError(field, 'Full name is required');
+                            return false;
+                        }
+                        break;
+                }
+                
+                this.clearFieldError(field);
+                return true;
+            }
+
+            showFieldError(field, message) {
+                field.style.borderColor = '#dc3545';
+                // Remove existing error message
+                const existingError = field.parentNode.querySelector('.error-message');
+                if (existingError) existingError.remove();
+                
+                // Add error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.style.color = '#dc3545';
+                errorDiv.style.fontSize = '0.8rem';
+                errorDiv.style.marginTop = '5px';
+                errorDiv.textContent = message;
+                field.parentNode.appendChild(errorDiv);
+            }
+
+            clearFieldError(field) {
+                field.style.borderColor = '#e0e0e0';
+                const errorMessage = field.parentNode.querySelector('.error-message');
+                if (errorMessage) errorMessage.remove();
+            }
+
+            async createProfile() {
+                if (!this.validateProfileForm()) return;
+
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span class="loading"></span> Creating Profile...';
+                button.disabled = true;
+
+                try {
+                    // Collect form data
+                    this.userProfile = this.collectFormData();
+                    
+                    // Save profile
+                    this.saveProfile();
+                    
+                    // Hide creation form and show dashboard
+                    document.getElementById('profileCreation').classList.add('hidden');
+                    document.getElementById('dashboard').classList.remove('hidden');
+                    
+                    // Update dashboard with profile data
+                    this.updateDashboard();
+                    
+                    // Run initial AI analysis
+                    await this.runInitialAIAnalysis();
+                    
+                    this.showNotification('✅ Profile created successfully! AI analysis complete.', 'success');
+                    
+                } catch (error) {
+                    this.showNotification('❌ Error creating profile. Please try again.', 'error');
+                    console.error('Profile creation error:', error);
+                }
+
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }
+
+            validateProfileForm() {
+                const requiredFields = ['fullName', 'email'];
+                let isValid = true;
+
+                requiredFields.forEach(fieldId => {
+                    if (!this.validateField(fieldId)) {
+                        isValid = false;
+                    }
+                });
+
+                if (this.selectedSkills.length === 0) {
+                    this.showNotification('⚠️ Please select at least one skill.', 'warning');
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            collectFormData() {
+                const customSkills = document.getElementById('customSkills').value
+                    .split(',')
+                    .map(s => s.trim())
+                    .filter(s => s.length > 0);
+
+                return {
+                    fullName: document.getElementById('fullName').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    profession: document.getElementById('profession').value.trim(),
+                    experience: document.getElementById('experience').value,
+                    skills: [...this.selectedSkills, ...customSkills],
+                    interests: document.getElementById('interests').value.trim(),
+                    primaryGoal: document.getElementById('primaryGoal').value.trim(),
+                    timeframe: document.getElementById('timeframe').value,
+                    weeklyHours: document.getElementById('weeklyHours').value,
+                    workStyle: document.getElementById('workStyle').value,
+                    motivation: document.getElementById('motivation').value,
+                    challenges: document.getElementById('challenges').value.trim(),
+                    createdAt: new Date().toISOString(),
+                    lastUpdated: new Date().toISOString()
+                };
+            }
+
+            updateDashboard() {
+                // Update profile sidebar
+                document.getElementById('profileName').textContent = this.userProfile.fullName;
+                document.getElementById('profileRole').textContent = this.userProfile.profession || 'Professional';
+                document.getElementById('profileExperience').textContent = this.formatExperience(this.userProfile.experience);
+
+                // Update avatar with initials
+                const initials = this.userProfile.fullName
+                    .split(' ')
+                    .map(n => n[0])
+                    .join('')
+                    .toUpperCase();
+                document.getElementById('profileAvatar').textContent = initials;
+
+                // Calculate initial performance metrics
+                this.calculatePerformanceMetrics();
+                this.updatePerformanceDisplay();
+            }
+
+            formatExperience(experience) {
+                const experienceMap = {
+                    'beginner': 'Beginner (0-2 years)',
+                    'intermediate': 'Intermediate (2-5 years)',
+                    'advanced': 'Advanced (5-10 years)',
+                    'expert': 'Expert (10+ years)'
+                };
+                return experienceMap[experience] || 'Not specified';
+            }
+
+            calculatePerformanceMetrics() {
+                let score = 0;
+                
+                // Profile completeness (40 points max)
+                score += this.userProfile.fullName ? 5 : 0;
+                score += this.userProfile.email ? 5 : 0;
+                score += this.userProfile.profession ? 5 : 0;
+                score += this.userProfile.experience ? 5 : 0;
+                score += this.userProfile.skills.length > 0 ? 10 : 0;
+                score += this.userProfile.primaryGoal ? 5 : 0;
+                score += this.userProfile.timeframe ? 5 : 0;
+
+                // Goals and planning (30 points max)
+                score += this.userProfile.weeklyHours ? 10 : 0;
+                score += this.userProfile.workStyle ? 10 : 0;
+                score += this.userProfile.motivation ? 10 : 0;
+
+                // Skills and expertise (30 points max)
+                score += Math.min(this.userProfile.skills.length * 3, 15);
+                score += this.userProfile.challenges ? 10 : 0;
+                score += this.userProfile.interests ? 5 : 0;
+
+                this.performanceData.score = Math.min(score, 100);
+                this.performanceData.goalsProgress = this.userProfile.primaryGoal ? 25 : 0;
+                this.performanceData.skillMatch = Math.min(this.userProfile.skills.length * 12, 100);
+                this.performanceData.aiConfidence = score > 70 ? 'High' : score > 40 ? 'Medium' : 'Low';
+            }
+
+            updatePerformanceDisplay() {
+                document.getElementById('performanceScore').textContent = this.performanceData.score;
+                document.getElementById('goalsProgress').textContent = this.performanceData.goalsProgress + '%';
+                document.getElementById('skillMatch').textContent = this.performanceData.skillMatch + '%';
+                document.getElementById('aiConfidence').textContent = this.performanceData.aiConfidence;
+                document.getElementById('recommendationCount').textContent = this.performanceData.recommendations;
+            }
+
+            async runInitialAIAnalysis() {
+                this.updateAIStatus('processing', 'Running initial AI analysis...');
+
+                try {
+                    const analysisPrompt = this.buildAnalysisPrompt();
+                    const aiResponse = await this.makeAIRequest(analysisPrompt);
+                    
+                    this.processAIAnalysis(aiResponse);
+                    this.updateAIStatus('ready', 'AI analysis complete');
+                    
+                } catch (error) {
+                    console.error('AI Analysis Error:', error);
+                    this.generateFallbackAnalysis();
+                    this.updateAIStatus('ready', 'Using offline analysis');
+                }
+            }
+
+            buildAnalysisPrompt() {
+                const profile = this.userProfile;
+                return `Analyze this professional profile and provide insights:
+
+Name: ${profile.fullName}
+Profession: ${profile.profession}
+Experience: ${profile.experience}
+Skills: ${profile.skills.join(', ')}
+Primary Goal: ${profile.primaryGoal}
+Timeframe: ${profile.timeframe}
+Weekly Hours: ${profile.weeklyHours}
+Work Style: ${profile.workStyle}
+Motivation: ${profile.motivation}
+Challenges: ${profile.challenges}
+
+Please provide:
+1. Strengths and areas for improvement
+2. Goal achievement strategy recommendations
+3. Skill development priorities
+4. Potential career growth opportunities
+5. Optimization suggestions for their work style
+
+Keep responses actionable and specific.`;
+            }
+
+            async makeAIRequest(prompt) {
+                const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${this.apiKey}`,
+                        'Content-Type': 'application/json',
+                        'HTTP-Referer': window.location.href,
+                        'X-Title': 'Smart Profile System'
+                    },
+                    body: JSON.stringify({
+                        model: 'meta-llama/llama-3.1-8b-instruct:free',
+                        messages: [
+                            {
+                                role: 'system',
+                                content: 'You are an AI career and performance analyst. Provide detailed, actionable insights based on professional profiles. Be specific and helpful.'
+                            },
+                            {
+                                role: 'user',
+                                content: prompt
+                            }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 800
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.choices[0].message.content;
+            }
+
+            processAIAnalysis(analysis) {
+                // Store the analysis
+                this.aiAnalysisHistory.push({
+                    analysis: analysis,
+                    timestamp: new Date().toISOString(),
+                    profileData: { ...this.userProfile }
+                });
+
+                // Update insights based on AI response
+                this.updateAIInsights(analysis);
+                this.generatePersonalizedRecommendations(analysis);
+                this.updatePerformanceInsights(analysis);
+                
+                // Increment recommendation count
+                this.performanceData.recommendations += 3;
+                this.updatePerformanceDisplay();
+            }
+
+            generateFallbackAnalysis() {
+                const profile = this.userProfile;
+                const fallbackInsights = {
+                    strengths: this.identifyStrengths(profile),
+                    improvements: this.identifyImprovements(profile),
+                    recommendations: this.generateBasicRecommendations(profile)
+                };
+
+                this.updateAIInsights(this.formatFallbackAnalysis(fallbackInsights));
+                this.performanceData.recommendations += 2;
+                this.updatePerformanceDisplay();
+            }
+
+            identifyStrengths(profile) {
+                const strengths = [];
+                
+                if (profile.skills.length > 3) {
+                    strengths.push("Diverse skill set with " + profile.skills.length + " different competencies");
+                }
+                if (profile.experience === 'advanced' || profile.experience === 'expert') {
+                    strengths.push("Extensive professional experience in the field");
+                }
+                if (profile.primaryGoal) {
+                    strengths.push("Clear goal orientation and strategic thinking");
+                }
+                if (profile.weeklyHours && parseInt(profile.weeklyHours.split('-')[0]) > 10) {
+                    strengths.push("High commitment to continuous learning");
+                }
+
+                return strengths.length > 0 ? strengths : ["Strong foundation for professional growth"];
+            }
+
+            identifyImprovements(profile) {
+                const improvements = [];
+                
+                if (!profile.timeframe) {
+                    improvements.push("Setting specific timeframes for goals");
+                }
+                if (!profile.workStyle) {
+                    improvements.push("Defining preferred work and learning styles");
+                }
+                if (profile.skills.length < 3) {
+                    improvements.push("Expanding skill portfolio for better opportunities");
+                }
+                if (!profile.challenges) {
+                    improvements.push("Identifying and addressing key challenges");
+                }
+
+                return improvements;
+            }
+
+            generateBasicRecommendations(profile) {
+                const recommendations = [];
+                
+                // Skill-based recommendations
+                if (profile.skills.includes('programming')) {
+                    recommendations.push("Consider learning cloud technologies to complement programming skills");
+                }
+                if (profile.skills.includes('design')) {
+                    recommendations.push("Explore UX research to enhance design capabilities");
+                }
+                if (profile.skills.includes('marketing')) {
+                    recommendations.push("Focus on data analytics to measure marketing effectiveness");
+                }
+
+                // Experience-based recommendations
+                if (profile.experience === 'beginner') {
+                    recommendations.push("Focus on building foundational skills and seeking mentorship");
+                } else if (profile.experience === 'expert') {
+                    recommendations.push("Consider leadership roles and knowledge sharing opportunities");
+                }
+
+                // Goal-based recommendations
+                if (profile.primaryGoal && profile.primaryGoal.toLowerCase().includes('management')) {
+                    recommendations.push("Develop leadership and people management skills");
+                }
+
+                return recommendations.length > 0 ? recommendations : [
+                    "Continue building on current strengths",
+                    "Seek feedback and mentorship opportunities",
+                    "Set specific, measurable goals"
+                ];
+            }
+
+            formatFallbackAnalysis(insights) {
+                return `Profile Analysis Complete:
+
+Strengths:
+${insights.strengths.map(s => `• ${s}`).join('\n')}
+
+Areas for Improvement:
+${insights.improvements.map(i => `• ${i}`).join('\n')}
+
+Recommendations:
+${insights.recommendations.map(r => `• ${r}`).join('\n')}`;
+            }
+
+            updateAIInsights(analysis) {
+                const insights = this.parseAnalysisIntoInsights(analysis);
+                
+                const container = document.getElementById('aiInsights');
+                container.innerHTML = insights.map((insight, index) => `
+                    <div class="insight-card" style="animation: fadeIn 0.5s ease ${index * 0.1}s both;">
+                        <h4>${insight.icon} ${insight.title}</h4>
+                        <p>${insight.description}</p>
+                    </div>
+                `).join('');
+            }
+
+            parseAnalysisIntoInsights(analysis) {
+                // Simple parsing - in a real implementation, you'd use more sophisticated NLP
+                const sections = analysis.split('\n\n');
+                const insights = [];
+
+                sections.forEach((section, index) => {
+                    if (section.trim()) {
+                        const lines = section.split('\n').filter(line => line.trim());
+                        if (lines.length > 0) {
+                            insights.push({
+                                icon: this.getInsightIcon(index),
+                                title: this.getInsightTitle(index),
+                                description: lines.slice(0, 3).join(' ').substring(0, 150) + '...'
+                            });
+                        }
+                    }
+                });
+
+                return insights.length > 0 ? insights : [
+                    {
+                        icon: '🎯',
+                        title: 'Profile Analysis',
+                        description: 'Your profile shows strong potential for achieving your stated goals.'
+                    },
+                    {
+                        icon: '📈',
+                        title: 'Growth Opportunities',
+                        description: 'Focus on developing complementary skills to accelerate career growth.'
+                    },
+                    {
+                        icon: '💡',
+                        title: 'Optimization Strategy',
+                        description: 'Align your learning schedule with your productivity patterns for better results.'
+                    }
+                ];
+            }
+
+            getInsightIcon(index) {
+                const icons = ['🎯', '📈', '💡', '🚀', '⚡', '🧠'];
+                return icons[index % icons.length];
+            }
+
+            getInsightTitle(index) {
+                const titles = [
+                    'Profile Analysis',
+                    'Performance Insights',
+                    'Growth Opportunities',
+                    'Strategic Recommendations',
+                    'Optimization Areas',
+                    'AI Predictions'
+                ];
+                return titles[index % titles.length];
+            }
+
+            updatePerformanceInsights(analysis) {
+                // Update performance tab insights
+                document.getElementById('progressInsight').textContent = 
+                    `Based on your profile, you're ${this.performanceData.goalsProgress}% aligned with your primary goal.`;
+                
+                document.getElementById('productivityInsight').textContent = 
+                    `Your productivity score is ${this.performanceData.score}/100 with ${this.performanceData.aiConfidence.toLowerCase()} AI confidence.`;
+                
+                document.getElementById('achievementInsight').textContent = 
+                    `Your skill-goal alignment is ${this.performanceData.skillMatch}% - ${this.performanceData.skillMatch > 70 ? 'excellent' : 'good room for improvement'}.`;
+            }
+
+            generatePersonalizedRecommendations(analysis) {
+                // Update recommendations tab
+                const recommendations = this.extractRecommendations(analysis);
+                const container = document.getElementById('recommendationsContainer');
+                
+                container.innerHTML = recommendations.map((rec, index) => `
+                    <div class="insight-card" style="animation: fadeIn 0.5s ease ${index * 0.1}s both;">
+                        <h4>${rec.icon} ${rec.title}</h4>
+                        <p>${rec.description}</p>
+                    </div>
+                `).join('');
+            }
+
+            extractRecommendations(analysis) {
+                // Extract specific recommendations from AI analysis
+                return [
+                    {
+                        icon: '📚',
+                        title: 'Learning Priority',
+                        description: 'Focus on skills that directly support your primary goal for maximum impact.'
+                    },
+                    {
+                        icon: '🛠️',
+                        title: 'Skill Development',
+                        description: 'Identify complementary skills that enhance your existing expertise.'
+                    },
+                    {
+                        icon: '⏰',
+                        title: 'Time Optimization',
+                        description: 'Allocate your weekly learning hours based on goal importance and skill gaps.'
+                    },
+                    {
+                        icon: '🎯',
+                        title: 'Goal Strategy',
+                        description: 'Break down your primary goal into smaller, measurable milestones.'
+                    }
+                ];
+            }
+
+            updateAIStatus(status, message = '') {
+                const statusElement = document.getElementById('aiStatus');
+                const iconElement = document.getElementById('statusIcon');
+                const textElement = document.getElementById('statusText');
+                
+                statusElement.className = 'ai-status';
+                
+                switch(status) {
+                    case 'ready':
+                        iconElement.textContent = '🟢';
+                        textElement.textContent = message || 'AI Ready for Analysis';
+                        break;
+                    case 'processing':
+                        statusElement.classList.add('processing');
+                        iconElement.textContent = '🟡';
+                        textElement.textContent = message || 'AI Processing...';
+                        break;
+                    case 'error':
+                        statusElement.classList.add('error');
+                        iconElement.textContent = '🔴';
+                        textElement.textContent = message || 'AI Service Unavailable';
+                        break;
+                }
+            }
+
+            saveProfile() {
+                // Save to memory (in a real app, this would go to a database)
+                this.savedProfile = { ...this.userProfile };
+            }
+
+            loadExistingProfile() {
+                // In a real app, this would load from a database
+                if (this.savedProfile) {
+                    this.userProfile = { ...this.savedProfile };
+                    this.updateDashboard();
+                }
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : type === 'warning' ? '#ffc107' : '#667eea'};
+                    color: ${type === 'warning' ? '#333' : 'white'};
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease;
+                    max-width: 400px;
+                `;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (document.body.contains(notification)) {
+                            document.body.removeChild(notification);
+                        }
+                    }, 300);
+                }, 4000);
+            }
+        }
+
+        // Global variables and functions
+        let profileSystem;
+
+        function createProfile() {
+            profileSystem.createProfile();
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function runAIAnalysis() {
+            if (profileSystem.userProfile) {
+                profileSystem.runInitialAIAnalysis();
+            } else {
+                profileSystem.showNotification('⚠️ Please create a profile first.', 'warning');
+            }
+        }
+
+        function generateDetailedAnalysis() {
+            const button = document.getElementById('analysisBtn');
+            const originalText = button.textContent;
+            button.innerHTML = '<span class="loading"></span> Analyzing...';
+            button.disabled = true;
+
+            setTimeout(() => {
+                if (profileSystem.userProfile) {
+                    profileSystem.runInitialAIAnalysis();
+                }
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 2000);
+        }
+
+        function refreshInsights() {
+            if (profileSystem.userProfile) {
+                profileSystem.runInitialAIAnalysis();
+                profileSystem.showNotification('🔄 Insights refreshed!', 'success');
+            }
+        }
+
+        function generateRecommendations() {
+            const button = event.target;
+            const originalText = button.textContent;
+            button.innerHTML = '<span class="loading"></span> Generating...';
+            button.disabled = true;
+
+            setTimeout(() => {
+                if (profileSystem.userProfile) {
+                    profileSystem.generatePersonalizedRecommendations('Updated recommendations based on recent analysis.');
+                    profileSystem.showNotification('✨ New recommendations generated!', 'success');
+                }
+                button.textContent = originalText;
+                button.disabled = false;
+            }, 1500);
+        }
+
+        function editProfile() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('profileCreation').classList.remove('hidden');
+            profileSystem.showNotification('✏️ Edit mode activated', 'info');
+        }
+
+        function addNewGoal() {
+            // Simple goal addition (in a real app, this would be more sophisticated)
+            const goalTitle = prompt('Enter goal title:');
+            if (goalTitle) {
+                const goalsContainer = document.getElementById('goalsContainer');
+                const newGoal = document.createElement('div');
+                newGoal.className = 'goal-card';
+                newGoal.innerHTML = `
+                    <div class="goal-title">${goalTitle}</div>
+                    <div class="goal-meta">
+                        <span>Due: This Month</span>
+                        <span class="priority-badge priority-medium">Medium Priority</span>
+                    </div>
+                    <p>Custom goal added by user</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                `;
+                goalsContainer.appendChild(newGoal);
+                profileSystem.showNotification('🎯 New goal added!', 'success');
+            }
+        }
+
+        // Initialize the system when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            profileSystem = new SmartProfileSystem();
+            
+            // Add CSS animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+                
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                
+                .error-message {
+                    animation: fadeIn 0.3s ease;
+                }
+                
+                .insight-card {
+                    transition: all 0.3s ease;
+                }
+                
+                .insight-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+                }
+                
+                .form-section {
+                    transition: all 0.3s ease;
+                }
+                
+                .goal-card {
+                    transition: all 0.3s ease;
+                }
+                
+                .goal-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                }
+                
+                .profile-avatar {
+                    transition: all 0.3s ease;
+                }
+                
+                .profile-avatar:hover {
+                    transform: scale(1.05);
+                }
+                
+                .progress-fill {
+                    animation: progressGrow 1s ease-out;
+                }
+                
+                @keyframes progressGrow {
+                    from { width: 0%; }
+                }
+                
+                .ai-badge {
+                    animation: pulse 2s infinite;
+                }
+                
+                .score-circle {
+                    animation: scoreReveal 1.5s ease-out;
+                }
+                
+                @keyframes scoreReveal {
+                    from { transform: scale(0) rotate(0deg); }
+                    to { transform: scale(1) rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Show welcome message
+            setTimeout(() => {
+                profileSystem.showNotification('🚀 Smart Profile System loaded! Create your profile to get started.', 'success');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+{
+  "events": [
+    {
+      "id": "f3c70cb4-fe2a-40f2-9ebb-b8064bd51797",
+      "title": "Birthday",
+      "description": "",
+      "start_time": "2025-08-07T09:00:00",
+      "end_time": "2025-08-07T10:00:00",
+      "event_type": "study_session",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T14:12:19.889010"
+    },
+    {
+      "id": "4f5d91fa-65b9-4708-b41a-5c81620a7f03",
+      "title": "khushi bday",
+      "description": "",
+      "start_time": "2026-08-12T12:00:00",
+      "end_time": "2026-08-12T13:00:00",
+      "event_type": "study_session",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-13T08:57:26.856566"
+    },
+    {
+      "id": "5a955d53-1181-4328-a5d2-1e0ac1b71267",
+      "title": "meeting",
+      "description": "",
+      "start_time": "2025-08-14T09:00:00",
+      "end_time": "2025-08-14T10:00:00",
+      "event_type": "study_session",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-13T08:58:07.992763"
+    },
+    {
+      "id": "a75e8966-3e17-4e7b-aafb-17f53dfbcaa0",
+      "title": "hii",
+      "description": "",
+      "start_time": "2025-08-14T03:00:00",
+      "end_time": "2025-08-14T04:00:00",
+      "event_type": "study_session",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-13T08:58:20.376699"
+    },
+    {
+      "id": "6a8fe478-f31b-40fe-8499-c640617e5c63",
+      "title": "hii",
+      "description": "",
+      "start_time": "2025-08-13T09:00:00",
+      "end_time": "2025-08-13T10:00:00",
+      "event_type": "study_session",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-13T08:58:34.518146"
+    },
+    {
+      "id": "9cc195f6-b330-4f43-9164-5489f55274ca",
+      "title": "Test Preparation",
+      "description": "",
+      "start_time": "2025-08-15T13:00:00",
+      "end_time": "2025-08-15T14:00:00",
+      "event_type": "exam",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#F59E0B",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-15T11:59:23.034956"
+    },
+    {
+      "id": "024bdeb5-c72e-45ea-9e74-679737d0bdcf",
+      "title": "Birthday",
+      "description": "",
+      "start_time": "2025-08-19T00:00:00",
+      "end_time": "2025-08-19T01:00:00",
+      "event_type": "personal",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-15T12:19:54.155255"
+    },
+    {
+      "id": "f0a98ca8-7dc7-4815-8237-2ee91cc5e787",
+      "title": "Science",
+      "description": "",
+      "start_time": "2025-08-15T12:25:00",
+      "end_time": "2025-08-15T13:25:00",
+      "event_type": "class",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#8B5CF6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-15T12:24:39.382380"
+    },
+    {
+      "id": "656423e7-0da4-4e1d-bc3a-53012d3a1550",
+      "title": "Maths",
+      "description": "",
+      "start_time": "2025-08-15T12:28:00",
+      "end_time": "2025-08-15T13:28:00",
+      "event_type": "class",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#8B5CF6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-15T12:25:32.474312"
+    },
+    {
+      "id": "ebb9b10d-d2e9-46f5-8bcb-950c8d79baa6",
+      "title": "Study",
+      "description": "",
+      "start_time": "2025-08-18T09:54:00",
+      "end_time": "2025-08-18T10:54:00",
+      "event_type": "deadline",
+      "priority": 2,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#EF4444",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-18T09:53:14.029664"
+    }
+  ],
+  "last_updated": "2025-08-18T09:53:14.033671"
+}

@@ -1,0 +1,500 @@
+{
+  "events": [
+    {
+      "id": "467c6f7c-4b34-45eb-a6a3-299048549f18",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-07T09:00:48.265111",
+      "end_time": "2025-08-07T10:30:48.265111",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T14:05:48.265364"
+    },
+    {
+      "id": "5b345780-eb98-41c7-9fd8-05110465461d",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-07T14:00:48.265111",
+      "end_time": "2025-08-07T16:00:48.265111",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T14:05:48.266022"
+    },
+    {
+      "id": "b5a58336-9246-4636-ab0f-a4ad4d5d57a9",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-07T09:00:51.081591",
+      "end_time": "2025-08-07T10:30:51.081591",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T14:35:51.081671"
+    },
+    {
+      "id": "8b9f6119-508a-4b80-a7d7-c65d5cf33577",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-07T14:00:51.081591",
+      "end_time": "2025-08-07T16:00:51.081591",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T14:35:51.082836"
+    },
+    {
+      "id": "1a91d682-8d3d-42a8-8cbe-cb5816510a94",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-07T09:00:33.734040",
+      "end_time": "2025-08-07T10:30:33.734040",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T15:18:33.734400"
+    },
+    {
+      "id": "984179c9-18de-431d-907d-9033e5210580",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-07T14:00:33.734040",
+      "end_time": "2025-08-07T16:00:33.734040",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T15:18:33.736352"
+    },
+    {
+      "id": "1e03a3f0-786b-4859-a9e1-2f38eb429d8e",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-07T09:00:42.613775",
+      "end_time": "2025-08-07T10:30:42.613775",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T15:30:42.614106"
+    },
+    {
+      "id": "ccd1700f-eef3-486f-8510-c476219b19e7",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-07T14:00:42.613775",
+      "end_time": "2025-08-07T16:00:42.613775",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-06T15:30:42.615770"
+    },
+    {
+      "id": "42523cff-f846-4aca-9041-611e26d48473",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-08T09:00:03.157273",
+      "end_time": "2025-08-08T10:30:03.157273",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-07T12:34:03.157617"
+    },
+    {
+      "id": "e763ae85-a1c3-4637-b951-6bcfbede7e5d",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-08T14:00:03.157273",
+      "end_time": "2025-08-08T16:00:03.157273",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-07T12:34:03.159724"
+    },
+    {
+      "id": "6d1e8e7c-96f3-4c45-a1ad-902c97ab7ad4",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-12T09:00:31.865094",
+      "end_time": "2025-08-12T10:30:31.865094",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-11T09:47:31.865222"
+    },
+    {
+      "id": "d41c05d6-7f11-4c6e-8af1-b1455a94fbe8",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-12T14:00:31.865094",
+      "end_time": "2025-08-12T16:00:31.865094",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-11T09:47:31.867425"
+    },
+    {
+      "id": "a6f7e14a-7458-46c2-bd93-2994aa9e74b2",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-13T09:00:38.022772",
+      "end_time": "2025-08-13T10:30:38.022772",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-12T09:24:38.022997"
+    },
+    {
+      "id": "bc1b4685-94a8-453f-af3a-d54476750a20",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-13T14:00:38.022772",
+      "end_time": "2025-08-13T16:00:38.022772",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-12T09:24:38.024664"
+    },
+    {
+      "id": "4ae48dff-9994-4e24-b414-08e761d86332",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-15T09:00:13.319640",
+      "end_time": "2025-08-15T10:30:13.319640",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T10:25:13.319721"
+    },
+    {
+      "id": "2fe785c9-8005-4b21-954e-40b2e4962375",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-15T14:00:13.319640",
+      "end_time": "2025-08-15T16:00:13.319640",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T10:25:13.322284"
+    },
+    {
+      "id": "253a12ba-a7bc-4864-bc46-60ee2fc546cb",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-15T09:00:18.134876",
+      "end_time": "2025-08-15T10:30:18.134876",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T10:28:18.134969"
+    },
+    {
+      "id": "2d822412-9269-4c27-b27d-ea91bf42fef1",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-15T14:00:18.134876",
+      "end_time": "2025-08-15T16:00:18.134876",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T10:28:18.137835"
+    },
+    {
+      "id": "49d45b9e-254e-49a9-8f7b-e5e525d13b30",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-15T09:00:48.249997",
+      "end_time": "2025-08-15T10:30:48.249997",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T10:48:48.250077"
+    },
+    {
+      "id": "2ff7648a-0138-4ec3-bf26-454cf0be0d81",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-15T14:00:48.249997",
+      "end_time": "2025-08-15T16:00:48.249997",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#3B82F6",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T10:48:48.252134"
+    },
+    {
+      "id": "f03fa954-d1f5-42d1-bae6-36b0994a5197",
+      "title": "Python Study Session",
+      "description": "Deep dive into advanced Python concepts",
+      "start_time": "2025-08-15T09:00:25.441052",
+      "end_time": "2025-08-15T10:30:25.441052",
+      "event_type": "study_session",
+      "priority": 3,
+      "location": "",
+      "tags": [
+        "python",
+        "programming"
+      ],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#10B981",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T11:50:25.441119"
+    },
+    {
+      "id": "a0da31bc-8951-4c36-a99b-10beae444249",
+      "title": "Data Structures Exam",
+      "description": "Final exam for CS course",
+      "start_time": "2025-08-15T14:00:25.441052",
+      "end_time": "2025-08-15T16:00:25.441052",
+      "event_type": "exam",
+      "priority": 4,
+      "location": "",
+      "tags": [],
+      "task_id": null,
+      "recurrence": "none",
+      "recurrence_end": null,
+      "reminder_minutes": [
+        15
+      ],
+      "color": "#F59E0B",
+      "is_completed": false,
+      "notes": "",
+      "created_at": "2025-08-14T11:50:25.444297"
+    }
+  ],
+  "last_updated": "2025-08-14T11:50:25.444958"
+}

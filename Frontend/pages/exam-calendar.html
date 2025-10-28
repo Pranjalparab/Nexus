@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Exam Calendar • FocusZone</title>
+  <link rel="stylesheet" href="../css/premium-styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <style>
+    table.cal{width:100%;border-collapse:collapse}
+    table.cal th,table.cal td{padding:.7rem;text-align:center;border:1px solid var(--glass-border)}
+    .upcoming{background:rgba(102,126,234,.15)}
+    .done{background:rgba(16,185,129,.15)}
+  </style>
+  <script defer src="../js/main.js"></script>
+</head>
+<body>
+<nav class="premium-navbar"><div class="nav-container">
+  <a class="logo-container" href="../index.html">
+     <div class="logo-icon"><i class="fas fa-calendar"></i></div><h2>Exam Calendar</h2>
+  </a>
+</div></nav>
+
+<section class="container" style="padding:6rem 0">
+  <h1 class="section-title">August 2025</h1>
+
+  <table class="cal" style="margin-top:3rem">
+   <tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
+   <tr><td></td><td></td><td class="upcoming">1<br>Math</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+   <tr><td>6</td><td>7</td><td>8</td><td class="done">9<br>Chem</td><td>10</td><td>11</td><td>12</td></tr>
+   <!-- rest of weeks trimmed for brevity -->
+  </table>
+
+  <button class="btn-premium hover-scale" style="margin-top:2rem">
+      <i class="fas fa-plus"></i><span>Add Exam</span><div class="btn-glow"></div>
+  </button>
+</section>
+</body></html>
