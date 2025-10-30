@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 NEXUS - FlowGenix Complete System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .nexus-banner {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nexus-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nexus-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .status-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.active {
+            background: #4ade80;
+        }
+
+        .status-dot.inactive {
+            background: #ef4444;
+        }
+
+        .timer-section {
+            margin-bottom: 30px;
+        }
+
+        .timer-display {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .duration-select {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #4ade80, #22d3ee);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ef4444, #f97316);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .blocked-apps {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .connection-error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .instructions {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .apps-info {
+            margin: 25px 0;
+            display: grid;
+            gap: 15px;
+        }
+        
+        .app-category {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+        }
+        
+        .app-category.protected {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+        
+        .app-category.blocked {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .app-category h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .app-list {
+            font-size: 13px;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        .focus-stats {
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .focus-stats h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ade80;
+            margin-bottom: 5px;
+        }
+        
+        .stat-item .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="nexus-banner">
+        <div class="nexus-title">🚀 NEXUS</div>
+        <div class="nexus-subtitle">FlowGenix Complete System - UI + App Blocking</div>
+    </div>
+
+    <div class="main-container">
+        <!-- App Blocker Status -->
+        <div class="status-section">
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Checking blocker status...</span>
+            </div>
+            <div id="blockerDetails"></div>
+        </div>
+
+        <!-- Connection Error -->
+        <div class="connection-error" id="connectionError" style="display: none;">
+            ⚠️ <strong>App Blocker Not Running!</strong><br>
+            Start the comprehensive app blocker first:<br>
+            <code>python comprehensive_app_blocker.py</code>
+        </div>
+
+        <!-- Timer Section -->
+        <div class="timer-section">
+            <div class="timer-display" id="timerDisplay">25:00</div>
+            
+            <div class="controls">
+                <select class="duration-select" id="durationSelect">
+                    <option value="5">5 minutes</option>
+                    <option value="15">15 minutes</option>
+                    <option value="25" selected>25 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60">1 hour</option>
+                </select>
+                
+                <button class="btn btn-primary" id="startBtn" onclick="startFocus()">
+                    ▶️ Start Protected Focus
+                </button>
+                
+                <button class="btn btn-danger" id="stopBtn" onclick="stopFocus()" style="display: none;">
+                    ⏹️ Stop Focus
+                </button>
+            </div>
+        </div>
+
+        <!-- Blocked Apps Display -->
+        <div class="blocked-apps" id="blockedApps" style="display: none;">
+            <strong>🚫 Apps Blocked This Session:</strong>
+            <div id="blockedCount">0</div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="sessionTime">0</div>
+                <div class="stat-label">Minutes Focused</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalBlocked">0</div>
+                <div class="stat-label">Apps Blocked</div>
+            </div>
+        </div>
+
+        <!-- Protected & Blocked Apps Info -->
+        <div class="apps-info">
+            <div class="app-category protected">
+                <h3>✅ PROTECTED (Always Accessible)</h3>
+                <div class="app-list">
+                    📧 Gmail & Email • 📞 Phone Calls • 💼 Office Apps • 🛡️ FlowGenix UI • 💻 Development Tools • 📋 Productivity Apps
+                </div>
+            </div>
+            <div class="app-category blocked">
+                <h3>🚫 BLOCKED DURING FOCUS (72+ Apps)</h3>
+                <div class="app-list">
+                    📱 Social Media • 🎮 Gaming Platforms • 🎵 Entertainment • 🛒 Shopping • 📰 News • 💬 Chat Apps • 🎬 Streaming • 📸 Photo/Video Editing • 💘 Dating Apps
+                </div>
+            </div>
+        </div>
+        
+        <!-- Focus Stats -->
+        <div class="focus-stats">
+            <h3>📊 Today's Focus Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="todayFocusTime">0</span>
+                    <span class="stat-label">Minutes Focused Today</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="todayBlockedApps">0</span>
+                    <span class="stat-label">Apps Blocked Today</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="totalSessions">0</span>
+                    <span class="stat-label">Focus Sessions Today</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <strong>🚀 How to Use NEXUS:</strong><br>
+            1. Ensure app blocker shows "Ready" status above<br>
+            2. Select your desired focus duration<br>
+            3. Click "Start Protected Focus" button<br>
+            4. Watch as 72+ distracting apps get blocked instantly!<br>
+            5. Your FlowGenix UI, Gmail, and essential tools remain accessible<br>
+            6. Try opening Instagram, Steam, or Netflix - they'll be terminated immediately!<br>
+            <br>
+            <strong>💡 Pro Tip:</strong> Keep this tab open during focus sessions to monitor your progress and blocked app count!
+        </div>
+    </div>
+
+    <script>
+        let timer = null;
+        let timeLeft = 0;
+        let duration = 25;
+        let isRunning = false;
+        let sessionStartTime = 0;
+        let statusCheckInterval = null;
+        let blockerAvailable = false;
+
+        // API endpoints
+        const API_BASE = 'http://localhost:8888';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkBlockerStatus();
+            updateTimerDisplay();
+            
+            // Update duration when selection changes
+            document.getElementById('durationSelect').addEventListener('change', function() {
+                duration = parseInt(this.value);
+                if (!isRunning) {
+                    updateTimerDisplay();
+                }
+            });
+            
+            // Check blocker status periodically
+            statusCheckInterval = setInterval(checkBlockerStatus, 3000);
+        });
+
+        async function checkBlockerStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    blockerAvailable = true;
+                    updateStatusDisplay(true);
+                    document.getElementById('connectionError').style.display = 'none';
+                    
+                    // Also get current status
+                    await getDetailedStatus();
+                } else {
+                    throw new Error('Service not available');
+                }
+            } catch (error) {
+                blockerAvailable = false;
+                updateStatusDisplay(false);
+                document.getElementById('connectionError').style.display = 'block';
+            }
+        }
+
+        async function getDetailedStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/status`);
+                if (response.ok) {
+                    const status = await response.json();
+                    updateDetailedStatus(status);
+                }
+            } catch (error) {
+                console.error('Failed to get detailed status:', error);
+            }
+        }
+
+        function updateStatusDisplay(available) {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            
+            if (available) {
+                statusDot.className = 'status-dot active';
+                statusText.textContent = '🛡️ App Blocker Ready - 64+ apps will be blocked';
+            } else {
+                statusDot.className = 'status-dot inactive';
+                statusText.textContent = '❌ App Blocker Not Running';
+            }
+        }
+
+        function updateDetailedStatus(status) {
+            const detailsDiv = document.getElementById('blockerDetails');
+            const blockedDiv = document.getElementById('blockedApps');
+            const totalBlockedSpan = document.getElementById('totalBlocked');
+            
+            if (status.active) {
+                detailsDiv.innerHTML = `
+                    <div style="color: #4ade80; font-weight: bold;">
+                        🔥 ACTIVE PROTECTION - Blocking ALL distracting apps!
+                    </div>
+                    <div style="font-size: 14px; margin-top: 5px;">
+                        ${status.remaining_seconds ? `${Math.ceil(status.remaining_seconds / 60)} minutes remaining` : ''}
+                    </div>
+                `;
+                
+                blockedDiv.style.display = 'block';
+                document.getElementById('blockedCount').textContent = status.blocked_count || 0;
+                totalBlockedSpan.textContent = status.blocked_count || 0;
+            } else {
+                detailsDiv.innerHTML = '<div style="color: #94a3b8;">Ready to protect your focus session</div>';
+                if (!isRunning) {
+                    blockedDiv.style.display = 'none';
+                }
+                totalBlockedSpan.textContent = status.blocked_count || 0;
+            }
+        }
+
+        async function startFocus() {
+            if (!blockerAvailable) {
+                alert('❌ App blocker is not running! Please start comprehensive_app_blocker.py first.');
+                return;
+            }
+
+            try {
+                // Start the app blocker
+                const response = await fetch(`${API_BASE}/start`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        duration: duration
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Start UI timer
+                    isRunning = true;
+                    timeLeft = duration * 60;
+                    sessionStartTime = Date.now();
+                    
+                    document.getElementById('startBtn').style.display = 'none';
+                    document.getElementById('stopBtn').style.display = 'inline-flex';
+                    document.getElementById('durationSelect').disabled = true;
+                    
+                    // Start timer countdown
+                    timer = setInterval(updateTimer, 1000);
+                    
+                    alert('🛡️ NEXUS ACTIVATED! All distracting apps will now be blocked. Try opening Chrome or Discord to see it in action!');
+                } else {
+                    alert(`❌ Failed to start blocker: ${result.message}`);
+                }
+            } catch (error) {
+                alert(`❌ Error starting focus session: ${error.message}`);
+            }
+        }
+
+        async function stopFocus() {
+            try {
+                // Stop the app blocker
+                const response = await fetch(`${API_BASE}/stop`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                const result = await response.json();
+                
+                // Stop UI timer regardless of blocker response
+                stopTimer();
+                
+                if (result.success) {
+                    alert(`🎉 Focus session completed! ${result.message}`);
+                } else {
+                    alert(`⚠️ Focus stopped, but blocker may still be running: ${result.message}`);
+                }
+            } catch (error) {
+                stopTimer();
+                alert(`⚠️ Focus stopped locally. Blocker may still be running: ${error.message}`);
+            }
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            clearInterval(timer);
+            
+            document.getElementById('startBtn').style.display = 'inline-flex';
+            document.getElementById('stopBtn').style.display = 'none';
+            document.getElementById('durationSelect').disabled = false;
+            
+            // Update session time
+            if (sessionStartTime > 0) {
+                const sessionMinutes = Math.round((Date.now() - sessionStartTime) / 60000);
+                document.getElementById('sessionTime').textContent = sessionMinutes;
+            }
+            
+            // Reset timer display
+            timeLeft = duration * 60;
+            updateTimerDisplay();
+        }
+
+        function updateTimer() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTimerDisplay();
+            } else {
+                // Timer finished
+                stopFocus();
+            }
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timerDisplay').textContent = display;
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            if (statusCheckInterval) {
+                clearInterval(statusCheckInterval);
+            }
+        });
+    </script>
+</body>
+</html>

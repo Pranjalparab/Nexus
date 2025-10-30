@@ -1,0 +1,61 @@
+{
+	"folders": [
+		{
+			"name": "🛡️ FlowGenix Ultra-Restrictive Productivity System",
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.defaultInterpreterPath": "python",
+		"terminal.integrated.defaultProfile.windows": "PowerShell",
+		"files.associations": {
+			"*.html": "html",
+			"*.js": "javascript", 
+			"*.py": "python",
+			"*.bat": "batch"
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-python.python",
+			"ms-python.vscode-pylance",
+			"ms-vscode.vscode-json",
+			"bradlc.vscode-tailwindcss",
+			"formulahendry.auto-rename-tag",
+			"esbenp.prettier-vscode",
+			"ms-vscode.powershell"
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+            {
+                "name": "🚀 FlowGenix UNIFIED (Blocker + UI) - Quick Start",
+                "type": "python",
+                "request": "launch",
+                "program": "${workspaceFolder}/flowgenix_unified_launcher.py",
+                "console": "integratedTerminal",
+                "justMyCode": false
+            }
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+                "label": "🎯 Quick Start FlowGenix UNIFIED",
+                "type": "shell",
+                "command": "python flowgenix_unified_launcher.py",
+				"group": {
+					"kind": "build",
+					"isDefault": true
+				},
+				"presentation": {
+					"echo": true,
+					"reveal": "always",
+					"panel": "new"
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowGenix - Focus & Productivity</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        kpop: {
+                            primary: '#FF6B9D',
+                            secondary: '#A855F7',
+                            accent: '#06D6A0',
+                            light: '#FFE1EC',
+                            dark: '#2D1B69'
+                        },
+                        anime: {
+                            primary: '#FF4081',
+                            secondary: '#536DFE',
+                            accent: '#FFC107',
+                            light: '#FFEBEE',
+                            dark: '#1A1A2E'
+                        },
+                        car: {
+                            primary: '#FF5722',
+                            secondary: '#607D8B',
+                            accent: '#FFC107',
+                            light: '#FFF3E0',
+                            dark: '#212121'
+                        },
+                        music: {
+                            primary: '#9C27B0',
+                            secondary: '#E91E63',
+                            accent: '#00BCD4',
+                            light: '#F3E5F5',
+                            dark: '#1A1A1A'
+                        }
+                    },
+                    animation: {
+                        'float-slow': 'float 8s ease-in-out infinite',
+                        'float-medium': 'float 6s ease-in-out infinite',
+                        'float-fast': 'float 4s ease-in-out infinite',
+                        'bounce-gentle': 'bounce-gentle 3s ease-in-out infinite',
+                        'rotate-slow': 'rotate 20s linear infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'wiggle': 'wiggle 2s ease-in-out infinite',
+                        'slide-in-left': 'slideInLeft 0.8s ease-out',
+                        'slide-in-right': 'slideInRight 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.5s ease-out',
+                        'pop-in': 'popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(5deg)' },
+                        },
+                        'bounce-gentle': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { 
+                                transform: 'scale(1)',
+                                filter: 'brightness(1) saturate(1)',
+                            },
+                            '50%': { 
+                                transform: 'scale(1.05)',
+                                filter: 'brightness(1.2) saturate(1.3)',
+                            },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '25%': { transform: 'rotate(3deg)' },
+                            '75%': { transform: 'rotate(-3deg)' },
+                        },
+                        slideInLeft: {
+                            '0%': { transform: 'translateX(-100px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        slideInRight: {
+                            '0%': { transform: 'translateX(100px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.5)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        popIn: {
+                            '0%': { transform: 'scale(0) rotate(0deg)', opacity: '0' },
+                            '50%': { transform: 'scale(1.2) rotate(180deg)', opacity: '1' },
+                            '100%': { transform: 'scale(1) rotate(360deg)', opacity: '1' },
+                        },
+                        rotate: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-kpop': 'linear-gradient(135deg, #FF6B9D 0%, #A855F7 50%, #06D6A0 100%)',
+                        'gradient-anime': 'linear-gradient(135deg, #FF4081 0%, #536DFE 50%, #FFC107 100%)',
+                        'gradient-car': 'linear-gradient(135deg, #FF5722 0%, #607D8B 50%, #FFC107 100%)',
+                        'gradient-music': 'linear-gradient(135deg, #9C27B0 0%, #E91E63 50%, #00BCD4 100%)',
+                        'radial-kpop': 'radial-gradient(circle at 30% 30%, rgba(255, 107, 157, 0.3), rgba(168, 85, 247, 0.3), rgba(6, 214, 160, 0.3))',
+                        'radial-anime': 'radial-gradient(circle at 70% 20%, rgba(255, 64, 129, 0.3), rgba(83, 109, 254, 0.3), rgba(255, 193, 7, 0.3))',
+                        'radial-car': 'radial-gradient(circle at 50% 80%, rgba(255, 87, 34, 0.3), rgba(96, 125, 139, 0.3), rgba(255, 193, 7, 0.3))',
+                        'radial-music': 'radial-gradient(circle at 20% 70%, rgba(156, 39, 176, 0.3), rgba(233, 30, 99, 0.3), rgba(0, 188, 212, 0.3))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .timer-circle {
+            width: 18rem;
+            height: 18rem;
+            border-radius: 50%;
+            border: 10px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .btn-theme {
+            background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-theme::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.8s;
+        }
+        
+        .btn-theme:hover::before {
+            left: 100%;
+        }
+        
+        .btn-theme:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .theme-kpop {
+            --theme-primary: #FF6B9D;
+            --theme-secondary: #A855F7;
+            --theme-accent: #06D6A0;
+        }
+        
+        .theme-anime {
+            --theme-primary: #FF4081;
+            --theme-secondary: #536DFE;
+            --theme-accent: #FFC107;
+        }
+        
+        .theme-car {
+            --theme-primary: #FF5722;
+            --theme-secondary: #607D8B;
+            --theme-accent: #FFC107;
+        }
+        
+        .theme-music {
+            --theme-primary: #9C27B0;
+            --theme-secondary: #E91E63;
+            --theme-accent: #00BCD4;
+        }
+        
+        .background-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.6;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { 
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% { 
+                transform: scale(1) rotate(180deg);
+                opacity: 1;
+            }
+        }
+        
+        .sparkle {
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .theme-bg-kpop {
+            background: linear-gradient(135deg, #FF6B9D 0%, #A855F7 50%, #06D6A0 100%);
+        }
+        
+        .theme-bg-anime {
+            background: linear-gradient(135deg, #FF4081 0%, #536DFE 50%, #FFC107 100%);
+        }
+        
+        .theme-bg-car {
+            background: linear-gradient(135deg, #FF5722 0%, #607D8B 50%, #FFC107 100%);
+        }
+        
+        .theme-bg-music {
+            background: linear-gradient(135deg, #9C27B0 0%, #E91E63 50%, #00BCD4 100%);
+        }
+        
+        .floating-icons {
+            position: absolute;
+            font-size: 2rem;
+            animation: float-slow infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Enhanced FlowGenix App Component
+        function FlowGenixApp() {
+            const [currentView, setCurrentView] = useState('auth');
+            const [theme, setTheme] = useState('kpop');
+            const [user, setUser] = useState(null);
+            const [coins, setCoins] = useState(0);
+            const [focusSession, setFocusSession] = useState({
+                isActive: false,
+                duration: 25,
+                timeLeft: 0
+            });
+            const [todos, setTodos] = useState([]);
+            const [history, setHistory] = useState([]);
+            const [appBlockingEnabled, setAppBlockingEnabled] = useState(false);
+            const [blockerServiceConnected, setBlockerServiceConnected] = useState(false);
+            const [showPermissionModal, setShowPermissionModal] = useState(false);
+            const [focusPermissionGranted, setFocusPermissionGranted] = useState(false);
+
+            const themes = {
+                kpop: { 
+                    gradient: 'theme-bg-kpop',
+                    radial: 'bg-radial-kpop',
+                    icon: '🌟', 
+                    name: 'K-Pop Flow',
+                    class: 'theme-kpop',
+                    elements: ['💫', '⭐', '✨', '🌸', '🎀', '💖', '🌺'],
+                    colors: ['#FF6B9D', '#A855F7', '#06D6A0', '#FFE1EC']
+                },
+                anime: { 
+                    gradient: 'theme-bg-anime',
+                    radial: 'bg-radial-anime',
+                    icon: '⚡', 
+                    name: 'Anime Power',
+                    class: 'theme-anime',
+                    elements: ['⚡', '🔥', '💥', '⭐', '🌟', '💫', '🎯'],
+                    colors: ['#FF4081', '#536DFE', '#FFC107', '#FFEBEE']
+                },
+                car: { 
+                    gradient: 'theme-bg-car',
+                    radial: 'bg-radial-car',
+                    icon: '🏎️', 
+                    name: 'Racing Mode',
+                    class: 'theme-car',
+                    elements: ['🏎️', '🏁', '⚡', '💨', '🔥', '⚙️', '🛞'],
+                    colors: ['#FF5722', '#607D8B', '#FFC107', '#FFF3E0']
+                },
+                music: { 
+                    gradient: 'theme-bg-music',
+                    radial: 'bg-radial-music',
+                    icon: '🎵', 
+                    name: 'Music Vibes',
+                    class: 'theme-music',
+                    elements: ['🎵', '🎶', '🎧', '🎤', '🎸', '🎹', '🎺'],
+                    colors: ['#9C27B0', '#E91E63', '#00BCD4', '#F3E5F5']
+                }
+            };
+
+            const currentTheme = themes[theme];
+
+            // Win32 App Blocker API Integration
+            const BLOCKER_API_BASE = 'http://localhost:8888';
+
+            const blockerAPI = {
+                async checkConnection() {
+                    try {
+                        const response = await fetch(`${BLOCKER_API_BASE}/status`);
+                        return response.ok;
+                    } catch (error) {
+                        return false;
+                    }
+                },
+
+                async startBlocking(duration) {
+                    try {
+                        const response = await fetch(`${BLOCKER_API_BASE}/start`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ duration })
+                        });
+                        return await response.json();
+                    } catch (error) {
+                        return { success: false, message: 'Failed to connect to blocker service' };
+                    }
+                },
+
+                async stopBlocking() {
+                    try {
+                        const response = await fetch(`${BLOCKER_API_BASE}/stop`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({})
+                        });
+                        return await response.json();
+                    } catch (error) {
+                        return { success: false, message: 'Failed to connect to blocker service' };
+                    }
+                },
+
+                async getStatus() {
+                    try {
+                        const response = await fetch(`${BLOCKER_API_BASE}/status`);
+                        return await response.json();
+                    } catch (error) {
+                        return { active: false };
+                    }
+                }
+            };
+
+            // Check blocker service connection on load
+            useEffect(() => {
+                const checkConnection = async () => {
+                    const connected = await blockerAPI.checkConnection();
+                    setBlockerServiceConnected(connected);
+                    if (connected) {
+                        setAppBlockingEnabled(true);
+                    }
+                };
+                checkConnection();
+                
+                // Check connection every 5 seconds
+                const interval = setInterval(checkConnection, 5000);
+                return () => clearInterval(interval);
+            }, []);
+
+            // Background Elements Component
+            function BackgroundElements() {
+                const [particles, setParticles] = useState([]);
+
+                useEffect(() => {
+                    const generateParticles = () => {
+                        const newParticles = [];
+                        for (let i = 0; i < 15; i++) {
+                            newParticles.push({
+                                id: i,
+                                x: Math.random() * 100,
+                                y: Math.random() * 100,
+                                size: Math.random() * 40 + 20,
+                                delay: Math.random() * 5,
+                                element: currentTheme.elements[Math.floor(Math.random() * currentTheme.elements.length)],
+                                color: currentTheme.colors[Math.floor(Math.random() * currentTheme.colors.length)]
+                            });
+                        }
+                        setParticles(newParticles);
+                    };
+
+                    generateParticles();
+                }, [theme]);
+
+                return (
+                    <div className="background-elements">
+                        {/* Floating Theme Elements */}
+                        {particles.map((particle, index) => (
+                            <div
+                                key={particle.id}
+                                className="floating-element text-4xl opacity-20"
+                                style={{
+                                    left: `${particle.x}%`,
+                                    top: `${particle.y}%`,
+                                    color: particle.color,
+                                    fontSize: `${particle.size}px`,
+                                    animation: `float-${index % 3 === 0 ? 'slow' : index % 3 === 1 ? 'medium' : 'fast'} infinite`,
+                                    animationDelay: `${particle.delay}s`
+                                }}
+                            >
+                                {particle.element}
+                            </div>
+                        ))}
+
+                        {/* Gradient Orbs */}
+                        <div className="absolute top-10 left-10 w-32 h-32 rounded-full opacity-30 animate-pulse-glow"
+                             style={{ background: `radial-gradient(circle, ${currentTheme.colors[0]}, transparent)` }}></div>
+                        <div className="absolute top-20 right-20 w-24 h-24 rounded-full opacity-25 animate-float-medium"
+                             style={{ background: `radial-gradient(circle, ${currentTheme.colors[1]}, transparent)` }}></div>
+                        <div className="absolute bottom-32 left-32 w-40 h-40 rounded-full opacity-20 animate-bounce-gentle"
+                             style={{ background: `radial-gradient(circle, ${currentTheme.colors[2]}, transparent)` }}></div>
+                        <div className="absolute bottom-16 right-16 w-28 h-28 rounded-full opacity-30 animate-rotate-slow"
+                             style={{ background: `radial-gradient(circle, ${currentTheme.colors[0]}, transparent)` }}></div>
+
+                        {/* Sparkles */}
+                        {[...Array(8)].map((_, i) => (
+                            <div
+                                key={`sparkle-${i}`}
+                                className="absolute sparkle"
+                                style={{
+                                    left: `${Math.random() * 100}%`,
+                                    top: `${Math.random() * 100}%`,
+                                    animationDelay: `${Math.random() * 2}s`,
+                                    fontSize: '1.5rem'
+                                }}
+                            >
+                                ✨
+                            </div>
+                        ))}
+                    </div>
+                );
+            }
+
+            // Enhanced Authentication Component
+            function AuthView() {
+                const [isLogin, setIsLogin] = useState(true);
+                const [formData, setFormData] = useState({ email: '', password: '', name: '' });
+
+                const handleSubmit = (e) => {
+                    e.preventDefault();
+                    if (formData.email) {
+                        setUser({
+                            name: formData.name || formData.email.split('@')[0],
+                            email: formData.email,
+                            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name || formData.email)}&background=FF6B9D&color=fff`
+                        });
+                        setCurrentView('dashboard');
+                    }
+                };
+
+                return (
+                    <div className={`min-h-screen flex items-center justify-center p-4 ${currentTheme.gradient} relative`}>
+                        <BackgroundElements />
+                        
+                        <div className="glass-card rounded-3xl p-8 w-full max-w-md animate-scale-in">
+                            <div className="text-center mb-8">
+                                <div className="text-7xl mb-4 animate-pop-in">{currentTheme.icon}</div>
+                                <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent animate-slide-in-left">
+                                    FlowGenix
+                                </h1>
+                                <p className="text-white opacity-90 text-lg animate-slide-in-right">
+                                    {isLogin ? 'Welcome back to your focus journey!' : 'Join the productivity revolution!'}
+                                </p>
+                            </div>
+
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                {!isLogin && (
+                                    <div className="relative animate-slide-in-left">
+                                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-2xl">👤</div>
+                                        <input
+                                            type="text"
+                                            placeholder="Full Name"
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                            className="w-full pl-12 pr-4 py-4 rounded-2xl glass-effect text-white placeholder-white placeholder-opacity-70 text-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all"
+                                            required={!isLogin}
+                                        />
+                                    </div>
+                                )}
+                                
+                                <div className="relative animate-slide-in-left" style={{animationDelay: '0.1s'}}>
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-2xl">📧</div>
+                                    <input
+                                        type="email"
+                                        placeholder="Email Address"
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                        className="w-full pl-12 pr-4 py-4 rounded-2xl glass-effect text-white placeholder-white placeholder-opacity-70 text-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all"
+                                        required
+                                    />
+                                </div>
+                                
+                                <div className="relative animate-slide-in-left" style={{animationDelay: '0.2s'}}>
+                                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-2xl">🔒</div>
+                                    <input
+                                        type="password"
+                                        placeholder="Password"
+                                        value={formData.password}
+                                        onChange={(e) => setFormData({...formData, password: e.target.value})}
+                                        className="w-full pl-12 pr-4 py-4 rounded-2xl glass-effect text-white placeholder-white placeholder-opacity-70 text-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all"
+                                        required
+                                    />
+                                </div>
+                                
+                                <button
+                                    type="submit"
+                                    className={`w-full py-4 rounded-2xl font-bold text-white text-lg btn-theme ${currentTheme.class} animate-slide-in-left`}
+                                    style={{animationDelay: '0.3s'}}
+                                >
+                                    <span className="flex items-center justify-center">
+                                        <span className="text-2xl mr-3">{currentTheme.icon}</span>
+                                        {isLogin ? 'Enter Your Flow Zone' : 'Start Your Journey'}
+                                    </span>
+                                </button>
+                            </form>
+
+                            <div className="mt-8 text-center animate-slide-in-left" style={{animationDelay: '0.4s'}}>
+                                <button
+                                    onClick={() => setIsLogin(!isLogin)}
+                                    className="text-white opacity-80 hover:opacity-100 transition-all duration-300 text-lg hover:scale-105"
+                                >
+                                    {isLogin ? "New to FlowGenix? Create Account ✨" : "Already have an account? Sign in 🚀"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Enhanced Timer Component
+            function TimerView() {
+                const [duration, setDuration] = useState(25);
+                const [isRunning, setIsRunning] = useState(false);
+                const intervalRef = useRef(null);
+
+                useEffect(() => {
+                    if (focusSession.isActive && focusSession.timeLeft > 0 && isRunning) {
+                        intervalRef.current = setInterval(() => {
+                            setFocusSession(prev => ({
+                                ...prev,
+                                timeLeft: prev.timeLeft - 1
+                            }));
+                        }, 1000);
+                    } else if (focusSession.timeLeft === 0 && focusSession.isActive) {
+                        handleTimerComplete();
+                    }
+
+                    return () => {
+                        if (intervalRef.current) {
+                            clearInterval(intervalRef.current);
+                        }
+                    };
+                }, [focusSession.timeLeft, focusSession.isActive, isRunning]);
+
+                const startTimer = async () => {
+                    if (!focusSession.isActive) {
+                        // Show permission modal first
+                        if (!focusPermissionGranted && blockerServiceConnected) {
+                            setShowPermissionModal(true);
+                            return;
+                        }
+                        
+                        setFocusSession({
+                            isActive: true,
+                            duration: duration,
+                            timeLeft: duration * 60
+                        });
+                        
+                        // Start real app blocking if service is connected
+                        if (blockerServiceConnected && appBlockingEnabled) {
+                            const result = await blockerAPI.startBlocking(duration);
+                            if (result.success) {
+                                console.log('🛡️ Real app blocking started:', result.message);
+                                if ('Notification' in window && Notification.permission === 'granted') {
+                                    new Notification('FlowGenix - Focus Mode Active! 🎯', {
+                                        body: `Focus mode is now active for ${duration} minutes. Distracting apps will be blocked automatically!`,
+                                        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🎯</text></svg>'
+                                    });
+                                }
+                            } else {
+                                console.warn('⚠️ App blocking failed:', result.message);
+                            }
+                        }
+                    }
+                    setIsRunning(true);
+                };
+
+                const pauseTimer = () => setIsRunning(false);
+
+                const stopTimer = () => {
+                    setIsRunning(false);
+                    setFocusSession({ isActive: false, duration: 25, timeLeft: 0 });
+                };
+
+                const handleTimerComplete = () => {
+                    setIsRunning(false);
+                    const coinsEarned = Math.floor(focusSession.duration / 5);
+                    setCoins(prev => prev + coinsEarned);
+                    setHistory(prev => [...prev, {
+                        id: Date.now(),
+                        type: 'focus',
+                        duration: focusSession.duration,
+                        coinsEarned,
+                        date: new Date(),
+                        theme
+                    }]);
+                    setFocusSession({ isActive: false, duration: 25, timeLeft: 0 });
+                    
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification('FlowGenix - Focus Complete! 🎉', {
+                            body: `Amazing! You focused for ${duration} minutes and earned ${coinsEarned} coins! 💰`,
+                            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌟</text></svg>'
+                        });
+                    }
+                };
+
+                const formatTime = (seconds) => {
+                    const mins = Math.floor(seconds / 60);
+                    const secs = seconds % 60;
+                    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                };
+
+                const progress = focusSession.isActive ? 
+                    ((focusSession.duration * 60 - focusSession.timeLeft) / (focusSession.duration * 60)) * 100 : 0;
+
+                return (
+                    <div className={`min-h-screen p-4 ${currentTheme.gradient} relative`}>
+                        <BackgroundElements />
+                        
+                        <div className="max-w-6xl mx-auto text-center relative z-10">
+                            <h1 className="text-5xl font-bold mb-8 animate-slide-in-left">
+                                <span className="text-6xl mr-4">{currentTheme.icon}</span>
+                                {currentTheme.name}
+                            </h1>
+                            
+                            {/* Enhanced Timer Display */}
+                            <div className="flex flex-col items-center mb-12">
+                                <div className="timer-circle mb-8 relative animate-scale-in glass-effect">
+                                    {/* Animated Progress Ring */}
+                                    <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                                        <circle
+                                            cx="50%" cy="50%" r="130"
+                                            stroke="rgba(255,255,255,0.2)" strokeWidth="6" fill="none"
+                                        />
+                                        <circle
+                                            cx="50%" cy="50%" r="130"
+                                            stroke="white" strokeWidth="6" fill="none"
+                                            strokeDasharray={`${2 * Math.PI * 130}`}
+                                            strokeDashoffset={`${2 * Math.PI * 130 * (1 - progress / 100)}`}
+                                            className="transition-all duration-1000 ease-linear"
+                                            style={{ 
+                                                filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.5))',
+                                                stroke: focusSession.isActive ? 'white' : 'rgba(255,255,255,0.6)'
+                                            }}
+                                        />
+                                    </svg>
+                                    
+                                    <div className="text-center z-10 relative">
+                                        <div className="text-7xl font-bold mb-3 animate-pulse-glow">
+                                            {focusSession.isActive ? formatTime(focusSession.timeLeft) : formatTime(duration * 60)}
+                                        </div>
+                                        <div className="text-2xl opacity-90 animate-bounce-gentle">
+                                            {focusSession.isActive ? '🎯 Focus Zone Active' : '⭐ Ready to Focus'}
+                                        </div>
+                                    </div>
+
+                                    {/* Floating Timer Elements */}
+                                    <div className="absolute -top-8 -left-8 text-4xl animate-float-slow opacity-80">{currentTheme.icon}</div>
+                                    <div className="absolute -top-6 -right-10 text-3xl animate-float-medium opacity-70" style={{animationDelay: '1s'}}>💫</div>
+                                    <div className="absolute -bottom-8 -right-8 text-4xl animate-float-fast opacity-80" style={{animationDelay: '2s'}}>{currentTheme.icon}</div>
+                                    <div className="absolute -bottom-6 -left-10 text-3xl animate-float-slow opacity-70" style={{animationDelay: '3s'}}>⭐</div>
+                                </div>
+
+                                {/* Enhanced Floating Icons */}
+                                <div className="flex justify-center space-x-12 mb-12">
+                                    {currentTheme.elements.slice(0, 5).map((element, i) => (
+                                        <div
+                                            key={i}
+                                            className="text-6xl animate-float-medium opacity-80 hover:opacity-100 transition-opacity cursor-pointer hover:scale-110 transform transition-transform"
+                                            style={{ 
+                                                animationDelay: `${i * 0.3}s`,
+                                                filter: 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))'
+                                            }}
+                                        >
+                                            {element}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Enhanced Timer Controls */}
+                            <div className="flex flex-col items-center space-y-8 mb-12">
+                                {!focusSession.isActive ? (
+                                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-8">
+                                        <div className="relative">
+                                            <select
+                                                value={duration}
+                                                onChange={(e) => setDuration(parseInt(e.target.value))}
+                                                className="px-6 py-4 rounded-2xl glass-effect text-white text-lg font-medium focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 cursor-pointer hover:bg-opacity-20 transition-all"
+                                            >
+                                                <option value={5}>⚡ 5 minutes - Quick Boost</option>
+                                                <option value={15}>🎯 15 minutes - Focus Sprint</option>
+                                                <option value={25}>🌟 25 minutes - Power Session</option>
+                                                <option value={45}>🚀 45 minutes - Deep Work</option>
+                                                <option value={60}>🏆 1 hour - Master Focus</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button
+                                            onClick={startTimer}
+                                            className={`px-12 py-4 text-xl font-bold text-white rounded-2xl btn-theme ${currentTheme.class} animate-pulse-glow`}
+                                        >
+                                            <span className="flex items-center">
+                                                <span className="text-3xl mr-3">🚀</span>
+                                                Launch Focus Mode
+                                            </span>
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="flex space-x-6">
+                                        <button
+                                            onClick={isRunning ? pauseTimer : startTimer}
+                                            className={`px-8 py-4 text-lg font-bold text-white rounded-2xl btn-theme ${currentTheme.class}`}
+                                        >
+                                            <span className="flex items-center">
+                                                <span className="text-2xl mr-2">{isRunning ? '⏸️' : '▶️'}</span>
+                                                {isRunning ? 'Pause Focus' : 'Resume Focus'}
+                                            </span>
+                                        </button>
+                                        
+                                        <button
+                                            onClick={stopTimer}
+                                            className="px-8 py-4 text-lg font-bold text-white rounded-2xl bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 btn-theme transition-all"
+                                        >
+                                            <span className="flex items-center">
+                                                <span className="text-2xl mr-2">⏹️</span>
+                                                End Session
+                                            </span>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Enhanced Stats Cards */}
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                                {[
+                                    { icon: '💰', value: coins, label: 'Focus Coins', color: '#FFD700' },
+                                    { icon: '🎯', value: history.length, label: 'Sessions', color: '#00FF7F' },
+                                    { icon: '⏱️', value: `${Math.round(history.reduce((acc, h) => acc + (h.duration || 0), 0) / 60)}h`, label: 'Total Time', color: '#FF69B4' },
+                                    { icon: '📈', value: `${Math.round((history.length / 30) * 100)}%`, label: 'Monthly Goal', color: '#87CEEB' }
+                                ].map((stat, index) => (
+                                    <div
+                                        key={stat.label}
+                                        className="glass-card rounded-2xl p-6 text-center animate-slide-in-left hover:scale-105 transition-transform"
+                                        style={{ animationDelay: `${index * 0.1}s` }}
+                                    >
+                                        <div className="text-4xl mb-3 animate-bounce-gentle" style={{ color: stat.color }}>
+                                            {stat.icon}
+                                        </div>
+                                        <div className="text-3xl font-bold mb-2" style={{ color: stat.color }}>
+                                            {stat.value}
+                                        </div>
+                                        <div className="text-sm opacity-80 font-medium">{stat.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Enhanced Dashboard
+            function DashboardView() {
+                const stats = {
+                    totalTime: history.reduce((acc, h) => acc + (h.duration || 0), 0),
+                    totalSessions: history.length
+                };
+
+                const quickActions = [
+                    { name: 'Focus Timer', icon: '⏱️', desc: 'Start your focus journey', view: 'timer', gradient: 'from-blue-500 to-purple-600' },
+                    { name: 'Todo List', icon: '✅', desc: 'Organize your tasks', view: 'todo', gradient: 'from-green-500 to-teal-600' },
+                    { name: 'Rewards', icon: '🎁', desc: 'Claim your rewards', view: 'rewards', gradient: 'from-yellow-500 to-orange-600' },
+                    { name: 'Themes', icon: '🎨', desc: 'Customize your vibe', view: 'themes', gradient: 'from-pink-500 to-rose-600' }
+                ];
+
+                return (
+                    <div className={`min-h-screen p-4 ${currentTheme.gradient} relative`}>
+                        <BackgroundElements />
+                        
+                        <div className="max-w-7xl mx-auto relative z-10">
+                            <div className="text-center mb-12">
+                                <h1 className="text-6xl font-bold mb-4 animate-slide-in-left">
+                                    <span className="text-7xl mr-4">{currentTheme.icon}</span>
+                                    Welcome back, {user?.name}!
+                                </h1>
+                                <p className="text-white text-2xl opacity-90 animate-slide-in-right">
+                                    Ready to boost your productivity? ✨
+                                </p>
+                                <div className="text-xl opacity-80 mt-2 animate-fade-in">
+                                    {currentTheme.name} • Let's make today amazing! 🚀
+                                </div>
+                            </div>
+
+                            {/* Enhanced Stats Overview */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                                {[
+                                    { icon: '⏰', value: `${Math.round(stats.totalTime / 60)}h`, label: 'Total Focus', color: '#4ECDC4' },
+                                    { icon: '🎯', value: stats.totalSessions, label: 'Sessions', color: '#45B7D1' },
+                                    { icon: '💰', value: coins, label: 'Coins', color: '#FFA07A' },
+                                    { icon: '🔥', value: Math.min(7, Math.floor(stats.totalSessions / 3)), label: 'Streak', color: '#98D8C8' }
+                                ].map((stat, index) => (
+                                    <div
+                                        key={stat.label}
+                                        className="glass-card rounded-3xl p-6 text-center animate-pop-in"
+                                        style={{ animationDelay: `${index * 0.1}s` }}
+                                    >
+                                        <div className="text-5xl mb-4 animate-float-medium" style={{ color: stat.color }}>
+                                            {stat.icon}
+                                        </div>
+                                        <div className="text-3xl font-bold mb-2" style={{ color: stat.color }}>
+                                            {stat.value}
+                                        </div>
+                                        <div className="text-white opacity-80 font-medium">{stat.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Enhanced Quick Actions */}
+                            <h2 className="text-4xl font-bold mb-8 text-center animate-slide-in-left">
+                                <span className="text-5xl mr-3">🚀</span>
+                                Quick Actions
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                                {quickActions.map((action, index) => (
+                                    <div
+                                        key={action.name}
+                                        onClick={() => setCurrentView(action.view)}
+                                        className="glass-card rounded-3xl p-8 text-center cursor-pointer group animate-scale-in"
+                                        style={{ animationDelay: `${index * 0.1}s` }}
+                                    >
+                                        <div className="text-7xl mb-6 group-hover:scale-110 transform transition-transform animate-bounce-gentle">
+                                            {action.icon}
+                                        </div>
+                                        <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-yellow-300 transition-colors">
+                                            {action.name}
+                                        </h3>
+                                        <p className="text-white opacity-80 text-lg group-hover:opacity-100 transition-opacity">
+                                            {action.desc}
+                                        </p>
+                                        <div className={`mt-4 h-1 w-full bg-gradient-to-r ${action.gradient} rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform`}></div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Enhanced Motivational Section */}
+                            <div className="glass-card rounded-3xl p-12 text-center animate-slide-in-left">
+                                <div className="text-8xl mb-6 animate-pulse-glow">{currentTheme.icon}</div>
+                                <blockquote className="text-3xl font-medium mb-4 text-white leading-relaxed">
+                                    "Success is the sum of small efforts repeated day in and day out."
+                                </blockquote>
+                                <cite className="text-xl text-white opacity-80">- Robert Collier</cite>
+                                <div className="mt-6 flex justify-center space-x-4">
+                                    {currentTheme.elements.slice(0, 3).map((element, i) => (
+                                        <span key={i} className="text-3xl animate-wiggle" style={{ animationDelay: `${i * 0.5}s` }}>
+                                            {element}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Continue with other enhanced components...
+            // (ThemesView, TodoView, RewardsView with similar enhancements)
+
+            // Enhanced Theme Selector
+            function ThemesView() {
+                return (
+                    <div className={`min-h-screen p-4 ${currentTheme.gradient} relative`}>
+                        <BackgroundElements />
+                        
+                        <div className="max-w-6xl mx-auto relative z-10">
+                            <div className="text-center mb-12">
+                                <h1 className="text-6xl font-bold mb-6 animate-slide-in-left">
+                                    🎨 Choose Your Vibe
+                                </h1>
+                                <p className="text-white text-2xl opacity-90 animate-slide-in-right">
+                                    Transform your focus experience with stunning themes! ✨
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {Object.entries(themes).map(([key, themeData], index) => (
+                                    <div
+                                        key={key}
+                                        onClick={() => setTheme(key)}
+                                        className={`relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-500 animate-scale-in ${
+                                            theme === key ? 'ring-4 ring-white ring-opacity-80 scale-105 shadow-2xl' : 'hover:scale-102'
+                                        } ${themeData.gradient}`}
+                                        style={{ animationDelay: `${index * 0.1}s` }}
+                                    >
+                                        <div className="p-8 min-h-[350px] flex flex-col">
+                                            {theme === key && (
+                                                <div className="absolute top-6 right-6 bg-white bg-opacity-30 rounded-full p-3 animate-pop-in">
+                                                    <span className="text-2xl">✓</span>
+                                                </div>
+                                            )}
+                                            
+                                            <div className="flex items-center space-x-4 mb-6">
+                                                <div className="text-6xl animate-bounce-gentle">{themeData.icon}</div>
+                                                <div>
+                                                    <h3 className="text-3xl font-bold text-white">{themeData.name}</h3>
+                                                    <div className="flex space-x-2 mt-2">
+                                                        {themeData.elements.slice(0, 4).map((element, i) => (
+                                                            <span key={i} className="text-2xl animate-wiggle" style={{ animationDelay: `${i * 0.2}s` }}>
+                                                                {element}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex-1 flex items-center justify-center">
+                                                <div className="glass-effect rounded-2xl p-6 w-full backdrop-blur-lg">
+                                                    <div className="text-center mb-4">
+                                                        <div className="text-4xl mb-2 animate-float-medium">{themeData.icon}</div>
+                                                        <div className="text-white font-bold text-lg">Preview Mode</div>
+                                                    </div>
+                                                    <div className="flex justify-center mb-4">
+                                                        <div className="w-20 h-20 rounded-full border-4 border-white border-opacity-40 flex items-center justify-center animate-pulse-glow">
+                                                            <span className="font-bold text-white text-lg">25:00</span>
+                                                        </div>
+                                                    </div>
+                                                    <button className={`w-full py-3 rounded-xl font-bold text-white btn-theme ${themeData.class} text-lg`}>
+                                                        🚀 Start Focus Session
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Theme-specific floating elements */}
+                                        <div className="absolute top-4 left-4 text-2xl opacity-30 animate-float-slow">
+                                            {themeData.elements[0]}
+                                        </div>
+                                        <div className="absolute bottom-4 right-4 text-2xl opacity-30 animate-float-medium">
+                                            {themeData.elements[1]}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Current Theme Display */}
+                            <div className="mt-12 text-center">
+                                <div className="glass-card rounded-3xl p-8 max-w-md mx-auto animate-slide-in-left">
+                                    <h3 className="text-2xl font-bold text-white mb-4">Current Theme</h3>
+                                    <div className="flex items-center justify-center space-x-4 mb-4">
+                                        <div className="text-5xl animate-pulse-glow">{currentTheme.icon}</div>
+                                        <div className="text-2xl text-white font-bold">{currentTheme.name}</div>
+                                    </div>
+                                    <div className="flex justify-center space-x-2">
+                                        {currentTheme.elements.slice(0, 5).map((element, i) => (
+                                            <span key={i} className="text-2xl animate-bounce-gentle" style={{ animationDelay: `${i * 0.1}s` }}>
+                                                {element}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Navigation remains the same but with enhanced styling
+            function Navigation() {
+                const navItems = [
+                    { key: 'dashboard', label: '🏠 Home' },
+                    { key: 'timer', label: '⏱️ Timer' },
+                    { key: 'todo', label: '✅ Todo' },
+                    { key: 'rewards', label: '🎁 Rewards' },
+                    { key: 'themes', label: '🎨 Themes' }
+                ];
+
+                return (
+                    <nav className="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-white border-opacity-20">
+                        <div className="max-w-7xl mx-auto px-6">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center space-x-3">
+                                    <div className={`w-10 h-10 rounded-xl btn-theme ${currentTheme.class} flex items-center justify-center text-xl animate-pulse-glow`}>
+                                        {currentTheme.icon}
+                                    </div>
+                                    <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+                                        FlowGenix
+                                    </span>
+                                </div>
+
+                                <div className="hidden md:flex items-center space-x-2">
+                                    {navItems.map(item => (
+                                        <button
+                                            key={item.key}
+                                            onClick={() => setCurrentView(item.key)}
+                                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 ${
+                                                currentView === item.key
+                                                    ? `btn-theme ${currentTheme.class} shadow-lg`
+                                                    : 'text-white opacity-80 hover:opacity-100 hover:bg-white hover:bg-opacity-15'
+                                            }`}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-2 px-3 py-1 rounded-full glass-effect">
+                                        <span className="text-xl">💰</span>
+                                        <span className="font-bold">{coins}</span>
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            setUser(null);
+                                            setCurrentView('auth');
+                                        }}
+                                        className="text-sm opacity-80 hover:opacity-100 px-3 py-1 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all"
+                                    >
+                                        Sign Out 👋
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                );
+            }
+
+            // Focus Permission Modal
+            function FocusPermissionModal() {
+                const handleAllow = async () => {
+                    setFocusPermissionGranted(true);
+                    setShowPermissionModal(false);
+                    
+                    // Start the timer after permission is granted
+                    setFocusSession({
+                        isActive: true,
+                        duration: duration,
+                        timeLeft: duration * 60
+                    });
+                    
+                    // Start real app blocking
+                    if (blockerServiceConnected && appBlockingEnabled) {
+                        const result = await blockerAPI.startBlocking(duration);
+                        if (result.success) {
+                            console.log('🛡️ Real app blocking started:', result.message);
+                            if ('Notification' in window && Notification.permission === 'granted') {
+                                new Notification('FlowGenix - Focus Protection Active! 🛡️', {
+                                    body: `Focus mode activated! All distracting apps and websites will be blocked for ${duration} minutes. Stay focused!`,
+                                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🛡️</text></svg>'
+                                });
+                            }
+                        }
+                    }
+                    setIsRunning(true);
+                };
+                
+                const handleDeny = () => {
+                    setShowPermissionModal(false);
+                };
+                
+                if (!showPermissionModal) return null;
+                
+                return (
+                    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+                        <div className={`glass-card rounded-3xl p-8 max-w-md w-full animate-scale-in ${currentTheme.gradient}`}>
+                            <div className="text-center mb-8">
+                                <div className="text-8xl mb-4 animate-bounce-gentle">🛡️</div>
+                                <h2 className="text-3xl font-bold text-white mb-4">Enable Focus Protection</h2>
+                                <p className="text-white text-lg opacity-90 leading-relaxed">
+                                    FlowGenix can help you stay focused by temporarily restricting access to distracting apps and websites during your focus session.
+                                </p>
+                            </div>
+                            
+                            <div className="mb-8">
+                                <div className="glass-effect rounded-2xl p-6 mb-4">
+                                    <h3 className="text-white font-bold mb-3 flex items-center">
+                                        <span className="text-2xl mr-2">✅</span>
+                                        What will be protected:
+                                    </h3>
+                                    <ul className="text-white opacity-80 space-y-2">
+                                        <li>• Social media apps (Discord, WhatsApp, etc.)</li>
+                                        <li>• Entertainment apps (Spotify, Netflix, etc.)</li>
+                                        <li>• Gaming platforms (Steam, Epic Games, etc.)</li>
+                                        <li>• Distracting websites and browsers</li>
+                                    </ul>
+                                </div>
+                                
+                                <div className="glass-effect rounded-2xl p-6 bg-green-500 bg-opacity-20">
+                                    <h3 className="text-white font-bold mb-3 flex items-center">
+                                        <span className="text-2xl mr-2">✨</span>
+                                        Always accessible:
+                                    </h3>
+                                    <ul className="text-white opacity-80 space-y-2">
+                                        <li>• FlowGenix (this productivity app)</li>
+                                        <li>• Essential system applications</li>
+                                        <li>• Work and productivity tools</li>
+                                        <li>• Emergency communication apps</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div className="flex space-x-4">
+                                <button
+                                    onClick={handleDeny}
+                                    className="flex-1 py-4 px-6 rounded-2xl text-white font-bold bg-gray-600 bg-opacity-50 hover:bg-opacity-70 transition-all"
+                                >
+                                    <span className="flex items-center justify-center">
+                                        <span className="text-2xl mr-2">❌</span>
+                                        Not Now
+                                    </span>
+                                </button>
+                                <button
+                                    onClick={handleAllow}
+                                    className={`flex-1 py-4 px-6 rounded-2xl text-white font-bold btn-theme ${currentTheme.class} animate-pulse-glow`}
+                                >
+                                    <span className="flex items-center justify-center">
+                                        <span className="text-2xl mr-2">🚀</span>
+                                        Enable Protection
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Win32 App Blocker Status Indicator
+            function BlockerStatusIndicator() {
+                if (!blockerServiceConnected) return null;
+                
+                return (
+                    <div className="fixed bottom-4 right-4 z-50">
+                        <div className="glass-effect rounded-2xl p-4 animate-slide-in-right">
+                            <div className="flex items-center space-x-3">
+                                <div className="text-2xl animate-pulse-glow">🛡️</div>
+                                <div className="text-white">
+                                    <div className="font-bold text-sm">Focus Protection</div>
+                                    <div className="text-xs opacity-80">
+                                        {appBlockingEnabled ? 'Connected & Ready' : 'Connected'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Request notification permission
+            useEffect(() => {
+                if ('Notification' in window && Notification.permission === 'default') {
+                    Notification.requestPermission();
+                }
+            }, []);
+
+            // Render current view
+            const renderView = () => {
+                switch (currentView) {
+                    case 'auth': return <AuthView />;
+                    case 'dashboard': return <DashboardView />;
+                    case 'timer': return <TimerView />;
+                    case 'themes': return <ThemesView />;
+                    // Add other views here
+                    default: return <DashboardView />;
+                }
+            };
+
+            return (
+                <div className={currentTheme.class}>
+                    {user && <Navigation />}
+                    {user && <div className="pt-16"></div>}
+                    {renderView()}
+                    <BlockerStatusIndicator />
+                    <FocusPermissionModal />
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<FlowGenixApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

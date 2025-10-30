@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900;
+    @apply text-white font-sans;
+    @apply overflow-x-hidden;
+  }
+  
+  * {
+    @apply scrollbar-thin scrollbar-thumb-purple-600 scrollbar-track-purple-300;
+  }
+}
+
+@layer components {
+  .glass-effect {
+    @apply bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20;
+  }
+  
+  .theme-kpop {
+    @apply bg-gradient-kpop text-white;
+  }
+  
+  .theme-anime {
+    @apply bg-gradient-anime text-white;
+  }
+  
+  .theme-car {
+    @apply bg-gradient-car text-white;
+  }
+  
+  .theme-music {
+    @apply bg-gradient-music text-white;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300;
+    @apply hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl;
+  }
+  
+  .btn-kpop {
+    @apply bg-gradient-to-r from-kpop-primary to-kpop-secondary;
+    @apply hover:from-kpop-secondary hover:to-kpop-primary;
+  }
+  
+  .btn-anime {
+    @apply bg-gradient-to-r from-anime-primary to-anime-secondary;
+    @apply hover:from-anime-secondary hover:to-anime-primary;
+  }
+  
+  .btn-car {
+    @apply bg-gradient-to-r from-car-primary to-car-secondary;
+    @apply hover:from-car-secondary hover:to-car-primary;
+  }
+  
+  .btn-music {
+    @apply bg-gradient-to-r from-music-primary to-music-secondary;
+    @apply hover:from-music-secondary hover:to-music-primary;
+  }
+  
+  .card {
+    @apply glass-effect rounded-2xl p-6 shadow-2xl;
+    @apply hover:bg-opacity-20 transition-all duration-300;
+  }
+  
+  .input-field {
+    @apply glass-effect rounded-xl px-4 py-3 text-white placeholder-white placeholder-opacity-70;
+    @apply focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50;
+    @apply transition-all duration-300;
+  }
+  
+  .timer-circle {
+    @apply w-64 h-64 rounded-full border-8 border-white border-opacity-30;
+    @apply flex items-center justify-center text-4xl font-bold;
+    @apply animate-pulse-slow;
+  }
+  
+  .floating-animation {
+    @apply animate-float;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .glow {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+  
+  .glow-kpop {
+    box-shadow: 0 0 20px rgba(255, 107, 157, 0.5);
+  }
+  
+  .glow-anime {
+    box-shadow: 0 0 20px rgba(255, 64, 129, 0.5);
+  }
+  
+  .glow-car {
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.5);
+  }
+  
+  .glow-music {
+    box-shadow: 0 0 20px rgba(156, 39, 176, 0.5);
+  }
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Camera overlay styles */
+.camera-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 200px;
+  height: 150px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.camera-overlay video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Theme-specific animations */
+@keyframes kpopPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 107, 157, 0); }
+}
+
+@keyframes animePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 64, 129, 0); }
+}
+
+@keyframes carPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 87, 34, 0); }
+}
+
+@keyframes musicPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(156, 39, 176, 0); }
+}
+
+.animate-kpop-pulse {
+  animation: kpopPulse 2s infinite;
+}
+
+.animate-anime-pulse {
+  animation: animePulse 2s infinite;
+}
+
+.animate-car-pulse {
+  animation: carPulse 2s infinite;
+}
+
+.animate-music-pulse {
+  animation: musicPulse 2s infinite;
+}

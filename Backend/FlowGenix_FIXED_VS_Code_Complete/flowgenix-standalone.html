@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowGenix - Focus Mode App</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        kpop: {
+                            primary: '#FF6B9D',
+                            secondary: '#A855F7',
+                            accent: '#06D6A0',
+                            dark: '#2D1B69'
+                        },
+                        anime: {
+                            primary: '#FF4081',
+                            secondary: '#536DFE',
+                            accent: '#FFC107',
+                            dark: '#1A1A2E'
+                        },
+                        car: {
+                            primary: '#FF5722',
+                            secondary: '#607D8B',
+                            accent: '#FFC107',
+                            dark: '#212121'
+                        },
+                        music: {
+                            primary: '#9C27B0',
+                            secondary: '#E91E63',
+                            accent: '#00BCD4',
+                            dark: '#1A1A1A'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-kpop': 'linear-gradient(135deg, #FF6B9D 0%, #A855F7 100%)',
+                        'gradient-anime': 'linear-gradient(135deg, #FF4081 0%, #536DFE 100%)',
+                        'gradient-car': 'linear-gradient(135deg, #FF5722 0%, #607D8B 100%)',
+                        'gradient-music': 'linear-gradient(135deg, #9C27B0 0%, #E91E63 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .timer-circle {
+            width: 16rem;
+            height: 16rem;
+            border-radius: 50%;
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .btn-theme {
+            background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-theme:hover {
+            transform: scale(1.05);
+        }
+        
+        .theme-kpop {
+            --theme-primary: #FF6B9D;
+            --theme-secondary: #A855F7;
+        }
+        
+        .theme-anime {
+            --theme-primary: #FF4081;
+            --theme-secondary: #536DFE;
+        }
+        
+        .theme-car {
+            --theme-primary: #FF5722;
+            --theme-secondary: #607D8B;
+        }
+        
+        .theme-music {
+            --theme-primary: #9C27B0;
+            --theme-secondary: #E91E63;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // FlowGenix App Component
+        function FlowGenixApp() {
+            const [currentView, setCurrentView] = useState('auth');
+            const [theme, setTheme] = useState('kpop');
+            const [user, setUser] = useState(null);
+            const [coins, setCoins] = useState(0);
+            const [focusSession, setFocusSession] = useState({
+                isActive: false,
+                duration: 25,
+                timeLeft: 0
+            });
+            const [todos, setTodos] = useState([]);
+            const [history, setHistory] = useState([]);
+
+            const themes = {
+                kpop: { 
+                    gradient: 'bg-gradient-kpop', 
+                    icon: '🌟', 
+                    name: 'K-Pop Flow',
+                    class: 'theme-kpop'
+                },
+                anime: { 
+                    gradient: 'bg-gradient-anime', 
+                    icon: '⚡', 
+                    name: 'Anime Power',
+                    class: 'theme-anime'
+                },
+                car: { 
+                    gradient: 'bg-gradient-car', 
+                    icon: '🏎️', 
+                    name: 'Racing Mode',
+                    class: 'theme-car'
+                },
+                music: { 
+                    gradient: 'bg-gradient-music', 
+                    icon: '🎵', 
+                    name: 'Music Vibes',
+                    class: 'theme-music'
+                }
+            };
+
+            const currentTheme = themes[theme];
+
+            // Authentication Component
+            function AuthView() {
+                const [isLogin, setIsLogin] = useState(true);
+                const [formData, setFormData] = useState({ email: '', password: '', name: '' });
+
+                const handleSubmit = (e) => {
+                    e.preventDefault();
+                    if (formData.email) {
+                        setUser({
+                            name: formData.name || formData.email.split('@')[0],
+                            email: formData.email,
+                            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name || formData.email)}&background=FF6B9D&color=fff`
+                        });
+                        setCurrentView('dashboard');
+                    }
+                };
+
+                return (
+                    <div className={`min-h-screen flex items-center justify-center p-4 bg-gradient-to-br ${currentTheme.gradient.replace('bg-', '')}`}>
+                        <div className="glass-effect rounded-2xl p-8 w-full max-w-md">
+                            <div className="text-center mb-8">
+                                <h1 className="text-4xl font-bold mb-2">{currentTheme.icon} FlowGenix</h1>
+                                <p className="text-white opacity-80">{isLogin ? 'Welcome back!' : 'Join the flow!'}</p>
+                            </div>
+
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                {!isLogin && (
+                                    <input
+                                        type="text"
+                                        placeholder="Full Name"
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                        className="w-full p-3 rounded-xl bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-70"
+                                        required={!isLogin}
+                                    />
+                                )}
+                                
+                                <input
+                                    type="email"
+                                    placeholder="Email Address"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    className="w-full p-3 rounded-xl bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-70"
+                                    required
+                                />
+                                
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={formData.password}
+                                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                                    className="w-full p-3 rounded-xl bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-70"
+                                    required
+                                />
+                                
+                                <button
+                                    type="submit"
+                                    className={`w-full p-3 rounded-xl font-semibold text-white btn-theme ${currentTheme.class}`}
+                                >
+                                    {isLogin ? 'Sign In' : 'Create Account'}
+                                </button>
+                            </form>
+
+                            <div className="mt-6 text-center">
+                                <button
+                                    onClick={() => setIsLogin(!isLogin)}
+                                    className="text-white opacity-80 hover:opacity-100"
+                                >
+                                    {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Focus Timer Component
+            function TimerView() {
+                const [duration, setDuration] = useState(25);
+                const [isRunning, setIsRunning] = useState(false);
+                const intervalRef = useRef(null);
+
+                useEffect(() => {
+                    if (focusSession.isActive && focusSession.timeLeft > 0 && isRunning) {
+                        intervalRef.current = setInterval(() => {
+                            setFocusSession(prev => ({
+                                ...prev,
+                                timeLeft: prev.timeLeft - 1
+                            }));
+                        }, 1000);
+                    } else if (focusSession.timeLeft === 0 && focusSession.isActive) {
+                        handleTimerComplete();
+                    }
+
+                    return () => {
+                        if (intervalRef.current) {
+                            clearInterval(intervalRef.current);
+                        }
+                    };
+                }, [focusSession.timeLeft, focusSession.isActive, isRunning]);
+
+                const startTimer = () => {
+                    if (!focusSession.isActive) {
+                        setFocusSession({
+                            isActive: true,
+                            duration: duration,
+                            timeLeft: duration * 60
+                        });
+                    }
+                    setIsRunning(true);
+                };
+
+                const pauseTimer = () => {
+                    setIsRunning(false);
+                };
+
+                const stopTimer = () => {
+                    setIsRunning(false);
+                    setFocusSession({ isActive: false, duration: 25, timeLeft: 0 });
+                };
+
+                const handleTimerComplete = () => {
+                    setIsRunning(false);
+                    const coinsEarned = Math.floor(focusSession.duration / 5);
+                    setCoins(prev => prev + coinsEarned);
+                    setHistory(prev => [...prev, {
+                        id: Date.now(),
+                        type: 'focus',
+                        duration: focusSession.duration,
+                        coinsEarned,
+                        date: new Date(),
+                        theme
+                    }]);
+                    setFocusSession({ isActive: false, duration: 25, timeLeft: 0 });
+                    
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification('FlowGenix - Focus Complete!', {
+                            body: `Great job! You focused for ${duration} minutes and earned ${coinsEarned} coins.`
+                        });
+                    }
+                };
+
+                const formatTime = (seconds) => {
+                    const mins = Math.floor(seconds / 60);
+                    const secs = seconds % 60;
+                    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                };
+
+                const progress = focusSession.isActive ? 
+                    ((focusSession.duration * 60 - focusSession.timeLeft) / (focusSession.duration * 60)) * 100 : 0;
+
+                return (
+                    <div className={`min-h-screen p-4 bg-gradient-to-br ${currentTheme.gradient.replace('bg-', '')}`}>
+                        <div className="max-w-4xl mx-auto text-center">
+                            <h1 className="text-4xl font-bold mb-8">{currentTheme.icon} {currentTheme.name}</h1>
+                            
+                            {/* Timer Display */}
+                            <div className="flex flex-col items-center mb-8">
+                                <div className="timer-circle mb-8 relative">
+                                    <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                                        <circle
+                                            cx="50%" cy="50%" r="120"
+                                            stroke="rgba(255,255,255,0.3)" strokeWidth="8" fill="none"
+                                        />
+                                        <circle
+                                            cx="50%" cy="50%" r="120"
+                                            stroke="white" strokeWidth="8" fill="none"
+                                            strokeDasharray={`${2 * Math.PI * 120}`}
+                                            strokeDashoffset={`${2 * Math.PI * 120 * (1 - progress / 100)}`}
+                                            style={{ transition: 'stroke-dashoffset 1s ease-linear' }}
+                                        />
+                                    </svg>
+                                    <div className="text-center">
+                                        <div className="text-6xl font-bold mb-2">
+                                            {focusSession.isActive ? formatTime(focusSession.timeLeft) : formatTime(duration * 60)}
+                                        </div>
+                                        <div className="text-lg opacity-80">
+                                            {focusSession.isActive ? 'Focus Time' : 'Ready to Focus'}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Floating Icons */}
+                                <div className="flex justify-center space-x-8 mb-8">
+                                    {Array.from({ length: 5 }).map((_, i) => (
+                                        <div key={i} className="text-4xl floating" style={{ animationDelay: `${i * 0.2}s` }}>
+                                            {currentTheme.icon}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Timer Controls */}
+                            <div className="flex justify-center space-x-6 mb-8">
+                                {!focusSession.isActive ? (
+                                    <>
+                                        <select
+                                            value={duration}
+                                            onChange={(e) => setDuration(parseInt(e.target.value))}
+                                            className="p-3 rounded-xl bg-white bg-opacity-10 text-white"
+                                        >
+                                            <option value={5}>5 minutes</option>
+                                            <option value={15}>15 minutes</option>
+                                            <option value={25}>25 minutes</option>
+                                            <option value={45}>45 minutes</option>
+                                            <option value={60}>1 hour</option>
+                                        </select>
+                                        
+                                        <button
+                                            onClick={startTimer}
+                                            className={`px-8 py-4 text-lg font-semibold text-white rounded-xl btn-theme ${currentTheme.class}`}
+                                        >
+                                            ▶ Start Focus
+                                        </button>
+                                    </>
+                                ) : (
+                                    <div className="space-x-4">
+                                        <button
+                                            onClick={isRunning ? pauseTimer : startTimer}
+                                            className={`px-6 py-3 font-semibold text-white rounded-xl btn-theme ${currentTheme.class}`}
+                                        >
+                                            {isRunning ? '⏸ Pause' : '▶ Resume'}
+                                        </button>
+                                        
+                                        <button
+                                            onClick={stopTimer}
+                                            className="px-6 py-3 font-semibold text-white rounded-xl bg-red-500 hover:bg-red-600"
+                                        >
+                                            ⏹ Stop
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Stats */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="glass-effect rounded-2xl p-4 text-center">
+                                    <div className="text-2xl font-bold mb-2">{coins}</div>
+                                    <div className="text-sm opacity-80">Focus Coins</div>
+                                </div>
+                                <div className="glass-effect rounded-2xl p-4 text-center">
+                                    <div className="text-2xl font-bold mb-2">{history.length}</div>
+                                    <div className="text-sm opacity-80">Sessions</div>
+                                </div>
+                                <div className="glass-effect rounded-2xl p-4 text-center">
+                                    <div className="text-2xl font-bold mb-2">
+                                        {Math.round(history.reduce((acc, h) => acc + (h.duration || 0), 0) / 60)}h
+                                    </div>
+                                    <div className="text-sm opacity-80">Total Time</div>
+                                </div>
+                                <div className="glass-effect rounded-2xl p-4 text-center">
+                                    <div className="text-2xl font-bold mb-2">
+                                        {Math.round((history.length / 30) * 100)}%
+                                    </div>
+                                    <div className="text-sm opacity-80">Monthly Goal</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Dashboard Component
+            function DashboardView() {
+                const stats = {
+                    totalTime: history.reduce((acc, h) => acc + (h.duration || 0), 0),
+                    totalSessions: history.length
+                };
+
+                return (
+                    <div className={`min-h-screen p-4 bg-gradient-to-br ${currentTheme.gradient.replace('bg-', '')}`}>
+                        <div className="max-w-6xl mx-auto">
+                            <div className="text-center mb-8">
+                                <h1 className="text-5xl font-bold mb-2">
+                                    {currentTheme.icon} Welcome back, {user?.name}!
+                                </h1>
+                                <p className="text-white opacity-80 text-lg">{currentTheme.name} Dashboard</p>
+                            </div>
+
+                            {/* Stats Overview */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                                <div className="glass-effect rounded-2xl p-6 text-center">
+                                    <div className="text-2xl font-bold mb-1">{Math.round(stats.totalTime / 60)}h</div>
+                                    <div className="text-sm opacity-80">Total Focus</div>
+                                </div>
+                                <div className="glass-effect rounded-2xl p-6 text-center">
+                                    <div className="text-2xl font-bold mb-1">{stats.totalSessions}</div>
+                                    <div className="text-sm opacity-80">Sessions</div>
+                                </div>
+                                <div className="glass-effect rounded-2xl p-6 text-center">
+                                    <div className="text-2xl font-bold mb-1">{coins}</div>
+                                    <div className="text-sm opacity-80">Coins</div>
+                                </div>
+                                <div className="glass-effect rounded-2xl p-6 text-center">
+                                    <div className="text-2xl font-bold mb-1">{Math.min(7, Math.floor(stats.totalSessions / 3))}</div>
+                                    <div className="text-sm opacity-80">Day Streak</div>
+                                </div>
+                            </div>
+
+                            {/* Quick Actions */}
+                            <h2 className="text-2xl font-bold mb-6 text-center">Quick Actions</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                {[
+                                    { name: 'Focus Timer', icon: '⏱️', view: 'timer', desc: 'Start a focus session' },
+                                    { name: 'Todo List', icon: '✅', view: 'todo', desc: 'Manage your tasks' },
+                                    { name: 'Rewards', icon: '🎁', view: 'rewards', desc: 'Redeem your coins' },
+                                    { name: 'Themes', icon: '🎨', view: 'themes', desc: 'Change your theme' }
+                                ].map((action, index) => (
+                                    <div
+                                        key={action.name}
+                                        onClick={() => setCurrentView(action.view)}
+                                        className="glass-effect rounded-2xl p-6 text-center cursor-pointer hover:bg-opacity-20 transition-all duration-300 hover:scale-105"
+                                    >
+                                        <div className="text-6xl mb-4">{action.icon}</div>
+                                        <h3 className="text-lg font-semibold mb-2">{action.name}</h3>
+                                        <p className="text-white opacity-70 text-sm">{action.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Motivational Quote */}
+                            <div className="glass-effect rounded-2xl p-8 text-center">
+                                <div className="text-4xl mb-4">{currentTheme.icon}</div>
+                                <blockquote className="text-xl font-medium mb-2">
+                                    "The secret of getting ahead is getting started."
+                                </blockquote>
+                                <cite className="text-white opacity-70">- Mark Twain</cite>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Theme Selector Component
+            function ThemesView() {
+                return (
+                    <div className={`min-h-screen p-4 bg-gradient-to-br ${currentTheme.gradient.replace('bg-', '')}`}>
+                        <div className="max-w-6xl mx-auto">
+                            <div className="text-center mb-8">
+                                <h1 className="text-5xl font-bold mb-4">🎨 Choose Your Theme</h1>
+                                <p className="text-white opacity-80 text-lg">
+                                    Select a theme that matches your vibe and helps you stay focused
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {Object.entries(themes).map(([key, themeData]) => (
+                                    <div
+                                        key={key}
+                                        onClick={() => setTheme(key)}
+                                        className={`relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 ${
+                                            theme === key ? 'ring-4 ring-white ring-opacity-60 scale-105' : 'hover:scale-102'
+                                        } bg-gradient-to-br ${themeData.gradient.replace('bg-', '')}`}
+                                    >
+                                        <div className="p-6 min-h-[300px] flex flex-col">
+                                            {theme === key && (
+                                                <div className="absolute top-4 right-4 bg-white bg-opacity-20 rounded-full p-2">
+                                                    ✓
+                                                </div>
+                                            )}
+                                            
+                                            <div className="flex items-center space-x-3 mb-4">
+                                                <div className="text-4xl">{themeData.icon}</div>
+                                                <div>
+                                                    <h3 className="text-2xl font-bold">{themeData.name}</h3>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex-1 flex items-center justify-center">
+                                                <div className="glass-effect rounded-lg p-4 w-full">
+                                                    <div className="text-center mb-3">
+                                                        <div className="text-2xl">{themeData.icon}</div>
+                                                        <div className="font-medium">Preview Timer</div>
+                                                    </div>
+                                                    <div className="flex justify-center mb-3">
+                                                        <div className="w-16 h-16 rounded-full border-4 border-white border-opacity-30 flex items-center justify-center">
+                                                            <span className="font-bold">25:00</span>
+                                                        </div>
+                                                    </div>
+                                                    <button className={`w-full py-2 rounded-lg font-medium btn-theme ${themeData.class}`}>
+                                                        Start Focus Session
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Simple Todo Component
+            function TodoView() {
+                const [newTask, setNewTask] = useState('');
+
+                const addTodo = (e) => {
+                    e.preventDefault();
+                    if (newTask.trim()) {
+                        setTodos([...todos, {
+                            id: Date.now(),
+                            text: newTask.trim(),
+                            completed: false
+                        }]);
+                        setNewTask('');
+                    }
+                };
+
+                const toggleTodo = (id) => {
+                    setTodos(todos.map(todo => 
+                        todo.id === id ? {...todo, completed: !todo.completed} : todo
+                    ));
+                };
+
+                return (
+                    <div className={`min-h-screen p-4 bg-gradient-to-br ${currentTheme.gradient.replace('bg-', '')}`}>
+                        <div className="max-w-4xl mx-auto">
+                            <div className="text-center mb-8">
+                                <h1 className="text-4xl font-bold mb-4">{currentTheme.icon} Todo List</h1>
+                                <p className="text-white opacity-80">Organize your tasks and boost productivity</p>
+                            </div>
+
+                            <div className="glass-effect rounded-2xl p-6 mb-8">
+                                <form onSubmit={addTodo} className="flex space-x-4">
+                                    <input
+                                        type="text"
+                                        value={newTask}
+                                        onChange={(e) => setNewTask(e.target.value)}
+                                        placeholder="What do you want to accomplish?"
+                                        className="flex-1 p-3 rounded-xl bg-white bg-opacity-10 border border-white border-opacity-20 text-white placeholder-white placeholder-opacity-70"
+                                    />
+                                    <button
+                                        type="submit"
+                                        className={`px-6 py-3 font-semibold text-white rounded-xl btn-theme ${currentTheme.class}`}
+                                    >
+                                        ➕ Add Task
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div className="space-y-4">
+                                {todos.map(todo => (
+                                    <div key={todo.id} className="glass-effect rounded-2xl p-4 flex items-center space-x-4">
+                                        <button
+                                            onClick={() => toggleTodo(todo.id)}
+                                            className={`w-6 h-6 rounded-full border-2 border-white border-opacity-50 flex items-center justify-center ${
+                                                todo.completed ? 'bg-green-400' : ''
+                                            }`}
+                                        >
+                                            {todo.completed && '✓'}
+                                        </button>
+                                        <span className={`flex-1 ${todo.completed ? 'line-through opacity-60' : ''}`}>
+                                            {todo.text}
+                                        </span>
+                                    </div>
+                                ))}
+                                
+                                {todos.length === 0 && (
+                                    <div className="glass-effect rounded-2xl p-12 text-center">
+                                        <div className="text-6xl mb-4">{currentTheme.icon}</div>
+                                        <h3 className="text-xl font-semibold mb-2">No tasks yet!</h3>
+                                        <p className="text-white opacity-70">
+                                            Create your first task to get started.
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Simple Rewards Component
+            function RewardsView() {
+                const rewards = [
+                    { id: 1, name: 'Coffee Break', cost: 50, emoji: '☕' },
+                    { id: 2, name: 'Movie Night', cost: 100, emoji: '🎬' },
+                    { id: 3, name: 'Snack Time', cost: 25, emoji: '🍿' },
+                    { id: 4, name: 'Gaming Break', cost: 120, emoji: '🎮' }
+                ];
+
+                const redeemReward = (reward) => {
+                    if (coins >= reward.cost) {
+                        setCoins(coins - reward.cost);
+                        alert(`Redeemed ${reward.name}! Enjoy your reward! 🎉`);
+                    } else {
+                        alert('Not enough coins! Keep focusing to earn more! 💪');
+                    }
+                };
+
+                return (
+                    <div className={`min-h-screen p-4 bg-gradient-to-br ${currentTheme.gradient.replace('bg-', '')}`}>
+                        <div className="max-w-6xl mx-auto">
+                            <div className="text-center mb-8">
+                                <h1 className="text-4xl font-bold mb-4">{currentTheme.icon} Rewards Store</h1>
+                                <p className="text-white opacity-80 mb-6">Exchange your focus coins for rewards!</p>
+                                
+                                <div className="glass-effect rounded-2xl p-4 inline-block">
+                                    <div className="text-2xl font-bold">💰 {coins} Focus Coins</div>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {rewards.map(reward => (
+                                    <div key={reward.id} className="glass-effect rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300">
+                                        <div className="text-6xl mb-4">{reward.emoji}</div>
+                                        <h3 className="text-xl font-semibold mb-2">{reward.name}</h3>
+                                        <div className="flex items-center justify-center space-x-2 mb-4">
+                                            <span className="text-lg font-bold">💰 {reward.cost}</span>
+                                        </div>
+                                        <button
+                                            onClick={() => redeemReward(reward)}
+                                            disabled={coins < reward.cost}
+                                            className={`w-full py-3 px-4 font-semibold text-white rounded-xl ${
+                                                coins >= reward.cost 
+                                                    ? `btn-theme ${currentTheme.class}` 
+                                                    : 'bg-gray-600 cursor-not-allowed'
+                                            }`}
+                                        >
+                                            {coins >= reward.cost ? 'Redeem' : 'Need More Coins'}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // Navigation Component
+            function Navigation() {
+                const navItems = [
+                    { key: 'dashboard', label: '🏠 Home' },
+                    { key: 'timer', label: '⏱️ Timer' },
+                    { key: 'todo', label: '✅ Todo' },
+                    { key: 'rewards', label: '🎁 Rewards' },
+                    { key: 'themes', label: '🎨 Themes' }
+                ];
+
+                return (
+                    <nav className="fixed top-0 left-0 right-0 z-40 glass-effect border-b border-white border-opacity-20">
+                        <div className="max-w-7xl mx-auto px-6">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center space-x-2">
+                                    <div className={`w-8 h-8 rounded-lg btn-theme ${currentTheme.class}`}></div>
+                                    <span className="text-xl font-bold">FlowGenix</span>
+                                </div>
+
+                                <div className="hidden md:flex items-center space-x-1">
+                                    {navItems.map(item => (
+                                        <button
+                                            key={item.key}
+                                            onClick={() => setCurrentView(item.key)}
+                                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                                                currentView === item.key
+                                                    ? `btn-theme ${currentTheme.class}`
+                                                    : 'text-white opacity-80 hover:opacity-100 hover:bg-white hover:bg-opacity-10'
+                                            }`}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="flex items-center space-x-4">
+                                    <span className="text-sm">💰 {coins}</span>
+                                    <button
+                                        onClick={() => setCurrentView('auth')}
+                                        className="text-sm opacity-80 hover:opacity-100"
+                                    >
+                                        Sign Out
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                );
+            }
+
+            // Request notification permission
+            useEffect(() => {
+                if ('Notification' in window && Notification.permission === 'default') {
+                    Notification.requestPermission();
+                }
+            }, []);
+
+            // Render current view
+            const renderView = () => {
+                switch (currentView) {
+                    case 'auth': return <AuthView />;
+                    case 'dashboard': return <DashboardView />;
+                    case 'timer': return <TimerView />;
+                    case 'todo': return <TodoView />;
+                    case 'rewards': return <RewardsView />;
+                    case 'themes': return <ThemesView />;
+                    default: return <DashboardView />;
+                }
+            };
+
+            return (
+                <div className={currentTheme.class}>
+                    {user && <Navigation />}
+                    {user && <div className="pt-16"></div>}
+                    {renderView()}
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<FlowGenixApp />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "short_name": "FlowGenix",
+  "name": "FlowGenix - Advanced Focus Mode App",
+  "description": "A powerful focus mode app with multiple animation themes, app blocking, and productivity features",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#FF6B9D",
+  "background_color": "#2D1B69",
+  "orientation": "portrait",
+  "categories": ["productivity", "education", "lifestyle"],
+  "permissions": [
+    "camera",
+    "microphone",
+    "notifications",
+    "background-sync",
+    "push-messaging"
+  ],
+  "shortcuts": [
+    {
+      "name": "Quick Focus",
+      "url": "/timer",
+      "description": "Start a quick focus session"
+    },
+    {
+      "name": "Todo List",
+      "url": "/todo",
+      "description": "Check your todo list"
+    },
+    {
+      "name": "Calendar",
+      "url": "/calendar",
+      "description": "View your schedule"
+    }
+  ]
+}

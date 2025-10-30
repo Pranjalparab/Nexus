@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowGenix - Ultimate Focus App</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <h2>FlowGenix</h2>
+            <p>Preparing your focus experience...</p>
+        </div>
+    </div>
+
+    <!-- Auth Container -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1><i class="fas fa-bolt"></i> FlowGenix</h1>
+                <p>Your Ultimate Focus Companion</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <h2>Welcome Back!</h2>
+                <div class="form-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+                <p class="auth-switch">Don't have an account? <span onclick="switchToRegister()">Sign Up</span></p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form">
+                <h2>Join FlowGenix!</h2>
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="register-name" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="register-email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="register-password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="auth-btn">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+                <p class="auth-switch">Already have an account? <span onclick="switchToLogin()">Sign In</span></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Permission Request Modal -->
+    <div id="permission-modal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-shield-alt"></i> Permissions Required</h2>
+            <p>FlowGenix needs these permissions to provide you the best focus experience:</p>
+            <ul class="permission-list">
+                <li><i class="fas fa-mobile-alt"></i> Block distracting apps</li>
+                <li><i class="fas fa-camera"></i> Focus verification camera</li>
+                <li><i class="fas fa-google"></i> Google account integration</li>
+                <li><i class="fas fa-bell"></i> Schedule reminders</li>
+            </ul>
+            <div class="permission-buttons">
+                <button onclick="grantPermissions()" class="grant-btn">
+                    <i class="fas fa-check"></i> Grant Permissions
+                </button>
+                <button onclick="denyPermissions()" class="deny-btn">
+                    <i class="fas fa-times"></i> Not Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <h1><i class="fas fa-bolt"></i> FlowGenix</h1>
+                <div class="coins-display">
+                    <i class="fas fa-coins"></i>
+                    <span id="user-coins">250</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <button onclick="showProfile()" class="profile-btn">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <button onclick="showSettings()" class="settings-btn">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bottom-nav">
+            <button onclick="showTab('home')" class="nav-btn active" data-tab="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button onclick="showTab('timer')" class="nav-btn" data-tab="timer">
+                <i class="fas fa-clock"></i>
+                <span>Timer</span>
+            </button>
+            <button onclick="showTab('todo')" class="nav-btn" data-tab="todo">
+                <i class="fas fa-list-check"></i>
+                <span>Tasks</span>
+            </button>
+            <button onclick="showTab('rewards')" class="nav-btn" data-tab="rewards">
+                <i class="fas fa-gift"></i>
+                <span>Rewards</span>
+            </button>
+            <button onclick="showTab('chat')" class="nav-btn" data-tab="chat">
+                <i class="fas fa-robot"></i>
+                <span>AI Chat</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Tab -->
+            <div id="home-tab" class="tab-content active">
+                <div class="welcome-section">
+                    <h2>Welcome back, <span id="user-name">User</span>!</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h3 id="today-focus">2h 45m</h3>
+                                <p>Today's Focus</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-fire"></i>
+                            <div>
+                                <h3 id="streak-count">7</h3>
+                                <p>Day Streak</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-trophy"></i>
+                            <div>
+                                <h3 id="total-rewards">12</h3>
+                                <p>Rewards Earned</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-selection">
+                    <h3>Choose Your Focus Theme</h3>
+                    <div class="theme-grid">
+                        <div class="theme-card" onclick="selectTheme('kpop')" data-theme="kpop">
+                            <div class="theme-preview kpop-theme"></div>
+                            <h4>K-Pop</h4>
+                        </div>
+                        <div class="theme-card" onclick="selectTheme('anime')" data-theme="anime">
+                            <div class="theme-preview anime-theme"></div>
+                            <h4>Anime</h4>
+                        </div>
+                        <div class="theme-card" onclick="selectTheme('car')" data-theme="car">
+                            <div class="theme-preview car-theme"></div>
+                            <h4>Cars</h4>
+                        </div>
+                        <div class="theme-card" onclick="selectTheme('music')" data-theme="music">
+                            <div class="theme-preview music-theme"></div>
+                            <h4>Music</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button onclick="startQuickTimer()" class="quick-action-btn">
+                        <i class="fas fa-play"></i>
+                        Quick Focus (25m)
+                    </button>
+                    <button onclick="showTab('todo')" class="quick-action-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Task
+                    </button>
+                    <button onclick="openTeacherMode()" class="quick-action-btn teacher-mode">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        Teacher Mode
+                    </button>
+                </div>
+            </div>
+
+            <!-- Timer Tab -->
+            <div id="timer-tab" class="tab-content">
+                <div class="timer-container">
+                    <div class="timer-display">
+                        <div class="timer-circle">
+                            <svg class="progress-ring" width="200" height="200">
+                                <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
+                                <circle class="progress-ring-fill" cx="100" cy="100" r="90"></circle>
+                            </svg>
+                            <div class="timer-text">
+                                <span id="timer-minutes">25</span>:<span id="timer-seconds">00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timer-controls">
+                        <button id="start-pause-btn" onclick="toggleTimer()" class="control-btn primary">
+                            <i class="fas fa-play"></i>
+                            <span>Start Focus</span>
+                        </button>
+                        <button onclick="resetTimer()" class="control-btn secondary">
+                            <i class="fas fa-refresh"></i>
+                            <span>Reset</span>
+                        </button>
+                    </div>
+
+                    <div class="timer-presets">
+                        <h3>Focus Presets</h3>
+                        <div class="preset-buttons">
+                            <button onclick="setTimer(15)" class="preset-btn">15m</button>
+                            <button onclick="setTimer(25)" class="preset-btn active">25m</button>
+                            <button onclick="setTimer(45)" class="preset-btn">45m</button>
+                            <button onclick="setTimer(60)" class="preset-btn">60m</button>
+                        </div>
+                    </div>
+
+                    <div class="focus-animation" id="focus-animation">
+                        <!-- Dynamic content based on selected theme -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Todo Tab -->
+            <div id="todo-tab" class="tab-content">
+                <div class="todo-header">
+                    <h2>Your Tasks</h2>
+                    <button onclick="showAddTask()" class="add-task-btn">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <div class="todo-filters">
+                    <button onclick="filterTasks('all')" class="filter-btn active">All</button>
+                    <button onclick="filterTasks('today')" class="filter-btn">Today</button>
+                    <button onclick="filterTasks('upcoming')" class="filter-btn">Upcoming</button>
+                    <button onclick="filterTasks('completed')" class="filter-btn">Completed</button>
+                </div>
+
+                <div class="todo-list" id="todo-list">
+                    <!-- Dynamic content -->
+                </div>
+
+                <!-- Add Task Modal -->
+                <div id="add-task-modal" class="modal">
+                    <div class="modal-content">
+                        <h3>Add New Task</h3>
+                        <form id="add-task-form">
+                            <input type="text" id="task-title" placeholder="Task title" required>
+                            <textarea id="task-description" placeholder="Description (optional)"></textarea>
+                            <input type="datetime-local" id="task-date" required>
+                            <select id="task-priority">
+                                <option value="low">Low Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="high">High Priority</option>
+                            </select>
+                            <div class="modal-buttons">
+                                <button type="submit" class="save-btn">Save Task</button>
+                                <button type="button" onclick="closeModal('add-task-modal')" class="cancel-btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rewards Tab -->
+            <div id="rewards-tab" class="tab-content">
+                <div class="rewards-header">
+                    <h2>Your Rewards</h2>
+                    <div class="coins-balance">
+                        <i class="fas fa-coins"></i>
+                        <span id="rewards-coins">250 Coins</span>
+                    </div>
+                </div>
+
+                <div class="rewards-grid">
+                    <div class="reward-card" onclick="redeemReward(50, 'Coffee Coupon')">
+                        <i class="fas fa-coffee"></i>
+                        <h3>Coffee Coupon</h3>
+                        <p class="reward-cost">50 coins</p>
+                    </div>
+                    <div class="reward-card" onclick="redeemReward(100, 'Pizza Discount')">
+                        <i class="fas fa-pizza-slice"></i>
+                        <h3>Pizza 20% Off</h3>
+                        <p class="reward-cost">100 coins</p>
+                    </div>
+                    <div class="reward-card" onclick="redeemReward(200, 'Movie Ticket')">
+                        <i class="fas fa-ticket-alt"></i>
+                        <h3>Movie Ticket</h3>
+                        <p class="reward-cost">200 coins</p>
+                    </div>
+                    <div class="reward-card" onclick="redeemReward(500, 'Premium Theme')">
+                        <i class="fas fa-paint-brush"></i>
+                        <h3>Premium Theme</h3>
+                        <p class="reward-cost">500 coins</p>
+                    </div>
+                </div>
+
+                <div class="reward-history">
+                    <h3>Reward History</h3>
+                    <div id="reward-history-list" class="history-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Chat Tab -->
+            <div id="chat-tab" class="tab-content">
+                <div class="chat-header">
+                    <h2>AI Study Assistant</h2>
+                    <div class="chat-options">
+                        <select id="ai-model">
+                            <option value="gemini">Gemini</option>
+                            <option value="chatgpt">ChatGPT</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message ai-message">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Hello! I'm your AI study assistant. How can I help you focus better today?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Ask me anything about studying or focus...">
+                        <button onclick="sendMessage()" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quick-prompts">
+                    <button onclick="quickPrompt('study tips')" class="prompt-btn">Study Tips</button>
+                    <button onclick="quickPrompt('focus techniques')" class="prompt-btn">Focus Techniques</button>
+                    <button onclick="quickPrompt('motivation')" class="prompt-btn">Motivation</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Camera Modal for Focus Verification -->
+    <div id="camera-modal" class="modal">
+        <div class="modal-content camera-content">
+            <h3>Focus Check</h3>
+            <p>We're taking a quick photo to verify your focus session</p>
+            <div class="camera-preview">
+                <video id="camera-video" autoplay></video>
+                <canvas id="camera-canvas" style="display: none;"></canvas>
+            </div>
+            <div class="camera-controls">
+                <button onclick="takeFocusPhoto()" class="capture-btn">
+                    <i class="fas fa-camera"></i> Capture
+                </button>
+                <button onclick="skipFocusCheck()" class="skip-btn">Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div id="calendar-modal" class="modal">
+        <div class="modal-content calendar-content">
+            <h3>Schedule Calendar</h3>
+            <div class="calendar" id="calendar">
+                <!-- Dynamic calendar content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h3>Settings</h3>
+            <div class="settings-section">
+                <h4>Notifications</h4>
+                <label class="switch">
+                    <input type="checkbox" id="reminder-notifications" checked>
+                    <span class="slider"></span>
+                    Task Reminders
+                </label>
+                <label class="switch">
+                    <input type="checkbox" id="focus-notifications" checked>
+                    <span class="slider"></span>
+                    Focus Session Alerts
+                </label>
+            </div>
+            <div class="settings-section">
+                <h4>Focus Mode</h4>
+                <label class="switch">
+                    <input type="checkbox" id="app-blocking" checked>
+                    <span class="slider"></span>
+                    Block Distracting Apps
+                </label>
+                <label class="switch">
+                    <input type="checkbox" id="camera-verification">
+                    <span class="slider"></span>
+                    Camera Verification
+                </label>
+            </div>
+            <div class="settings-section">
+                <h4>Voice Reminders</h4>
+                <select id="voice-language">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+            </div>
+            <button onclick="closeModal('settings-modal')" class="close-settings-btn">Close</button>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/todo.js"></script>
+    <script src="js/rewards.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/camera.js"></script>
+    <script src="js/themes.js"></script>
+    <script src="js/permissions.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FlowGenix Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f1b2b7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #b8daff; }
+    </style>
+</head>
+<body>
+    <h1>🧪 FlowGenix API Connection Test</h1>
+    <div id="results"></div>
+    
+    <button onclick="testConnection()">🔄 Test Connection</button>
+    <button onclick="testStatus()">📊 Get Status</button>
+    <button onclick="startTest()">▶️ Start Test Session (5 min)</button>
+    <button onclick="stopTest()">⏹️ Stop Test Session</button>
+
+    <script>
+        const API_BASE = 'http://localhost:8888';
+        
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            document.getElementById('results').appendChild(div);
+        }
+        
+        async function testConnection() {
+            log('Testing connection to app blocker...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Connection successful! Service: ${data.service}`, 'success');
+                } else {
+                    log(`❌ Connection failed! Status: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Connection error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testStatus() {
+            log('Getting blocker status...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/status`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`📊 Status: Active=${data.active}, Blocked=${data.blocked_count}, Remaining=${data.remaining_seconds}s`, 'success');
+                } else {
+                    log(`❌ Status check failed! Status: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Status error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function startTest() {
+            log('Starting 5-minute test session...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ duration: 5 })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Test session started! ${data.message}`, 'success');
+                } else {
+                    log(`❌ Start failed! Status: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Start error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function stopTest() {
+            log('Stopping test session...', 'info');
+            try {
+                const response = await fetch(`${API_BASE}/stop`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Test session stopped! ${data.message}`, 'success');
+                } else {
+                    log(`❌ Stop failed! Status: ${response.status}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Stop error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-test on load
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🚀 FlowGenix Connection Test Started', 'info');
+            testConnection();
+            setTimeout(testStatus, 1000);
+        });
+    </script>
+</body>
+</html>

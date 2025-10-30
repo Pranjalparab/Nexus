@@ -1,0 +1,563 @@
+/* Theme Specific Styles */
+
+/* K-Pop Theme */
+.kpop-theme {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 107, 157, 0.3) 0%, transparent 50%);
+    position: relative;
+    overflow: hidden;
+}
+
+.kpop-theme::before {
+    content: '🎤✨💫';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+.theme-card[data-theme="kpop"].active .kpop-theme {
+    animation: kpopPulse 2s ease-in-out infinite;
+}
+
+@keyframes kpopPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* K-Pop Focus Animation */
+.focus-animation.kpop-active {
+    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #8e44ad 50%, #3742fa 75%, #ff6b9d 100%);
+    background-size: 400% 400%;
+    animation: kpopGradient 3s ease infinite;
+}
+
+.focus-animation.kpop-active::before {
+    content: '🎭🎪🌈💖';
+    position: absolute;
+    font-size: 3rem;
+    animation: kpopFloat 4s ease-in-out infinite;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes kpopGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes kpopFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-20px) rotate(5deg); }
+    66% { transform: translateY(-10px) rotate(-5deg); }
+}
+
+/* Anime Theme */
+.anime-theme {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image:
+        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.2) 0%, transparent 50%);
+    position: relative;
+    overflow: hidden;
+}
+
+.anime-theme::before {
+    content: '⚡🗾🌸';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.theme-card[data-theme="anime"].active .anime-theme {
+    animation: animePulse 2s ease-in-out infinite;
+}
+
+@keyframes animePulse {
+    0%, 100% { 
+        transform: scale(1); 
+        filter: hue-rotate(0deg);
+    }
+    50% { 
+        transform: scale(1.05); 
+        filter: hue-rotate(10deg);
+    }
+}
+
+/* Anime Focus Animation */
+.focus-animation.anime-active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #e056fd 50%, #f093fb 75%, #667eea 100%);
+    background-size: 400% 400%;
+    animation: animeGradient 4s ease infinite;
+    position: relative;
+}
+
+.focus-animation.anime-active::before {
+    content: '⚔️🌟💫🎌';
+    position: absolute;
+    font-size: 3rem;
+    animation: animeFloat 3s ease-in-out infinite;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.focus-animation.anime-active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, rgba(240, 147, 251, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: animeParticles 10s linear infinite;
+}
+
+@keyframes animeGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes animeFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    25% { transform: translateY(-15px) scale(1.1); }
+    50% { transform: translateY(-30px) scale(1); }
+    75% { transform: translateY(-15px) scale(0.9); }
+}
+
+@keyframes animeParticles {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-100px); }
+}
+
+/* Car Theme */
+.car-theme {
+    background: linear-gradient(135deg, #ff7f50 0%, #ff6348 100%);
+    background-image:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    position: relative;
+    overflow: hidden;
+}
+
+.car-theme::before {
+    content: '🚗💨🏁';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.theme-card[data-theme="car"].active .car-theme {
+    animation: carRace 2s ease-in-out infinite;
+}
+
+@keyframes carRace {
+    0%, 100% { 
+        transform: scale(1); 
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+    50% { 
+        transform: scale(1.05); 
+        background-position: 10px 0, 10px 10px, 20px -10px, 0px 0px;
+    }
+}
+
+/* Car Focus Animation */
+.focus-animation.car-active {
+    background: linear-gradient(135deg, #ff7f50 0%, #ff6348 25%, #ffa726 50%, #ff5722 75%, #ff7f50 100%);
+    background-size: 400% 400%;
+    animation: carGradient 2s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.focus-animation.car-active::before {
+    content: '🏎️💨🔥🏁';
+    position: absolute;
+    font-size: 3rem;
+    animation: carSpeed 2s ease-in-out infinite;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.focus-animation.car-active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: carShine 3s ease-in-out infinite;
+}
+
+@keyframes carGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes carSpeed {
+    0%, 100% { 
+        transform: translateX(-30px) scale(1); 
+        opacity: 0.7;
+    }
+    50% { 
+        transform: translateX(30px) scale(1.2); 
+        opacity: 1;
+    }
+}
+
+@keyframes carShine {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* Music Theme */
+.music-theme {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    background-image:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+        radial-gradient(circle at 25% 75%, rgba(168, 237, 234, 0.2) 2px, transparent 2px),
+        radial-gradient(circle at 75% 25%, rgba(254, 214, 227, 0.2) 1px, transparent 1px);
+    background-size: 30px 30px, 50px 50px, 40px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.music-theme::before {
+    content: '🎵🎶🎧';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.theme-card[data-theme="music"].active .music-theme {
+    animation: musicBeat 1s ease-in-out infinite;
+}
+
+@keyframes musicBeat {
+    0%, 100% { 
+        transform: scale(1); 
+        filter: brightness(1);
+    }
+    25% { 
+        transform: scale(1.03); 
+        filter: brightness(1.1);
+    }
+    75% { 
+        transform: scale(1.02); 
+        filter: brightness(1.05);
+    }
+}
+
+/* Music Focus Animation */
+.focus-animation.music-active {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d7 75%, #a8edea 100%);
+    background-size: 400% 400%;
+    animation: musicGradient 4s ease infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.focus-animation.music-active::before {
+    content: '🎼🎤🎸🎹';
+    position: absolute;
+    font-size: 3rem;
+    animation: musicWave 3s ease-in-out infinite;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.focus-animation.music-active::after {
+    content: '♪ ♫ ♪ ♫ ♪ ♫ ♪ ♫';
+    position: absolute;
+    top: 20%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    animation: musicNotes 4s linear infinite;
+}
+
+@keyframes musicGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes musicWave {
+    0%, 100% { 
+        transform: translateY(0px) scale(1) rotate(0deg); 
+    }
+    25% { 
+        transform: translateY(-10px) scale(1.1) rotate(2deg); 
+    }
+    50% { 
+        transform: translateY(0px) scale(1.2) rotate(0deg); 
+    }
+    75% { 
+        transform: translateY(-5px) scale(1.1) rotate(-2deg); 
+    }
+}
+
+@keyframes musicNotes {
+    0% { 
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% { 
+        transform: translateX(100px);
+        opacity: 0;
+    }
+}
+
+/* Timer Ring Gradients for each theme */
+.progress-ring defs {
+    display: none;
+}
+
+/* Theme-specific timer colors */
+.kpop-active .progress-ring-fill {
+    stroke: #ff6b9d;
+    filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5));
+}
+
+.anime-active .progress-ring-fill {
+    stroke: #667eea;
+    filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5));
+}
+
+.car-active .progress-ring-fill {
+    stroke: #ff7f50;
+    filter: drop-shadow(0 0 10px rgba(255, 127, 80, 0.5));
+}
+
+.music-active .progress-ring-fill {
+    stroke: #a8edea;
+    filter: drop-shadow(0 0 10px rgba(168, 237, 234, 0.5));
+}
+
+/* Theme-specific background animations for the whole app */
+body.kpop-theme {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #2d1b69 100%);
+}
+
+body.anime-theme {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+body.car-theme {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #e55039 100%);
+}
+
+body.music-theme {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #3742fa 100%);
+}
+
+/* Theme-specific particle effects */
+.theme-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.theme-particles.kpop::before {
+    content: '✨💖⭐💫🌟';
+    position: absolute;
+    font-size: 2rem;
+    animation: kpopParticles 15s linear infinite;
+    white-space: nowrap;
+}
+
+.theme-particles.anime::before {
+    content: '⚡🌸🗾⭐💫';
+    position: absolute;
+    font-size: 2rem;
+    animation: animeParticlesFall 12s linear infinite;
+    white-space: nowrap;
+}
+
+.theme-particles.car::before {
+    content: '🏁💨🚗🏎️⚡';
+    position: absolute;
+    font-size: 2rem;
+    animation: carParticles 10s linear infinite;
+    white-space: nowrap;
+}
+
+.theme-particles.music::before {
+    content: '🎵🎶♪♫🎧';
+    position: absolute;
+    font-size: 2rem;
+    animation: musicParticleFloat 20s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes kpopParticles {
+    0% {
+        transform: translateY(100vh) translateX(-10vw) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-10vh) translateX(110vw) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes animeParticlesFall {
+    0% {
+        transform: translateY(-10vh) translateX(-5vw);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(105vw);
+        opacity: 0;
+    }
+}
+
+@keyframes carParticles {
+    0% {
+        transform: translateX(-10vw) translateY(50vh);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(110vw) translateY(50vh);
+        opacity: 0;
+    }
+}
+
+@keyframes musicParticleFloat {
+    0% {
+        transform: translateY(110vh) translateX(0vw) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(50vh) translateX(50vw) scale(1);
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-10vh) translateX(100vw) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* Theme-specific button hover effects */
+.kpop-active .control-btn:hover {
+    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.4);
+}
+
+.anime-active .control-btn:hover {
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+}
+
+.car-active .control-btn:hover {
+    box-shadow: 0 8px 30px rgba(255, 127, 80, 0.4);
+}
+
+.music-active .control-btn:hover {
+    box-shadow: 0 8px 30px rgba(168, 237, 234, 0.4);
+}
+
+/* Theme-specific card glows */
+.kpop-active .stat-card:hover {
+    border-color: #ff6b9d;
+    box-shadow: 0 8px 30px rgba(255, 107, 157, 0.3);
+}
+
+.anime-active .stat-card:hover {
+    border-color: #667eea;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+}
+
+.car-active .stat-card:hover {
+    border-color: #ff7f50;
+    box-shadow: 0 8px 30px rgba(255, 127, 80, 0.3);
+}
+
+.music-active .stat-card:hover {
+    border-color: #a8edea;
+    box-shadow: 0 8px 30px rgba(168, 237, 234, 0.3);
+}
+
+/* Responsive theme adjustments */
+@media (max-width: 768px) {
+    .theme-particles::before {
+        font-size: 1.5rem;
+    }
+    
+    .focus-animation.kpop-active::before,
+    .focus-animation.anime-active::before,
+    .focus-animation.car-active::before,
+    .focus-animation.music-active::before {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-particles::before {
+        font-size: 1rem;
+    }
+    
+    .focus-animation.kpop-active::before,
+    .focus-animation.anime-active::before,
+    .focus-animation.car-active::before,
+    .focus-animation.music-active::before {
+        font-size: 1.5rem;
+    }
+}
